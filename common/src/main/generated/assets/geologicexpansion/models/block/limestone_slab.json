@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "geologicexpansion:block/limestone_top",
+    "side": "geologicexpansion:block/limestone",
+    "top": "geologicexpansion:block/limestone_top"
+  }
+}

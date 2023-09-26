@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "com.blackgear.geologicexpansion.core.fabric.GeologicExpansionFabric"
+    ],
+    "fabric-datagen": [
+      "com.blackgear.geologicexpansion.data.DataGeneration"
     ]
   },
   "mixins": [

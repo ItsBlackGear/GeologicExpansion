@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geologicexpansion:block/limestone_slab"
+    },
+    "type=double": {
+      "model": "geologicexpansion:block/limestone"
+    },
+    "type=top": {
+      "model": "geologicexpansion:block/limestone_slab_top"
+    }
+  }
+}
