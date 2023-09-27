@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "geologicexpansion:polished_limestone",
+    "geologicexpansion:polished_limestone_stairs",
+    "geologicexpansion:polished_limestone_slab",
+    "geologicexpansion:polished_limestone_wall",
+    "geologicexpansion:limestone",
+    "geologicexpansion:polished_limestone",
+    "geologicexpansion:limestone_stairs",
+    "geologicexpansion:limestone_slab",
+    "geologicexpansion:limestone_wall"
+  ]
+}

@@ -14,6 +14,11 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
     @Override
     protected void generateTags() {
         GEBlockFamilies.getAllFamilies().forEach(this::populateTags);
+
+        GEBlockFamilies.getStoneFamilies().forEach(family -> {
+            this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(family.getBaseBlock());
+            family.getVariants().forEach((variant, block) -> this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block));
+        });
     }
 
     private void populateTags(BlockFamily family) {

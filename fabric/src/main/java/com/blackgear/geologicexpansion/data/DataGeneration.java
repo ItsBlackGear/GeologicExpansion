@@ -1,6 +1,7 @@
 package com.blackgear.geologicexpansion.data;
 
 import com.blackgear.geologicexpansion.data.client.ModelGenerator;
+import com.blackgear.geologicexpansion.data.common.BlockLootTableGenerator;
 import com.blackgear.geologicexpansion.data.common.RecipeGenerator;
 import com.blackgear.geologicexpansion.data.common.tag.BlockTagGenerator;
 import com.blackgear.geologicexpansion.data.common.tag.ItemTagGenerator;
@@ -16,6 +17,7 @@ public class DataGeneration implements DataGeneratorEntrypoint {
         FabricTagProvider.BlockTagProvider blockTags = generator.addProvider(BlockTagGenerator::new);
         generator.addProvider(gen -> new ItemTagGenerator(gen, blockTags));
 
+        generator.addProvider(BlockLootTableGenerator::new);
         generator.addProvider(RecipeGenerator::new);
     }
 }

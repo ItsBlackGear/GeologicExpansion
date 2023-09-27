@@ -4,7 +4,6 @@ import com.blackgear.geologicexpansion.data.resources.GEBlockFamilies;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.data.BlockFamily;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import org.jetbrains.annotations.Nullable;
 
