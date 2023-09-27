@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geologicexpansion:block/light_gray_polished_prismatic_stone_slab"
+    },
+    "type=double": {
+      "model": "geologicexpansion:block/light_gray_polished_prismatic_stone"
+    },
+    "type=top": {
+      "model": "geologicexpansion:block/light_gray_polished_prismatic_stone_slab_top"
+    }
+  }
+}

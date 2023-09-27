@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "geologicexpansion:block/white_polished_prismatic_stone"
+  }
+}

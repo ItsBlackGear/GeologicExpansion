@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_post",
+  "textures": {
+    "wall": "geologicexpansion:block/black_prismatic_stone"
+  }
+}

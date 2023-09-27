@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "prismatic_stone",
+  "key": {
+    "#": {
+      "item": "geologicexpansion:prismatic_stone"
+    },
+    "X": {
+      "item": "minecraft:yellow_dye"
+    }
+  },
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "result": {
+    "count": 8,
+    "item": "geologicexpansion:yellow_prismatic_stone"
+  }
+}

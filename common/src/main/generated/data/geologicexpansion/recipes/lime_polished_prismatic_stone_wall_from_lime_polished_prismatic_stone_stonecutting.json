@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "geologicexpansion:lime_polished_prismatic_stone"
+  },
+  "result": "geologicexpansion:lime_polished_prismatic_stone_wall"
+}

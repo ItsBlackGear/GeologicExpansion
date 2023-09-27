@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "geologicexpansion:magenta_polished_prismatic_stone"
+  },
+  "result": "geologicexpansion:magenta_polished_prismatic_stone_slab"
+}

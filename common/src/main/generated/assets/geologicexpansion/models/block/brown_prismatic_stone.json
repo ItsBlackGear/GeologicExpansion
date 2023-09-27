@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "geologicexpansion:block/brown_prismatic_stone"
+  }
+}

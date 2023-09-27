@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "geologicexpansion:block/cyan_prismatic_stone",
+    "side": "geologicexpansion:block/cyan_prismatic_stone",
+    "top": "geologicexpansion:block/cyan_prismatic_stone"
+  }
+}

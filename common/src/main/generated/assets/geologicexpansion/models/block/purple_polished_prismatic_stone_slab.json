@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "geologicexpansion:block/purple_polished_prismatic_stone",
+    "side": "geologicexpansion:block/purple_polished_prismatic_stone",
+    "top": "geologicexpansion:block/purple_polished_prismatic_stone"
+  }
+}

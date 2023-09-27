@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "geologicexpansion:brown_prismatic_stone"
+  },
+  "result": "geologicexpansion:brown_prismatic_stone_slab"
+}

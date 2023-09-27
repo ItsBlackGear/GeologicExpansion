@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "geologicexpansion:block/green_polished_prismatic_stone"
+  }
+}
