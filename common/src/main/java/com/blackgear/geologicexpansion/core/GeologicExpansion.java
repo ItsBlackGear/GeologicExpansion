@@ -2,8 +2,11 @@ package com.blackgear.geologicexpansion.core;
 
 import com.blackgear.geologicexpansion.client.ClientSetup;
 import com.blackgear.geologicexpansion.common.CommonSetup;
+import com.blackgear.geologicexpansion.common.registries.GEBiomes;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.GEItems;
+import com.blackgear.geologicexpansion.common.worldgen.placements.TravertineFeatures;
+import com.blackgear.geologicexpansion.common.worldgen.placements.TravertinePlacements;
 import com.blackgear.geologicexpansion.core.platform.Environment;
 import com.blackgear.geologicexpansion.core.platform.ModInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -22,5 +25,9 @@ public class GeologicExpansion {
         GEBlocks.BLOCKS.register();
         GEItems.ITEMS.register();
 
+        TravertineFeatures.bootstrap();
+        TravertinePlacements.bootstrap();
+
+        GEBiomes.BIOMES.register();
     }
 }
