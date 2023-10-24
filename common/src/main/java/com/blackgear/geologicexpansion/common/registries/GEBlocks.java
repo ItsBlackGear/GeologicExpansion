@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class GEBlocks {
     public static final CoreRegistry<Block> BLOCKS = CoreRegistry.create(Registry.BLOCK, GeologicExpansion.MOD_ID);
 
-    // LIMESTONE BLOCKS
+    // ========== LIMESTONE ============================================================================================
     public static final Supplier<Block> LIMESTONE = create("limestone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
     public static final Supplier<Block> LIMESTONE_SLAB = create("limestone_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
     public static final Supplier<Block> LIMESTONE_STAIRS = create("limestone_stairs", () -> new StairBlock(LIMESTONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
@@ -31,7 +31,7 @@ public class GEBlocks {
     public static final Supplier<Block> POLISHED_LIMESTONE_STAIRS = create("polished_limestone_stairs", () -> new StairBlock(POLISHED_LIMESTONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(POLISHED_LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
     public static final Supplier<Block> POLISHED_LIMESTONE_WALL = create("polished_limestone_wall", () -> new WallBlock(BlockBehaviour.Properties.copy(POLISHED_LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
 
-    // PRISMATIC STONE
+    // ========== PRISMATIC STONE ======================================================================================
     public static final Supplier<Block> PRISMATIC_STONE = create("prismatic_stone", () -> new Block(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
     public static final Supplier<Block> PRISMATIC_STONE_SLAB = create("prismatic_stone_slab", () -> new SlabBlock(BlockBehaviour.Properties.copy(PRISMATIC_STONE.get()).strength(2.0F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
     public static final Supplier<Block> PRISMATIC_STONE_STAIRS = create("prismatic_stone_stairs", () -> new StairBlock(PRISMATIC_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(PRISMATIC_STONE.get())), GeologicExpansion.CREATIVE_TAB);

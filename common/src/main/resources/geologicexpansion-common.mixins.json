@@ -5,7 +5,10 @@
   "client": [
   ],
   "mixins": [
-    "BlockEntityTypeMixin"
+    "BlockEntityTypeMixin",
+    "access.NoiseGeneratorSettingsAccessor",
+    "common.LiquidBlockMixin",
+    "common.MinecraftServerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
