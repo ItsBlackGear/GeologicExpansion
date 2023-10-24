@@ -1,7 +1,7 @@
 package com.blackgear.geologicexpansion.client.renderer.entity.model;
 
 import com.blackgear.geologicexpansion.client.renderer.entity.animation.DuckAnimations;
-import com.blackgear.geologicexpansion.common.entity.Duck;
+import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -26,6 +26,9 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
     private final ModelPart rightWing;
     private final ModelPart leftWing;
     private final ModelPart beak;
+
+    private float headXRot;
+    private float beakXRot;
 
     public DuckModel(ModelPart root) {
         this.root = root;
@@ -77,6 +80,18 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
             this.head.y = 17;
             this.beak.y = 17;
         }
+
+        this.head.xRot = this.headXRot;
+        this.beak.xRot = this.beakXRot;
+    }
+
+    @Override
+    public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
+        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
+        this.head.y = 6.0F + entity.getHeadEatPositionScale(partialTick) * 9.0F;
+        this.headXRot = entity.getHeadEatAngleScale(partialTick);
+        this.beak.y = 6.0F + entity.getHeadEatPositionScale(partialTick) * 9.0F;
+        this.beakXRot = entity.getHeadEatAngleScale(partialTick);
     }
 
     @Override

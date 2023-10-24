@@ -2,7 +2,7 @@ package com.blackgear.geologicexpansion.client.renderer.entity;
 
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
 import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
-import com.blackgear.geologicexpansion.common.entity.Duck;
+import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

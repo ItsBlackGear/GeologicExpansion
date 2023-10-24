@@ -1,6 +1,6 @@
 package com.blackgear.geologicexpansion.common.registries;
 
-import com.blackgear.geologicexpansion.common.entity.Duck;
+import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.platform.CoreRegistry;
 import net.minecraft.core.Registry;
