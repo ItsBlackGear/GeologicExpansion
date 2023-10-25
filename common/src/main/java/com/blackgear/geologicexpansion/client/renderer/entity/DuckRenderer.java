@@ -1,5 +1,6 @@
 package com.blackgear.geologicexpansion.client.renderer.entity;
 
+import com.blackgear.geologicexpansion.client.renderer.entity.layer.DuckHeldItemLayer;
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
 import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
@@ -17,6 +18,7 @@ public class DuckRenderer extends MobRenderer<Duck, DuckModel<Duck>> {
 
     public DuckRenderer(EntityRendererProvider.Context context) {
         super(context, new DuckModel<>(context.bakeLayer(GEModelLayers.DUCK)), 0.3F);
+        this.addLayer(new DuckHeldItemLayer(this, context.getItemInHandRenderer()));
     }
 
     @Override

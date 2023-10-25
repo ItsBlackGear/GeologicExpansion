@@ -2,9 +2,9 @@ package com.blackgear.geologicexpansion.common.entity.duck.behavior;
 
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.EnumSet;
@@ -58,7 +58,7 @@ public class DuckFishGoal extends Goal {
         if (this.eatAnimationTick == this.adjustedTickDelay(4)) {
             BlockPos pos = this.duck.blockPosition().below();
             if (this.level.getBlockState(pos).is(Blocks.WATER) && this.duck.canFish()) {
-                this.level.levelEvent(2001, pos, Block.getId(Blocks.WATER.defaultBlockState()));
+                this.duck.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 0.25F, 1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.4F);
                 this.duck.ate();
             }
         }

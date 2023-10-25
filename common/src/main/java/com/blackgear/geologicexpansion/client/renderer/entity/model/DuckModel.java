@@ -25,7 +25,7 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
     private final ModelPart leftLeg;
     private final ModelPart rightWing;
     private final ModelPart leftWing;
-    private final ModelPart beak;
+    public final ModelPart beak;
 
     private float headXRot;
     private float beakXRot;
