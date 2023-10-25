@@ -74,9 +74,9 @@ public class Duck extends Animal implements FluidWalker {
 
     // Eating related variables
     private int ticksSinceEaten;
+    private int dropCooldown = 1200;
     private int eatAnimationTick;
     private DuckFishGoal fishGoal;
-
 
     public Duck(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
@@ -159,7 +159,11 @@ public class Duck extends Animal implements FluidWalker {
                     this.level.broadcastEntityEvent(this, (byte)45);
                 }
             } else {
-                //TODO add a way for ducks to return the item to the water
+                if (--this.dropCooldown == 0) {
+                    this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+                    this.spawnAtLocation(stack, 0.25F);
+                    this.dropCooldown = 1200;
+                }
             }
         }
 
