@@ -1,6 +1,8 @@
 package com.blackgear.geologicexpansion.common.entity.duck;
 
 import com.blackgear.geologicexpansion.common.entity.duck.behavior.DuckFishGoal;
+import com.blackgear.geologicexpansion.common.entity.duck.behavior.DuckGoToOpenWaterGoal;
+import com.blackgear.geologicexpansion.common.entity.duck.behavior.DuckGoToWaterGoal;
 import com.blackgear.geologicexpansion.common.entity.resource.FluidWalker;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import net.minecraft.core.BlockPos;
@@ -33,6 +35,8 @@ import net.minecraft.world.entity.ai.goal.PanicGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -46,6 +50,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathFinder;
+import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -76,7 +82,7 @@ public class Duck extends Animal implements FluidWalker {
     private int ticksSinceEaten;
     private int dropCooldown = 1200;
     private int eatAnimationTick;
-    private DuckFishGoal fishGoal;
+    private DuckFishGoal duckFishGoal;
 
     public Duck(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
@@ -100,20 +106,26 @@ public class Duck extends Animal implements FluidWalker {
     }
 
     public boolean canFish() {
-        return this.entityData.get(DATA_CAN_FISH) && this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty();
+        return this.entityData.get(DATA_CAN_FISH);
+    }
+
+    public boolean shouldFish() {
+        return !this.isBaby() && this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() && this.level.isDay();
     }
 
     // ========== BEHAVIOR =============================================================================================
 
     @Override
     protected void registerGoals() {
-        this.fishGoal = new DuckFishGoal(this);
+        this.duckFishGoal = new DuckFishGoal(this);
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.4D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.1, Ingredient.of(Items.COD), false));
+        this.goalSelector.addGoal(3, new DuckGoToOpenWaterGoal(this, 1.0));
+        this.goalSelector.addGoal(3, new DuckGoToWaterGoal(this, 1.0));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(5, this.fishGoal);
+        this.goalSelector.addGoal(5, this.duckFishGoal);
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0D, 60));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
@@ -130,14 +142,14 @@ public class Duck extends Animal implements FluidWalker {
             this.floatTransformationState.stop();
         }
 
-        this.setCanFish(this.calculateOpenWater(this.blockPosition()) && !this.isBaby());
+        this.setCanFish(this.isInOpenWater() && this.shouldFish());
         this.floatDuck();
         this.checkInsideBlocks();
     }
 
     @Override
     protected void customServerAiStep() {
-        this.eatAnimationTick = this.fishGoal.getEatAnimationTick();
+        this.eatAnimationTick = this.duckFishGoal.getEatAnimationTick();
         super.customServerAiStep();
     }
 
@@ -147,14 +159,14 @@ public class Duck extends Animal implements FluidWalker {
             ++this.ticksSinceEaten;
             ItemStack stack = this.getItemBySlot(EquipmentSlot.MAINHAND);
             if (this.canEat(stack)) {
-                if (this.ticksSinceEaten > 1200) {
+                if (this.ticksSinceEaten > 600) {
                     ItemStack stack1 = stack.finishUsingItem(this.level, this);
                     if (!stack1.isEmpty()) {
                         this.setItemSlot(EquipmentSlot.MAINHAND, stack1);
                     }
 
                     this.ticksSinceEaten = 0;
-                } else if (this.ticksSinceEaten > 1160 && this.random.nextFloat() < 0.1F) {
+                } else if (this.ticksSinceEaten > 560 && this.random.nextFloat() < 0.1F) {
                     this.playSound(SoundEvents.FOX_EAT, 1.0F, 1.0F);
                     this.level.broadcastEntityEvent(this, (byte)45);
                 }
@@ -205,16 +217,15 @@ public class Duck extends Animal implements FluidWalker {
                     Vec3 vec3 = new Vec3(((double)this.random.nextFloat() - 0.5) * 0.1, Math.random() * 0.1 + 0.1, 0.0)
                             .xRot(-this.getXRot() * (float) (Math.PI / 180.0))
                             .yRot(-this.getYRot() * (float) (Math.PI / 180.0));
-                    this.level
-                            .addParticle(
-                                    new ItemParticleOption(ParticleTypes.ITEM, stack),
-                                    this.getX() + this.getLookAngle().x / 2.0,
-                                    this.getY(),
-                                    this.getZ() + this.getLookAngle().z / 2.0,
-                                    vec3.x,
-                                    vec3.y + 0.05,
-                                    vec3.z
-                            );
+                    this.level.addParticle(
+                            new ItemParticleOption(ParticleTypes.ITEM, stack),
+                            this.getX() + this.getLookAngle().x / 2.0,
+                            this.getY(),
+                            this.getZ() + this.getLookAngle().z / 2.0,
+                            vec3.x,
+                            vec3.y + 0.05,
+                            vec3.z
+                    );
                 }
             }
         } else {
@@ -288,6 +299,11 @@ public class Duck extends Animal implements FluidWalker {
         return itemStack.isEmpty() || this.ticksSinceEaten > 0 && item.isEdible() && !stack.getItem().isEdible();
     }
 
+    @Override
+    public boolean canCutCorner(BlockPathTypes pathType) {
+        return super.canCutCorner(pathType) && pathType != BlockPathTypes.WATER_BORDER;
+    }
+
     // ========== FLOAT BEHAVIOR =======================================================================================
 
     private void floatDuck() {
@@ -299,6 +315,11 @@ public class Duck extends Animal implements FluidWalker {
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.5D).add(0.0D, 0.05D, 0.0D));
             }
         }
+    }
+
+    @Override
+    protected PathNavigation createNavigation(Level level) {
+        return new DuckPathNavigation(this, level);
     }
 
     @Override
@@ -369,7 +390,11 @@ public class Duck extends Animal implements FluidWalker {
         }
     }
 
-    private boolean calculateOpenWater(BlockPos pos) {
+    public boolean isInOpenWater() {
+        return this.calculateOpenWater(this.blockPosition());
+    }
+
+    public boolean calculateOpenWater(BlockPos pos) {
         OpenWaterType currentType = OpenWaterType.INVALID;
 
         for (int i = -1; i <= 2; i++) {
@@ -419,5 +444,28 @@ public class Duck extends Animal implements FluidWalker {
         ABOVE_WATER,
         INSIDE_WATER,
         INVALID
+    }
+
+    static class DuckPathNavigation extends GroundPathNavigation {
+        public DuckPathNavigation(Mob mob, Level level) {
+            super(mob, level);
+        }
+
+        @Override
+        protected PathFinder createPathFinder(int maxVisitedNodes) {
+            this.nodeEvaluator = new WalkNodeEvaluator();
+            this.nodeEvaluator.setCanPassDoors(true);
+            return new PathFinder(this.nodeEvaluator, maxVisitedNodes);
+        }
+
+        @Override
+        protected boolean hasValidPathType(BlockPathTypes pathType) {
+            return pathType == BlockPathTypes.WATER || super.hasValidPathType(pathType);
+        }
+
+        @Override
+        public boolean isStableDestination(BlockPos pos) {
+            return this.level.getBlockState(pos).is(Blocks.WATER) || super.isStableDestination(pos);
+        }
     }
 }
