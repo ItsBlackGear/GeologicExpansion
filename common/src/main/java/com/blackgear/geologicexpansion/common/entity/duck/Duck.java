@@ -76,7 +76,7 @@ public class Duck extends Animal implements FluidWalker {
     public final AnimationState floatTransformationState = new AnimationState();
 
     // Constants
-    public static final int NON_FOOD_DISCARD_COOLDOWN = TimeValue.minutes(5);
+    public static final int NON_FOOD_DISCARD_COOLDOWN = TimeValue.minutes(3);
     public static final IntProvider FISHING_COOLDOWN = UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(3));
 
     // Entity Events
