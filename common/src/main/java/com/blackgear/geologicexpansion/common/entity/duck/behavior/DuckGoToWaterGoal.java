@@ -41,6 +41,8 @@ public class DuckGoToWaterGoal extends MoveToBlockGoal {
 
     @Override
     protected boolean isValidTarget(LevelReader level, BlockPos pos) {
-        return level.getBlockState(pos).is(Blocks.WATER) && level.getBlockState(pos.above()).isPathfindable(level, pos, PathComputationType.LAND);
+        return level.getBlockState(pos).is(Blocks.WATER)
+                && !level.getBlockState(pos).is(Blocks.LILY_PAD)
+                && level.getBlockState(pos.above()).isPathfindable(level, pos, PathComputationType.LAND);
     }
 }

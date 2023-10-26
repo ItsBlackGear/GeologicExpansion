@@ -27,14 +27,14 @@ public class DuckFishGoal extends Goal {
             return false;
         } else {
             BlockPos pos = this.duck.blockPosition();
-            return this.level.getBlockState(pos.below()).is(Blocks.WATER) && this.duck.canFish();
+            return this.level.getBlockState(pos.below()).is(Blocks.WATER) && this.duck.canFish() && this.duck.shouldFish();
         }
     }
 
     @Override
     public void start() {
         this.eatAnimationTick = this.adjustedTickDelay(EAT_ANIMATION_TICKS);
-        this.level.broadcastEntityEvent(this.duck, (byte)10);
+        this.level.broadcastEntityEvent(this.duck, Duck.DUCK_FISHING_ANIMATION);
         this.duck.getNavigation().stop();
     }
 
@@ -57,7 +57,7 @@ public class DuckFishGoal extends Goal {
         this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
         if (this.eatAnimationTick == this.adjustedTickDelay(4)) {
             BlockPos pos = this.duck.blockPosition().below();
-            if (this.level.getBlockState(pos).is(Blocks.WATER) && this.duck.canFish()) {
+            if (this.level.getBlockState(pos).is(Blocks.WATER) && this.duck.canFish() && this.duck.shouldFish()) {
                 this.duck.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 0.25F, 1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.4F);
                 this.duck.ate();
             }
