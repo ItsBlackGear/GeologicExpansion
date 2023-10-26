@@ -76,7 +76,7 @@ public class Duck extends Animal implements FluidWalker {
     public final AnimationState floatTransformationState = new AnimationState();
 
     // Constants
-    public static final int NON_FOOD_DISCARD_COOLDOWN = TimeValue.minutes(3);
+    public static final IntProvider NON_FOOD_DISCARD_COOLDOWN = UniformInt.of(TimeValue.minutes(3), TimeValue.minutes(5));
     public static final IntProvider FISHING_COOLDOWN = UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(3));
 
     // Entity Events
@@ -95,7 +95,7 @@ public class Duck extends Animal implements FluidWalker {
 
     // Eating related variables
     private int ticksSinceEaten;
-    private int discardCooldown = NON_FOOD_DISCARD_COOLDOWN;
+    private int discardCooldown;
     private int fishingCooldown;
     private int eatAnimationTick;
     private DuckFishGoal duckFishGoal;
@@ -103,6 +103,7 @@ public class Duck extends Animal implements FluidWalker {
     public Duck(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(level.random);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -170,6 +171,12 @@ public class Duck extends Animal implements FluidWalker {
         this.setCanFish(this.isInOpenWater() && this.shouldFish());
         this.floatDuck();
         this.checkInsideBlocks();
+
+        // Resets the hunts per day each morning
+        float timeOfDay = this.level.getTimeOfDay(1.0F);
+        if ((double)timeOfDay < 0.79 && (double)timeOfDay > 0.76 && this.getHuntsRemaining() < 5) {
+            this.setHuntsRemaining(5);
+        }
     }
 
     @Override
@@ -231,7 +238,7 @@ public class Duck extends Animal implements FluidWalker {
                 if (--this.discardCooldown == 0) {
                     this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
                     this.level.broadcastEntityEvent(this, DUCK_FISHING_ANIMATION);
-                    this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN;
+                    this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(this.level.random);
                 }
             }
 
