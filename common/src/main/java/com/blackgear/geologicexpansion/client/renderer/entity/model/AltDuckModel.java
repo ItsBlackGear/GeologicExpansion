@@ -2,12 +2,8 @@ package com.blackgear.geologicexpansion.client.renderer.entity.model;
 
 import com.blackgear.geologicexpansion.client.renderer.entity.animation.DuckAnimations;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
-import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -17,7 +13,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
 @Environment(EnvType.CLIENT)
-public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
+public class AltDuckModel<T extends Duck> extends AgeableHierarchicalModel<T> {
     private final ModelPart root;
     private final ModelPart bone;
     public final ModelPart head;
@@ -29,7 +25,8 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
 
     private float headXRot;
 
-    public DuckModel(ModelPart root) {
+    public AltDuckModel(ModelPart root) {
+        super(0.5F, 24.0F);
         this.root = root;
         this.bone = root.getChild("bone");
         this.head = this.bone.getChild("head");
@@ -43,7 +40,7 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
-        PartDefinition bone = root.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition bone = root.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.ZERO);
         PartDefinition head = bone.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -6.0F, -2.0F, 4.0F, 6.0F, 3.0F), PartPose.offset(0.0F, 15.0F, -4.0F));
         head.addOrReplaceChild("beak", CubeListBuilder.create().texOffs(14, 0).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 2.0F, 2.0F), PartPose.offset(0.0F, 0.0F, 0.0F));
         bone.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 9).addBox(-3.0F, -4.0F, -3.0F, 6.0F, 8.0F, 6.0F), PartPose.offsetAndRotation(0.0F, 16.0F, 0.0F, 1.5707964F, 0.0F, 0.0F));
@@ -55,21 +52,16 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
         return LayerDefinition.create(mesh, 64, 32);
     }
 
-    protected Iterable<ModelPart> headParts() {
-        return ImmutableList.of(this.head);
-    }
-
-    protected Iterable<ModelPart> bodyParts() {
-        return ImmutableList.of(this.body, this.rightLeg, this.leftLeg, this.rightWing, this.leftWing);
+    @Override
+    public ModelPart root() {
+        return this.root;
     }
 
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.root().getAllParts().forEach(ModelPart::resetPose);
-        this.bodyParts().forEach(ModelPart::resetPose);
-        this.headParts().forEach(ModelPart::resetPose);
         float motionSpeed = Math.min((float)entity.getDeltaMovement().length() * 200.0F, 8.0F);
-        this.animateDuck(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        this.setupPoses(entity);
+//        this.animateDuck(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+//        this.setupPoses(entity);
         this.animate(entity.floatTransformationState, DuckAnimations.WATER_FLOATING_TRANSFORM, ageInTicks, motionSpeed);
     }
 
@@ -95,32 +87,5 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
         super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
         this.head.y = 6.0F + entity.getHeadEatPositionScale(partialTick) * 9.0F;
         this.headXRot = entity.getHeadEatAngleScale(partialTick);
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        if (this.young) {
-            poseStack.pushPose();
-
-            poseStack.translate(0.0D, 5.0F / 16.0F, 2.0F / 16.0F);
-            this.headParts().forEach(modelPart -> modelPart.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha));
-
-            poseStack.popPose();
-            poseStack.pushPose();
-
-            float f = 1.0F / 2.0F;
-            poseStack.scale(f, f, f);
-            poseStack.translate(0.0D, 24.0F / 16.0F, 0.0D);
-            this.bodyParts().forEach(modelPart -> modelPart.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha));
-            poseStack.popPose();
-        } else {
-            this.headParts().forEach(modelPart -> modelPart.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha));
-            this.bodyParts().forEach(modelPart -> modelPart.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha));
-        }
-    }
-
-    @Override
-    public ModelPart root() {
-        return this.root;
     }
 }

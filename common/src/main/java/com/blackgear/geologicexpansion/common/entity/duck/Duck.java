@@ -159,13 +159,15 @@ public class Duck extends Animal implements FluidWalker {
 
     @Override
     public void tick() {
-        super.tick();
-
-        if (this.isInWaterOrBubble()) {
-            this.floatTransformationState.startIfStopped(this.tickCount);
-        } else {
-            this.floatTransformationState.stop();
+        if (this.level.isClientSide()) {
+            if (this.isInWaterOrBubble()) {
+                this.floatTransformationState.startIfStopped(this.tickCount);
+            } else {
+                this.floatTransformationState.stop();
+            }
         }
+
+        super.tick();
 
         this.setCanFish(this.isInOpenWater() && this.shouldFish());
         this.floatDuck();

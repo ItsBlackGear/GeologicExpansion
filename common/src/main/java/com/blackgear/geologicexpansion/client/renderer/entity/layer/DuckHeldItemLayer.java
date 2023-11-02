@@ -1,5 +1,6 @@
 package com.blackgear.geologicexpansion.client.renderer.entity.layer;
 
+import com.blackgear.geologicexpansion.client.renderer.entity.model.AltDuckModel;
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,10 +16,10 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
 @Environment(EnvType.CLIENT)
-public class DuckHeldItemLayer extends RenderLayer<Duck, DuckModel<Duck>> {
+public class DuckHeldItemLayer extends RenderLayer<Duck, AltDuckModel<Duck>> {
     private final ItemInHandRenderer itemInHandRenderer;
 
-    public DuckHeldItemLayer(RenderLayerParent<Duck, DuckModel<Duck>> renderLayerParent, ItemInHandRenderer itemInHandRenderer) {
+    public DuckHeldItemLayer(RenderLayerParent<Duck, AltDuckModel<Duck>> renderLayerParent, ItemInHandRenderer itemInHandRenderer) {
         super(renderLayerParent);
         this.itemInHandRenderer = itemInHandRenderer;
     }
