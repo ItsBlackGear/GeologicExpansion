@@ -84,23 +84,23 @@
   "block.geologicexpansion.pink_polished_prismatic_stone_stairs": "Pink Polished Prismatic Stone Stairs",
   "block.geologicexpansion.pink_polished_prismatic_stone_wall": "Pink Polished Prismatic Stone Wall",
 
-  "block.geologicexpansion.gray_prismatic_stone": "Gray Prismatic Stone",
-  "block.geologicexpansion.gray_prismatic_stone_slab": "Gray Prismatic Stone Slab",
-  "block.geologicexpansion.gray_prismatic_stone_stairs": "Gray Prismatic Stone Stairs",
-  "block.geologicexpansion.gray_prismatic_stone_wall": "Gray Prismatic Stone Wall",
-  "block.geologicexpansion.gray_polished_prismatic_stone": "Gray Polished Prismatic Stone",
-  "block.geologicexpansion.gray_polished_prismatic_stone_slab": "Gray Polished Prismatic Stone Slab",
-  "block.geologicexpansion.gray_polished_prismatic_stone_stairs": "Gray Polished Prismatic Stone Stairs",
-  "block.geologicexpansion.gray_polished_prismatic_stone_wall": "Gray Polished Prismatic Stone Wall",
+  "block.geologicexpansion.gray_prismatic_stone": "Grey Prismatic Stone",
+  "block.geologicexpansion.gray_prismatic_stone_slab": "Grey Prismatic Stone Slab",
+  "block.geologicexpansion.gray_prismatic_stone_stairs": "Grey Prismatic Stone Stairs",
+  "block.geologicexpansion.gray_prismatic_stone_wall": "Grey Prismatic Stone Wall",
+  "block.geologicexpansion.gray_polished_prismatic_stone": "Grey Polished Prismatic Stone",
+  "block.geologicexpansion.gray_polished_prismatic_stone_slab": "Grey Polished Prismatic Stone Slab",
+  "block.geologicexpansion.gray_polished_prismatic_stone_stairs": "Grey Polished Prismatic Stone Stairs",
+  "block.geologicexpansion.gray_polished_prismatic_stone_wall": "Grey Polished Prismatic Stone Wall",
 
-  "block.geologicexpansion.light_gray_prismatic_stone": "Light Gray Prismatic Stone",
-  "block.geologicexpansion.light_gray_prismatic_stone_slab": "Light Gray Prismatic Stone Slab",
-  "block.geologicexpansion.light_gray_prismatic_stone_stairs": "Light Gray Prismatic Stone Stairs",
-  "block.geologicexpansion.light_gray_prismatic_stone_wall": "Light Gray Prismatic Stone Wall",
-  "block.geologicexpansion.light_gray_polished_prismatic_stone": "Light Gray Polished Prismatic Stone",
-  "block.geologicexpansion.light_gray_polished_prismatic_stone_slab": "Light Gray Polished Prismatic Stone Slab",
-  "block.geologicexpansion.light_gray_polished_prismatic_stone_stairs": "Light Gray Polished Prismatic Stone Stairs",
-  "block.geologicexpansion.light_gray_polished_prismatic_stone_wall": "Light Gray Polished Prismatic Stone Wall",
+  "block.geologicexpansion.light_gray_prismatic_stone": "Light Grey Prismatic Stone",
+  "block.geologicexpansion.light_gray_prismatic_stone_slab": "Light Grey Prismatic Stone Slab",
+  "block.geologicexpansion.light_gray_prismatic_stone_stairs": "Light Grey Prismatic Stone Stairs",
+  "block.geologicexpansion.light_gray_prismatic_stone_wall": "Light Grey Prismatic Stone Wall",
+  "block.geologicexpansion.light_gray_polished_prismatic_stone": "Light Grey Polished Prismatic Stone",
+  "block.geologicexpansion.light_gray_polished_prismatic_stone_slab": "Light Grey Polished Prismatic Stone Slab",
+  "block.geologicexpansion.light_gray_polished_prismatic_stone_stairs": "Light Grey Polished Prismatic Stone Stairs",
+  "block.geologicexpansion.light_gray_polished_prismatic_stone_wall": "Light Grey Polished Prismatic Stone Wall",
 
   "block.geologicexpansion.cyan_prismatic_stone": "Cyan Prismatic Stone",
   "block.geologicexpansion.cyan_prismatic_stone_slab": "Cyan Prismatic Stone Slab",
@@ -167,11 +167,5 @@
 
   "item.geologicexpansion.duck_spawn_egg": "Duck Spawn Egg",
 
-  "entity.geologicexpansion.duck": "Duck",
-
-  "subtitles.block.geyser.erupt": "Geyser Erupts",
-  "subtitles.entity.duck.ambient": "Duck Quacks",
-  "subtitles.entity.duck.step": "Duck Steps",
-  "subtitles.entity.duck.hurt": "Duck Hurts",
-  "subtitles.entity.duck.death": "Duck Dies"
+  "entity.geologicexpansion.duck": "Duck"
 }

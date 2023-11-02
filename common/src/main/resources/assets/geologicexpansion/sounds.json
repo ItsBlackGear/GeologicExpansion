@@ -1,0 +1,59 @@
+{
+  "block.geyser.erupt": {
+    "sounds": [
+      "geologicexpansion:block/geyser/erupt1",
+      "geologicexpansion:block/geyser/erupt2"
+    ],
+    "subtitle": "subtitles.block.geyser.erupt"
+  },
+  "entity.duck.ambient": {
+    "sounds": [
+      "geologicexpansion:entity/duck/idle1",
+      "geologicexpansion:entity/duck/idle2",
+      "geologicexpansion:entity/duck/idle3",
+      "geologicexpansion:entity/duck/idle4"
+    ],
+    "subtitle": "subtitles.entity.duck.ambient"
+  },
+  "entity.duck.step": {
+    "sounds": [
+      "geologicexpansion:entity/duck/step1",
+      "geologicexpansion:entity/duck/step2",
+      "geologicexpansion:entity/duck/step3",
+      "geologicexpansion:entity/duck/step4",
+      "geologicexpansion:entity/duck/step5",
+      "geologicexpansion:entity/duck/step6"
+    ],
+    "subtitle": "subtitles.entity.duck.step"
+  },
+  "entity.duck.hurt": {
+    "sounds": [
+      "geologicexpansion:entity/duck/hurt1",
+      "geologicexpansion:entity/duck/hurt2",
+      "geologicexpansion:entity/duck/hurt3",
+      "geologicexpansion:entity/duck/hurt4"
+    ],
+    "subtitle": "subtitles.entity.duck.hurt"
+  },
+  "entity.duck.death": {
+    "sounds": [
+      {
+        "name": "geologicexpansion:entity/duck/death",
+        "pitch": 1.15
+      },
+      {
+        "name": "geologicexpansion:entity/duck/death",
+        "pitch": 1.33
+      },
+      {
+        "name": "geologicexpansion:entity/duck/death",
+        "pitch": 1.4
+      },
+      {
+        "name": "geologicexpansion:entity/duck/death",
+        "pitch": 1.55
+      }
+    ],
+    "subtitle": "subtitles.entity.duck.death"
+  }
+}

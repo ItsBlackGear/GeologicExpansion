@@ -19,33 +19,33 @@ import net.minecraft.util.Mth;
 @Environment(EnvType.CLIENT)
 public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
     private final ModelPart root;
-    private final ModelPart head;
+    public final ModelPart head;
     private final ModelPart body;
     private final ModelPart rightLeg;
     private final ModelPart leftLeg;
     private final ModelPart rightWing;
     private final ModelPart leftWing;
-    public final ModelPart beak;
+    private final ModelPart beak;
 
     private float headXRot;
-    private float beakXRot;
 
     public DuckModel(ModelPart root) {
-        this.root = root;
-        this.head = root.getChild("head");
-        this.beak = root.getChild("beak");
-        this.body = root.getChild("body");
-        this.rightLeg = root.getChild("right_leg");
-        this.leftLeg = root.getChild("left_leg");
-        this.rightWing = root.getChild("right_wing");
-        this.leftWing = root.getChild("left_wing");
+        this.root = root.getChild("root");
+        this.head = this.root.getChild("head");
+        this.beak = this.head.getChild("beak");
+        this.body = this.root.getChild("body");
+        this.rightLeg = this.root.getChild("right_leg");
+        this.leftLeg = this.root.getChild("left_leg");
+        this.rightWing = this.root.getChild("right_wing");
+        this.leftWing = this.root.getChild("left_wing");
     }
 
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = new MeshDefinition();
-        PartDefinition root = mesh.getRoot();
-        root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -6.0F, -2.0F, 4.0F, 6.0F, 3.0F), PartPose.offset(0.0F, 15.0F, -4.0F));
-        root.addOrReplaceChild("beak", CubeListBuilder.create().texOffs(14, 0).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 2.0F, 2.0F), PartPose.offset(0.0F, 15.0F, -4.0F));
+        PartDefinition part = mesh.getRoot();
+        PartDefinition root = part.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -6.0F, -2.0F, 4.0F, 6.0F, 3.0F), PartPose.offset(0.0F, 15.0F, -4.0F));
+        head.addOrReplaceChild("beak", CubeListBuilder.create().texOffs(14, 0).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 2.0F, 2.0F), PartPose.offset(0.0F, 0.0F, 0.0F));
         root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 9).addBox(-3.0F, -4.0F, -3.0F, 6.0F, 8.0F, 6.0F), PartPose.offsetAndRotation(0.0F, 16.0F, 0.0F, 1.5707964F, 0.0F, 0.0F));
         CubeListBuilder legShape = CubeListBuilder.create().texOffs(26, 0).addBox(-1.0F, 0.0F, -3.0F, 3.0F, 5.0F, 3.0F);
         root.addOrReplaceChild("right_leg", legShape, PartPose.offset(-2.0F, 19.0F, 1.0F));
@@ -67,22 +67,18 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
         this.root().getAllParts().forEach(ModelPart::resetPose);
         this.head.xRot = headPitch * 0.017453292F;
         this.head.yRot = netHeadYaw * 0.017453292F;
-        this.beak.xRot = this.head.xRot;
-        this.beak.yRot = this.head.yRot;
         this.rightLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.leftLeg.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
         this.rightWing.zRot = ageInTicks;
         this.leftWing.zRot = -ageInTicks;
 
-        this.animate(entity.floatTransformationState, DuckAnimations.WATER_FLOATING_TRANSFORM, ageInTicks);
-
         if (entity.isInWaterOrBubble() && entity.isBaby()) {
             this.head.y = 17;
-            this.beak.y = 17;
         }
 
         this.head.xRot = this.headXRot;
-        this.beak.xRot = this.beakXRot;
+
+        this.animate(entity.floatTransformationState, DuckAnimations.WATER_FLOATING_TRANSFORM, ageInTicks);
     }
 
     @Override
@@ -90,8 +86,6 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
         super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
         this.head.y = 6.0F + entity.getHeadEatPositionScale(partialTick) * 9.0F;
         this.headXRot = entity.getHeadEatAngleScale(partialTick);
-        this.beak.y = 6.0F + entity.getHeadEatPositionScale(partialTick) * 9.0F;
-        this.beakXRot = entity.getHeadEatAngleScale(partialTick);
     }
 
     @Override

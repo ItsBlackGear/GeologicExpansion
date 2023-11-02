@@ -5,6 +5,7 @@ import com.blackgear.geologicexpansion.common.CommonSetup;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.common.registries.GEItems;
+import com.blackgear.geologicexpansion.common.registries.GESounds;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEBiomes;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEFeatures;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GENoises;
@@ -39,6 +40,7 @@ public class GeologicExpansion {
         // ========== MISCELLANEOUS REGISTRY ===========================================================================
         GEBlocks.BLOCKS.register();
         GEItems.ITEMS.register();
+        GESounds.SOUNDS.register();
 
         // ========== ENTITY REGISTRY ==================================================================================
         GEEntities.ENTITIES.register();

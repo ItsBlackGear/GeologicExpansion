@@ -26,7 +26,7 @@ public class DuckHeldItemLayer extends RenderLayer<Duck, DuckModel<Duck>> {
     @Override
     public void render(PoseStack matrices, MultiBufferSource buffer, int packedLight, Duck duck, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
         matrices.pushPose();
-        matrices.translate(this.getParentModel().beak.x / 16.0F, this.getParentModel().beak.y / 16.0F, this.getParentModel().beak.z / 16.0F);
+        matrices.translate(this.getParentModel().head.x / 16.0F, this.getParentModel().head.y / 16.0F, this.getParentModel().head.z / 16.0F);
         matrices.mulPose(Vector3f.YP.rotationDegrees(netHeadYaw));
         matrices.mulPose(Vector3f.XP.rotationDegrees(headPitch));
 

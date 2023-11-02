@@ -5,6 +5,7 @@ import com.blackgear.geologicexpansion.common.entity.duck.behavior.DuckGoToOpenW
 import com.blackgear.geologicexpansion.common.entity.duck.behavior.DuckGoToWaterGoal;
 import com.blackgear.geologicexpansion.common.entity.resource.FluidWalker;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
+import com.blackgear.geologicexpansion.common.registries.GESounds;
 import com.blackgear.geologicexpansion.core.platform.common.resource.TimeValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -77,7 +78,6 @@ public class Duck extends Animal implements FluidWalker {
 
     // Constants
     public static final IntProvider NON_FOOD_DISCARD_COOLDOWN = UniformInt.of(TimeValue.minutes(3), TimeValue.minutes(5));
-    public static final IntProvider FISHING_COOLDOWN = UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(3));
 
     // Entity Events
     public static final byte DUCK_FISHING_ANIMATION = (byte)10;
@@ -96,7 +96,6 @@ public class Duck extends Animal implements FluidWalker {
     // Eating related variables
     private int ticksSinceEaten;
     private int discardCooldown;
-    private int fishingCooldown;
     private int eatAnimationTick;
     private DuckFishGoal duckFishGoal;
 
@@ -136,7 +135,7 @@ public class Duck extends Animal implements FluidWalker {
     }
 
     public boolean shouldFish() {
-        return !this.isBaby() && this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() && this.getHuntsRemaining() != 0 && this.fishingCooldown == 0;
+        return !this.isBaby() && this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() && this.getHuntsRemaining() != 0;
     }
 
     // ========== BEHAVIOR =============================================================================================
@@ -188,9 +187,7 @@ public class Duck extends Animal implements FluidWalker {
     @Override
     public void aiStep() {
         if (!this.level.isClientSide && this.isAlive() && this.isEffectiveAi()) {
-            if (--this.fishingCooldown == 0) {
-                this.postFishing();
-            }
+            this.postFishing();
         }
 
         if (this.level.isClientSide) {
@@ -229,9 +226,14 @@ public class Duck extends Animal implements FluidWalker {
                     }
 
                     this.ticksSinceEaten = 0;
+
+                    // Decreases the hunts remaining per day
+                    postFishingProgress();
                 } else if (this.ticksSinceEaten > TimeValue.seconds(28) && this.random.nextFloat() < 0.1F) {
                     this.playSound(SoundEvents.FOX_EAT, 1.0F, 1.0F);
                     this.level.broadcastEntityEvent(this, DUCK_FISHING_PARTICLES);
+
+                    postFishingProgress();
                 }
             } else {
                 // Discard Item
@@ -239,16 +241,18 @@ public class Duck extends Animal implements FluidWalker {
                     this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
                     this.level.broadcastEntityEvent(this, DUCK_FISHING_ANIMATION);
                     this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(this.level.random);
+
+                    // Decreases the hunts remaining per day
+                    postFishingProgress();
                 }
             }
+        }
+    }
 
-            // Decreases the hunts remaining per day
-            if (this.getHuntsRemaining() != 0) {
-                this.setHuntsRemaining(this.getHuntsRemaining() - 1);
-            }
-
-            // Starts a cooldown
-            this.fishingCooldown = FISHING_COOLDOWN.sample(this.level.random);
+    private void postFishingProgress() {
+        // Decreases the hunts remaining per day
+        if (this.getHuntsRemaining() != 0) {
+            this.setHuntsRemaining(this.getHuntsRemaining() - 1);
         }
     }
 
@@ -414,22 +418,22 @@ public class Duck extends Animal implements FluidWalker {
 
     @Override @Nullable
     protected SoundEvent getAmbientSound() {
-        return super.getAmbientSound();
+        return GESounds.DUCK_AMBIENT.get();
     }
 
     @Override @Nullable
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return super.getHurtSound(damageSource);
+        return GESounds.DUCK_HURT.get();
     }
 
     @Override @Nullable
     protected SoundEvent getDeathSound() {
-        return super.getDeathSound();
+        return GESounds.DUCK_DEATH.get();
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        super.playStepSound(pos, state);
+        this.playSound(GESounds.DUCK_STEP.get(), 0.025F, 1.0F);
     }
 
     // ========== FISHING BEHAVIOR =====================================================================================
