@@ -1,7 +1,6 @@
 package com.blackgear.geologicexpansion.client.renderer.entity;
 
 import com.blackgear.geologicexpansion.client.renderer.entity.layer.DuckHeldItemLayer;
-import com.blackgear.geologicexpansion.client.renderer.entity.model.AltDuckModel;
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
 import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
@@ -16,11 +15,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 @Environment(EnvType.CLIENT)
-public class DuckRenderer extends MobRenderer<Duck, AltDuckModel<Duck>> {
+public class DuckRenderer extends MobRenderer<Duck, DuckModel<Duck>> {
     private static final ResourceLocation DUCK_LOCATION = new ResourceLocation(GeologicExpansion.MOD_ID, "textures/entity/duck.png");
 
     public DuckRenderer(EntityRendererProvider.Context context) {
-        super(context, new AltDuckModel<>(context.bakeLayer(GEModelLayers.DUCK)), 0.3F);
+        super(context, new DuckModel<>(context.bakeLayer(GEModelLayers.DUCK)), 0.3F);
         this.addLayer(new DuckHeldItemLayer(this, context.getItemInHandRenderer()));
     }
 
