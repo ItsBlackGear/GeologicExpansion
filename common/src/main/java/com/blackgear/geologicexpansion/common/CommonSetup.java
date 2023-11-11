@@ -5,6 +5,8 @@ import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.common.worldgen.WorldGeneration;
 import com.blackgear.geologicexpansion.common.worldgen.placements.CalderaFeatures;
 import com.blackgear.geologicexpansion.common.worldgen.placements.CalderaPlacements;
+import com.blackgear.geologicexpansion.common.worldgen.placements.SurfaceFeatures;
+import com.blackgear.geologicexpansion.common.worldgen.placements.SurfacePlacements;
 import com.blackgear.geologicexpansion.core.platform.common.BiomeManager;
 import com.blackgear.geologicexpansion.core.platform.common.EntityRegistry;
 
@@ -18,6 +20,8 @@ public class CommonSetup {
         // ========= FEATURE REGISTRY ==================================================================================
         CalderaFeatures.FEATURES.register();
         CalderaPlacements.FEATURES.register();
+        SurfaceFeatures.FEATURES.register();
+        SurfacePlacements.FEATURES.register();
 
         // ========= WORLD GEN INITIALIZATION ==========================================================================
         BiomeManager.bootstrap();

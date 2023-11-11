@@ -1,4 +1,4 @@
-// 1.19.2	2023-10-23T19:59:55.1352447	Block Loot Tables
+// 1.19.2	2023-11-10T16:12:03.6788661	Block Loot Tables
 98331378a9e08d3644f2cc68df798ee4d794516a data\geologicexpansion\loot_tables\blocks\red_polished_prismatic_stone_stairs.json
 c04772357a7ec386839a6b5cc650cf8b0ebf6927 data\geologicexpansion\loot_tables\blocks\white_polished_prismatic_stone_wall.json
 7ca366965763ab5f1b46c4c5b31adbe25a9a30ec data\geologicexpansion\loot_tables\blocks\blue_prismatic_stone_slab.json
@@ -83,6 +83,7 @@ a121c73d4a2048202f29e750a20505820d4d7adc data\geologicexpansion\loot_tables\bloc
 57d01489daf05255fe08f0bae71623c077976a44 data\geologicexpansion\loot_tables\blocks\magenta_prismatic_stone.json
 c08909f75a08175571fab03d1f017bda1bf57af4 data\geologicexpansion\loot_tables\blocks\pink_prismatic_stone_slab.json
 ec0741d53e48ac5d7e81b6e1f6eb1927dd27e464 data\geologicexpansion\loot_tables\blocks\lime_prismatic_stone_wall.json
+334596af162a6064f662514e5330b2da0e29d71c data\geologicexpansion\loot_tables\blocks\overgrowth.json
 3bec9d275bd5e056914e04dc621c7a8d058c08e9 data\geologicexpansion\loot_tables\blocks\lime_prismatic_stone_slab.json
 602bd7da1a918fe169d61f75b2ae36d6264f5920 data\geologicexpansion\loot_tables\blocks\light_gray_polished_prismatic_stone.json
 8ec656f1e40828e2b84be3cc928f56ce78c4b02d data\geologicexpansion\loot_tables\blocks\red_polished_prismatic_stone.json

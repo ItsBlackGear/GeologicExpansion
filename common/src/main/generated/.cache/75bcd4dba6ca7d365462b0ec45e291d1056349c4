@@ -1,6 +1,7 @@
-// 1.19.2	2023-10-23T19:59:55.1202473	Tags for minecraft:block
-48fe7d2d036b92595a305871824ab890d214dbf1 data\minecraft\tags\blocks\lush_ground_replaceable.json
-054c83f4ca2f1fee5307ac67f6b076655e00a951 data\minecraft\tags\blocks\walls.json
-6e8943ee42d54b2b62e5573004343585191df7d8 data\minecraft\tags\blocks\slabs.json
-8245f371438076e0bfeeff244751c723002aacb5 data\minecraft\tags\blocks\stairs.json
-a833433e29cbfdfcb5c6f8bfb904dd1c7caf2683 data\minecraft\tags\blocks\mineable\pickaxe.json
+// 1.19.2	2023-11-10T16:12:03.6778662	Tags for minecraft:block
+33bc1ebfb102c1df997dfd4149867afe285cfc79 data\geologicexpansion\tags\blocks\overgrowth_growable_blocks.json
+cbde95392034ae49e0fb53035beb02a03c947046 data\minecraft\tags\blocks\walls.json
+f09a4413597be6c3ddbf1a79dd128c7b63bd3384 data\minecraft\tags\blocks\slabs.json
+877b93cc2f2eb99f69e852e7a658f968079f5b45 data\minecraft\tags\blocks\replaceable_plants.json
+844273e226fd78983e12ca7bb01443929302a6dc data\minecraft\tags\blocks\stairs.json
+17fffb1bbd83e9524118a64ad054c297673bc170 data\minecraft\tags\blocks\mineable\pickaxe.json
