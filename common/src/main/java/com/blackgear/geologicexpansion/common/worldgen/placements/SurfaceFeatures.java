@@ -30,7 +30,8 @@ public class SurfaceFeatures {
             GEFeatures.OVERGROWTH_PATCH.get(),
             new OvergrowthPatchConfiguration(
                     GEBlockTags.OVERGROWTH_GROWABLE_BLOCKS,
-                    true, PlacementUtils.inlinePlaced(OVERGROWTH_VEGETATION),
+                    true,
+                    PlacementUtils.inlinePlaced(OVERGROWTH_VEGETATION),
                     CaveSurface.FLOOR,
                     ConstantInt.of(1),
                     0.0F,

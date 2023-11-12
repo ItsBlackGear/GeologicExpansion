@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "geologicexpansion:block/gray_prismatic_stone"
+    },
+    "half=upper": {
+      "model": "geologicexpansion:block/geyser"
+    }
+  }
+}

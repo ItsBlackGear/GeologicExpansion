@@ -1,9 +1,12 @@
 package com.blackgear.geologicexpansion.common.worldgen.placements;
 
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
+import com.blackgear.geologicexpansion.common.registries.worldgen.GEFeatures;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.platform.common.WorldGenRegistry;
 import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
@@ -11,9 +14,12 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedBlockStateProvider;
+import net.minecraft.world.level.levelgen.placement.CaveSurface;
 
 public class CalderaFeatures {
     public static final WorldGenRegistry FEATURES = WorldGenRegistry.of(GeologicExpansion.MOD_ID);
@@ -24,6 +30,24 @@ public class CalderaFeatures {
             Feature.SIMPLE_BLOCK,
             new SimpleBlockConfiguration(
                     BlockStateProvider.simple(Blocks.WATER)
+            )
+    );
+
+    // ========== GEYSER ===============================================================================================
+    public static final Holder<ConfiguredFeature<VegetationPatchConfiguration, ?>> GEYSER_PATCH = FEATURES.create(
+            "geyser_patch",
+            Feature.VEGETATION_PATCH,
+            new VegetationPatchConfiguration(
+                    BlockTags.MOSS_REPLACEABLE,
+                    BlockStateProvider.simple(GEBlocks.GRAY_PRISMATIC_STONE.get()),
+                    PlacementUtils.inlinePlaced(GEFeatures.GEYSER_PATCH.get(), FeatureConfiguration.NONE),
+                    CaveSurface.FLOOR,
+                    ConstantInt.of(1),
+                    0.8F,
+                    5,
+                    0.15F,
+                    UniformInt.of(1, 2),
+                    0.75F
             )
     );
 

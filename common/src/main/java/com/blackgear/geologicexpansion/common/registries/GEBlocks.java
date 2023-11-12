@@ -1,5 +1,6 @@
 package com.blackgear.geologicexpansion.common.registries;
 
+import com.blackgear.geologicexpansion.common.block.GeyserBlock;
 import com.blackgear.geologicexpansion.common.block.OvergrowthBlock;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.platform.CoreRegistry;
@@ -35,6 +36,10 @@ public class GEBlocks {
     public static final Supplier<Block> POLISHED_LIMESTONE_SLAB = create("polished_limestone_slab", () -> new SlabBlock(Properties.copy(POLISHED_LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
     public static final Supplier<Block> POLISHED_LIMESTONE_STAIRS = create("polished_limestone_stairs", () -> new StairBlock(POLISHED_LIMESTONE.get().defaultBlockState(), Properties.copy(POLISHED_LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
     public static final Supplier<Block> POLISHED_LIMESTONE_WALL = create("polished_limestone_wall", () -> new WallBlock(Properties.copy(POLISHED_LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
+
+    // ========== GEYSER ===============================================================================================
+
+    public static final Supplier<Block> GEYSER = create("geyser", () -> new GeyserBlock(Properties.of(Material.STONE).requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
 
     // ========== PRISMATIC STONE ======================================================================================
     public static final Supplier<Block> PRISMATIC_STONE = create("prismatic_stone", () -> new Block(Properties.of(Material.STONE).requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);

@@ -34,7 +34,6 @@ public class OvergrowthBlock extends CarpetBlock implements BonemealableBlock {
     @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return Block.isFaceFull(level.getBlockState(pos.below()).getCollisionShape(level, pos.below()), Direction.UP);
-//        return super.canSurvive(state, level, pos) && state.isFaceSturdy(level, pos, Direction.DOWN);
     }
 
     @Override

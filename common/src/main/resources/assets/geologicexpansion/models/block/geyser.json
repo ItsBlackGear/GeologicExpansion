@@ -1,0 +1,25 @@
+{
+	"parent": "block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "geologicexpansion:block/geyser_side",
+		"1": "geologicexpansion:block/geyser_top",
+		"2": "geologicexpansion:block/gray_prismatic_stone",
+		"particle": "geologicexpansion:block/gray_prismatic_stone"
+	},
+	"elements": [
+		{
+			"name": "top",
+			"from": [2, 0, 2],
+			"to": [14, 14, 14],
+			"faces": {
+				"north": {"uv": [2, 2, 14, 16], "texture": "#0"},
+				"east": {"uv": [2, 2, 14, 16], "texture": "#0"},
+				"south": {"uv": [2, 2, 14, 16], "texture": "#0"},
+				"west": {"uv": [2, 2, 14, 16], "texture": "#0"},
+				"up": {"uv": [14, 14, 2, 2], "texture": "#1"},
+				"down": {"uv": [14, 2, 2, 14], "texture": "#2"}
+			}
+		}
+	]
+}

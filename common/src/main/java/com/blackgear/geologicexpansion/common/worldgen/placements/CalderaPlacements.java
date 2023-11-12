@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -90,6 +91,18 @@ public class CalderaPlacements {
                 BlockPredicate.not(floorBlockPredicate) // no floor blocks
         );
     }
+
+    // ========= GEYSER ================================================================================================
+
+    public static final Holder<PlacedFeature> GEYSER_PATCH = FEATURES.create("geyser_patch",
+            CalderaFeatures.GEYSER_PATCH,
+            CountPlacement.of(30),
+            InSquarePlacement.spread(),
+            PlacementUtils.FULL_RANGE,
+            EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.ONLY_IN_AIR_OR_WATER_PREDICATE, 12),
+            RandomOffsetPlacement.vertical(ConstantInt.of(1)),
+            BiomeFilter.biome()
+    );
 
     // ========= PRISMATIC BORDER COLORS ===============================================================================
     public static final Holder<PlacedFeature> PRISMATIC_BORDER_PURPLE = FEATURES.create(

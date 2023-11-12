@@ -23,6 +23,8 @@ public class WorldGeneration {
                 writer.feature(GenerationStep.Decoration.RAW_GENERATION, CalderaPlacements.PRISMATIC_BORDER_BROWN);
                 writer.feature(GenerationStep.Decoration.RAW_GENERATION, CalderaPlacements.PRISMATIC_BORDER_PURPLE);
 
+                writer.feature(GenerationStep.Decoration.RAW_GENERATION, CalderaPlacements.GEYSER_PATCH);
+
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.TREES_TAIGA);
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_GRASS_TAIGA_2);
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.BROWN_MUSHROOM_TAIGA);

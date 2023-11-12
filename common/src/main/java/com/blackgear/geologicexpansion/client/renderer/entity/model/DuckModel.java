@@ -94,10 +94,10 @@ public class DuckModel<T extends Duck> extends HierarchicalModel<T> {
     }
 
     private void animateDuck(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.xRot = headPitch * 0.017453292F;
-        this.head.yRot = netHeadYaw * 0.017453292F;
+        this.head.xRot = headPitch * (float)(Math.PI / 180.0F);
+        this.head.yRot = netHeadYaw * (float)(Math.PI / 180.0F);
         this.rightLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        this.leftLeg.xRot = Mth.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
+        this.leftLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
         this.rightWing.zRot = ageInTicks;
         this.leftWing.zRot = -ageInTicks;
     }
