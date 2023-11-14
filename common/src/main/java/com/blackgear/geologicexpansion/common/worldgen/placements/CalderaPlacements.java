@@ -96,7 +96,8 @@ public class CalderaPlacements {
 
     public static final Holder<PlacedFeature> GEYSER_PATCH = FEATURES.create("geyser_patch",
             CalderaFeatures.GEYSER_PATCH,
-            CountPlacement.of(30),
+            CountPlacement.of(10),
+//            RarityFilter.onAverageOnceEvery(3),
             InSquarePlacement.spread(),
             PlacementUtils.FULL_RANGE,
             EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.ONLY_IN_AIR_OR_WATER_PREDICATE, 12),

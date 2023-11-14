@@ -98,8 +98,8 @@ public class OvergrowthPatchFeature extends Feature<OvergrowthPatchConfiguration
         config.vegetationFeature().value().place(level, chunkGenerator, random, position.relative(config.surface().getDirection().getOpposite()));
     }
 
-    private boolean placeGround(WorldGenLevel level, OvergrowthPatchConfiguration config, Predicate<BlockState> replaceable, BlockPos.MutableBlockPos surfacePos, int depth) {
-        for (int i = 0; i < depth; i++) {
+    private boolean placeGround(WorldGenLevel level, OvergrowthPatchConfiguration config, Predicate<BlockState> replaceable, BlockPos.MutableBlockPos surfacePos, int maxDistance) {
+        for (int i = 0; i < maxDistance; i++) {
             BlockState existingState = level.getBlockState(surfacePos);
 
             if (!replaceable.test(existingState)) {
