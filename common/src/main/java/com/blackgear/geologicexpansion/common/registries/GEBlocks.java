@@ -39,7 +39,7 @@ public class GEBlocks {
 
     // ========== GEYSER ===============================================================================================
 
-    public static final Supplier<Block> GEYSER = create("geyser", () -> new GeyserBlock(Properties.of(Material.STONE).requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
+    public static final Supplier<Block> GEYSER = create("geyser", () -> new GeyserBlock(Properties.of(Material.STONE).randomTicks().requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
 
     // ========== PRISMATIC STONE ======================================================================================
     public static final Supplier<Block> PRISMATIC_STONE = create("prismatic_stone", () -> new Block(Properties.of(Material.STONE).requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
