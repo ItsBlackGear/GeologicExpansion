@@ -1,14 +1,20 @@
 package com.blackgear.geologicexpansion.common.block;
 
+import com.blackgear.geologicexpansion.common.block.entity.GeyserBlockEntity;
+import com.blackgear.geologicexpansion.common.registries.GEBlockEntities;
 import com.blackgear.geologicexpansion.common.registries.GESounds;
 import com.blackgear.geologicexpansion.core.platform.common.resource.TimeValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,17 +23,17 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.levelgen.feature.DripstoneUtils;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -36,49 +42,71 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class GeyserBlock extends Block implements SimpleWaterloggedBlock {
+public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
-    public static final EnumProperty<State> STATE = EnumProperty.create("state", State.class);
-
+    public static final EnumProperty<Stage> STAGE = EnumProperty.create("stage", Stage.class);
     protected static final VoxelShape UPPER_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 14.0D, 14.0D);
-    private static final int ERUPT_DURATION_TICKS = TimeValue.seconds(6);
-    private static final int COOLING_OFF_DURATION_TICKS = TimeValue.minutes(1);
+
     public GeyserBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(
                 this.getStateDefinition()
                         .any()
                         .setValue(HALF, DoubleBlockHalf.LOWER)
-                        .setValue(STATE, State.ASLEEP)
+                        .setValue(STAGE, Stage.ASLEEP)
         );
     }
 
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (!level.isClientSide) {
-            switch (state.getValue(STATE)) {
+        if (!level.isClientSide && state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            Stage stage = state.getValue(STAGE);
+            switch (state.getValue(STAGE)) {
                 case ASLEEP -> {
-                    if (random.nextInt(6) == 0) {
-                        level.setBlockAndUpdate(pos, state.setValue(STATE, State.AWAKE));
-                    }
+                    level.scheduleTick(pos, this, stage.getDuration().sample(random));
+                    level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.AWAKE));
                 }
                 case AWAKE -> {
-                    if (random.nextInt(15) == 0) {
-                        level.setBlockAndUpdate(pos, state.setValue(STATE, State.ERUPTING));
-                    }
+                    level.scheduleTick(pos, this, stage.getDuration().sample(random));
+                    level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.ERUPTING));
                 }
                 case ERUPTING -> {
                     level.playSound(null, pos, GESounds.GEYSER_ERUPT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    level.scheduleTick(pos, this, ERUPT_DURATION_TICKS);
-                    level.setBlockAndUpdate(pos, state.setValue(STATE, State.COOLING_OFF));
+                    level.scheduleTick(pos, this, stage.getDuration().sample(random));
+                    level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.COOLING_OFF));
                 }
                 case COOLING_OFF -> {
-                    level.scheduleTick(pos, this, COOLING_OFF_DURATION_TICKS);
-                    level.setBlockAndUpdate(pos, state.setValue(STATE, State.ASLEEP));
+                    level.scheduleTick(pos, this, stage.getDuration().sample(random));
+                    level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.ASLEEP));
                 }
             }
         }
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (this.shouldEmitSparkParticles(state) && this.shouldEmitSmokeParticles(level, pos, state) && random.nextInt(5) == 0) {
+            for (int i = 0; i < random.nextInt(1) + 1; i++) {
+                level.addParticle(
+                        ParticleTypes.LAVA,
+                        (double)pos.getX() + 0.5,
+                        (double)pos.getY() + 1,
+                        (double)pos.getZ() + 0.5,
+                        random.nextFloat() / 2.0F,
+                        5.0E-5F,
+                        random.nextFloat() / 2.0F
+                );
+            }
+        }
+    }
+
+    private boolean shouldEmitSmokeParticles(Level level, BlockPos pos, BlockState state) {
+        return state.getValue(HALF) == DoubleBlockHalf.UPPER && DripstoneUtils.isEmptyOrWaterOrLava(level.getBlockState(pos.above())) && !level.isWaterAt(pos.above());
+    }
+
+    private boolean shouldEmitSparkParticles(BlockState state) {
+        return state.getValue(HALF) == DoubleBlockHalf.UPPER && (state.getValue(STAGE) == Stage.AWAKE || state.getValue(STAGE) == Stage.ERUPTING);
     }
 
     @Override
@@ -165,7 +193,7 @@ public class GeyserBlock extends Block implements SimpleWaterloggedBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HALF, WATERLOGGED, STATE);
+        builder.add(HALF, WATERLOGGED, STAGE);
     }
 
     @Override
@@ -173,16 +201,48 @@ public class GeyserBlock extends Block implements SimpleWaterloggedBlock {
         return Mth.getSeed(pos.getX(), pos.below(state.getValue(HALF) == DoubleBlockHalf.LOWER ? 0 : 1).getY(), pos.getZ());
     }
 
-    public enum State implements StringRepresentable {
-        ASLEEP("asleep"),
-        AWAKE("awake"),
-        ERUPTING("erupting"),
-        COOLING_OFF("cooling_off");
+    // ========== BLOCK ENTITY =========================================================================================
+
+
+    @Nullable @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new GeyserBlockEntity(pos, state);
+    }
+
+    @Nullable @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            return createTickerHelper(type, GEBlockEntities.GEYSER.get(), level.isClientSide ? GeyserBlockEntity::clientTicker : GeyserBlockEntity::serverTicker);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
+
+    public enum Stage implements StringRepresentable {
+        ASLEEP("asleep", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(1))),
+//        ASLEEP("asleep", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(5))),
+        AWAKE("awake", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(1))),
+//        AWAKE("awake", UniformInt.of(TimeValue.minutes(5), TimeValue.minutes(15))),
+        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6))),
+//        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6))),
+        COOLING_OFF("cooling_off", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(1)));
+//        COOLING_OFF("cooling_off", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(3)));
 
         private final String name;
+        private final IntProvider duration;
 
-        State(String name) {
+        Stage(String name, IntProvider duration) {
             this.name = name;
+            this.duration = duration;
+        }
+
+        public IntProvider getDuration() {
+            return this.duration;
         }
 
         @Override

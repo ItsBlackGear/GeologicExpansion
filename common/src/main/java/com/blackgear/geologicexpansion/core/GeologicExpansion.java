@@ -1,11 +1,9 @@
 package com.blackgear.geologicexpansion.core;
 
 import com.blackgear.geologicexpansion.client.ClientSetup;
+import com.blackgear.geologicexpansion.client.registries.GEParticleTypes;
 import com.blackgear.geologicexpansion.common.CommonSetup;
-import com.blackgear.geologicexpansion.common.registries.GEBlocks;
-import com.blackgear.geologicexpansion.common.registries.GEEntities;
-import com.blackgear.geologicexpansion.common.registries.GEItems;
-import com.blackgear.geologicexpansion.common.registries.GESounds;
+import com.blackgear.geologicexpansion.common.registries.*;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEBiomes;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEFeatures;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GENoises;
@@ -41,6 +39,8 @@ public class GeologicExpansion {
         GEBlocks.BLOCKS.register();
         GEItems.ITEMS.register();
         GESounds.SOUNDS.register();
+        GEBlockEntities.BLOCK_ENTITIES.register();
+        GEParticleTypes.PARTICLES.register();
 
         // ========== ENTITY REGISTRY ==================================================================================
         GEEntities.ENTITIES.register();

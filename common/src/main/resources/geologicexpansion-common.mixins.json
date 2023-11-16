@@ -8,6 +8,7 @@
     "BlockEntityTypeMixin",
     "access.HierarchicalModelAccessor",
     "access.NoiseGeneratorSettingsAccessor",
+    "access.SimpleParticleTypeAccessor",
     "common.LiquidBlockMixin",
     "common.MinecraftServerMixin"
   ],

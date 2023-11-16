@@ -7,6 +7,7 @@ accessible method net/minecraft/world/level/block/FireBlock setFlammable (Lnet/m
 accessible method net/minecraft/core/Registry registerSimple (Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/Registry$RegistryBootstrap;)Lnet/minecraft/core/Registry;
 
 accessible class net/minecraft/core/Registry$RegistryBootstrap
+accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
 
 mutable field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
 accessible field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;
