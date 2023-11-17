@@ -23,7 +23,12 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -38,6 +43,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.ticks.TickPriority;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -61,23 +67,22 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!level.isClientSide && state.getValue(HALF) == DoubleBlockHalf.UPPER) {
-            Stage stage = state.getValue(STAGE);
             switch (state.getValue(STAGE)) {
                 case ASLEEP -> {
-                    level.scheduleTick(pos, this, stage.getDuration().sample(random));
+                    level.scheduleTick(pos, this, Stage.AWAKE.duration.sample(random), TickPriority.HIGH);
                     level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.AWAKE));
                 }
                 case AWAKE -> {
-                    level.scheduleTick(pos, this, stage.getDuration().sample(random));
+                    level.scheduleTick(pos, this, Stage.ERUPTING.duration.sample(random), TickPriority.HIGH);
                     level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.ERUPTING));
+                    level.playSound(null, pos, GESounds.GEYSER_ERUPT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
                 case ERUPTING -> {
-                    level.playSound(null, pos, GESounds.GEYSER_ERUPT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                    level.scheduleTick(pos, this, stage.getDuration().sample(random));
+                    level.scheduleTick(pos, this, Stage.COOLING_OFF.duration.sample(random), TickPriority.HIGH);
                     level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.COOLING_OFF));
                 }
                 case COOLING_OFF -> {
-                    level.scheduleTick(pos, this, stage.getDuration().sample(random));
+                    level.scheduleTick(pos, this, Stage.ASLEEP.duration.sample(random), TickPriority.HIGH);
                     level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.ASLEEP));
                 }
             }
@@ -91,7 +96,7 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
                 level.addParticle(
                         ParticleTypes.LAVA,
                         (double)pos.getX() + 0.5,
-                        (double)pos.getY() + 1,
+                        (double)pos.getY() + 2,
                         (double)pos.getZ() + 0.5,
                         random.nextFloat() / 2.0F,
                         5.0E-5F,
@@ -228,7 +233,7 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 //        ASLEEP("asleep", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(5))),
         AWAKE("awake", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(1))),
 //        AWAKE("awake", UniformInt.of(TimeValue.minutes(5), TimeValue.minutes(15))),
-        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6))),
+        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(5))),
 //        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6))),
         COOLING_OFF("cooling_off", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(1)));
 //        COOLING_OFF("cooling_off", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(3)));

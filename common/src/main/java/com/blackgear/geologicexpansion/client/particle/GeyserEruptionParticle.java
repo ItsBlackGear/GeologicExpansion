@@ -38,7 +38,7 @@ public class GeyserEruptionParticle extends TextureSheetParticle {
         super.tick();
         if (!this.removed) {
             float f = (float) this.age / (float) this.lifetime;
-            if (this.random.nextFloat() > f) {
+            if (this.random.nextFloat() > f && this.random.nextInt(3) == 0) {
                 this.level.addParticle(ParticleTypes.SNOWFLAKE, this.x, this.y, this.z, this.xd, this.yd, this.zd);
                 this.level.addParticle(ParticleTypes.SPIT, true, this.x, this.y, this.z, this.xd, this.yd, this.zd);
             }
