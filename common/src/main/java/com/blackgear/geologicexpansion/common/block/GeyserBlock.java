@@ -2,19 +2,15 @@ package com.blackgear.geologicexpansion.common.block;
 
 import com.blackgear.geologicexpansion.common.block.entity.GeyserBlockEntity;
 import com.blackgear.geologicexpansion.common.registries.GEBlockEntities;
-import com.blackgear.geologicexpansion.common.registries.GESounds;
 import com.blackgear.geologicexpansion.core.platform.common.resource.TimeValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProvider;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -38,12 +34,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.feature.DripstoneUtils;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.ticks.TickPriority;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -52,6 +48,7 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final EnumProperty<Stage> STAGE = EnumProperty.create("stage", Stage.class);
+
     protected static final VoxelShape UPPER_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 14.0D, 14.0D);
 
     public GeyserBlock(Properties properties) {
@@ -64,28 +61,11 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
         );
     }
 
-    @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (!level.isClientSide && state.getValue(HALF) == DoubleBlockHalf.UPPER) {
-            switch (state.getValue(STAGE)) {
-                case ASLEEP -> {
-                    level.scheduleTick(pos, this, Stage.AWAKE.duration.sample(random), TickPriority.HIGH);
-                    level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.AWAKE));
-                }
-                case AWAKE -> {
-                    level.scheduleTick(pos, this, Stage.ERUPTING.duration.sample(random), TickPriority.HIGH);
-                    level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.ERUPTING));
-                    level.playSound(null, pos, GESounds.GEYSER_ERUPT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                }
-                case ERUPTING -> {
-                    level.scheduleTick(pos, this, Stage.COOLING_OFF.duration.sample(random), TickPriority.HIGH);
-                    level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.COOLING_OFF));
-                }
-                case COOLING_OFF -> {
-                    level.scheduleTick(pos, this, Stage.ASLEEP.duration.sample(random), TickPriority.HIGH);
-                    level.setBlockAndUpdate(pos, state.setValue(STAGE, Stage.ASLEEP));
-                }
-            }
+    public void setStage(BlockState state, Level level, BlockPos pos, Stage stage) {
+        Stage current = state.getValue(STAGE);
+        level.setBlock(pos, state.setValue(STAGE, stage), 2);
+        if (stage.causesVibration() && stage != current) {
+            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         }
     }
 
@@ -122,7 +102,9 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
         DoubleBlockHalf half = state.getValue(HALF);
         if (direction.getAxis() != Direction.Axis.Y || half == DoubleBlockHalf.LOWER != (direction == Direction.UP) || neighborState.is(this) && neighborState.getValue(HALF) != half) {
-            return half == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canSurvive(level, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
+            return half == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canSurvive(level, currentPos)
+                    ? Blocks.AIR.defaultBlockState()
+                    : super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
         } else {
             return Blocks.AIR.defaultBlockState();
         }
@@ -229,30 +211,32 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
     }
 
     public enum Stage implements StringRepresentable {
-        ASLEEP("asleep", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(1))),
-//        ASLEEP("asleep", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(5))),
-        AWAKE("awake", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(1))),
-//        AWAKE("awake", UniformInt.of(TimeValue.minutes(5), TimeValue.minutes(15))),
-        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(5))),
-//        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6))),
-        COOLING_OFF("cooling_off", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(1)));
-//        COOLING_OFF("cooling_off", UniformInt.of(TimeValue.minutes(1), TimeValue.minutes(3)));
+        ASLEEP("asleep", TimeValue.minutes(1, 5), false),
+        AWAKE("awake", TimeValue.minutes(5, 15), true),
+        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6)), true),
+        COOLING_OFF("cooling_off", TimeValue.minutes(1, 3), false);
 
         private final String name;
         private final IntProvider duration;
+        private final boolean causesVibration;
 
-        Stage(String name, IntProvider duration) {
+        Stage(String name, IntProvider duration, boolean causesVibration) {
             this.name = name;
             this.duration = duration;
-        }
-
-        public IntProvider getDuration() {
-            return this.duration;
+            this.causesVibration = causesVibration;
         }
 
         @Override
         public String getSerializedName() {
             return this.name;
+        }
+
+        public boolean causesVibration() {
+            return this.causesVibration;
+        }
+
+        public IntProvider duration() {
+            return this.duration;
         }
     }
 }

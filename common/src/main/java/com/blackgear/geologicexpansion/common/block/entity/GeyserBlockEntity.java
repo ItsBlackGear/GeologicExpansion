@@ -3,8 +3,13 @@ package com.blackgear.geologicexpansion.common.block.entity;
 import com.blackgear.geologicexpansion.client.registries.GEParticleTypes;
 import com.blackgear.geologicexpansion.common.block.GeyserBlock;
 import com.blackgear.geologicexpansion.common.registries.GEBlockEntities;
+import com.blackgear.geologicexpansion.common.registries.GESounds;
+import com.blackgear.geologicexpansion.core.platform.common.resource.TimeValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
@@ -18,13 +23,28 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GeyserBlockEntity extends BlockEntity {
+    private int cooldown = TimeValue.minutes(3, 5).sample(RandomSource.create());
+
     public GeyserBlockEntity(BlockPos pos, BlockState state) {
         super(GEBlockEntities.GEYSER.get(), pos, state);
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        this.cooldown = tag.getInt("cooldown");
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("cooldown", this.cooldown);
     }
 
     @SuppressWarnings("unused")
@@ -65,7 +85,7 @@ public class GeyserBlockEntity extends BlockEntity {
                 level.addParticle(
                         ParticleTypes.LAVA,
                         (double)pos.getX() + 0.5,
-                        (double)pos.getY() + 0.5,
+                        (double)pos.getY() + 1,
                         (double)pos.getZ() + 0.5,
                         random.nextFloat() / 2.0F,
                         5.0E-5,
@@ -86,6 +106,8 @@ public class GeyserBlockEntity extends BlockEntity {
 
     @SuppressWarnings("unused")
     public static void serverTicker(Level level, BlockPos pos, BlockState state, GeyserBlockEntity geyser) {
+        geyser.tick(level, pos, state);
+
         if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.ERUPTING) {
             double velocity = 0.25;
 
@@ -126,7 +148,35 @@ public class GeyserBlockEntity extends BlockEntity {
         }
     }
 
-    private int getGeyserPower(BlockState state) {
-        return 0;
+    private void tick(Level level, BlockPos pos, BlockState state) {
+        if (this.cooldown-- <= 0) {
+            if (state.getValue(GeyserBlock.HALF) == DoubleBlockHalf.UPPER) {
+                GeyserBlock.Stage stage = state.getValue(GeyserBlock.STAGE);
+                if (stage == GeyserBlock.Stage.ASLEEP) {
+                    this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.AWAKE, null);
+                } else if (stage == GeyserBlock.Stage.AWAKE) {
+                    this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ERUPTING, GESounds.GEYSER_ERUPT.get());
+                } else if (stage == GeyserBlock.Stage.ERUPTING) {
+                    this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.COOLING_OFF, null);
+                } else if (stage == GeyserBlock.Stage.COOLING_OFF) {
+                    this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ASLEEP, null);
+                }
+            }
+        }
+    }
+
+    private void setStageAndSchedule(BlockState state, Level level, BlockPos pos, GeyserBlock.Stage stage, @Nullable SoundEvent sound) {
+        if (state.getBlock() instanceof GeyserBlock geyser) {
+            geyser.setStage(state, level, pos, stage);
+            if (sound != null) {
+                level.playSound(null, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
+
+            int delay = stage.duration().sample(level.random);
+//            int delay = DELAY_UNTIL_NEXT_STAGE_STATE.getInt(stage);
+            if (delay != -1) {
+                this.cooldown = delay;
+            }
+        }
     }
 }

@@ -24,22 +24,82 @@ public class GEBlocks {
     public static final CoreRegistry<Block> BLOCKS = CoreRegistry.create(Registry.BLOCK, GeologicExpansion.MOD_ID);
 
     // ========== OVERGROWTH ===========================================================================================
-
-    public static final Supplier<Block> OVERGROWTH = create("overgrowth", () -> new OvergrowthBlock(Properties.of(Material.REPLACEABLE_PLANT).instabreak().noOcclusion().sound(SoundType.MOSS_CARPET)), GeologicExpansion.CREATIVE_TAB);
+    public static final Supplier<Block> OVERGROWTH = create(
+            "overgrowth",
+            () -> new OvergrowthBlock(
+                    Properties.of(Material.REPLACEABLE_PLANT)
+                            .instabreak()
+                            .noOcclusion()
+                            .sound(SoundType.MOSS_CARPET)
+            ), GeologicExpansion.CREATIVE_TAB
+    );
 
     // ========== LIMESTONE ============================================================================================
-    public static final Supplier<Block> LIMESTONE = create("limestone", () -> new Block(Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> LIMESTONE_SLAB = create("limestone_slab", () -> new SlabBlock(Properties.copy(LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> LIMESTONE_STAIRS = create("limestone_stairs", () -> new StairBlock(LIMESTONE.get().defaultBlockState(), Properties.copy(LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> LIMESTONE_WALL = create("limestone_wall", () -> new WallBlock(Properties.copy(LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> POLISHED_LIMESTONE = create("polished_limestone", () -> new Block(Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> POLISHED_LIMESTONE_SLAB = create("polished_limestone_slab", () -> new SlabBlock(Properties.copy(POLISHED_LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> POLISHED_LIMESTONE_STAIRS = create("polished_limestone_stairs", () -> new StairBlock(POLISHED_LIMESTONE.get().defaultBlockState(), Properties.copy(POLISHED_LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> POLISHED_LIMESTONE_WALL = create("polished_limestone_wall", () -> new WallBlock(Properties.copy(POLISHED_LIMESTONE.get())), GeologicExpansion.CREATIVE_TAB);
+    public static final Supplier<Block> LIMESTONE = create(
+            "limestone",
+            () -> new Block(
+                    Properties.of(Material.STONE, MaterialColor.SAND)
+                            .requiresCorrectToolForDrops()
+                            .strength(1.5F, 6.0F)
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> LIMESTONE_SLAB = create(
+            "limestone_slab",
+            () -> new SlabBlock(
+                    Properties.copy(LIMESTONE.get())
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> LIMESTONE_STAIRS = create(
+            "limestone_stairs",
+            () -> new StairBlock(
+                    LIMESTONE.get().defaultBlockState(),
+                    Properties.copy(LIMESTONE.get())
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> LIMESTONE_WALL = create(
+            "limestone_wall",
+            () -> new WallBlock(
+                    Properties.copy(LIMESTONE.get())
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> POLISHED_LIMESTONE = create(
+            "polished_limestone",
+            () -> new Block(
+                    Properties.of(Material.STONE, MaterialColor.SAND)
+                            .requiresCorrectToolForDrops()
+                            .strength(1.5F, 6.0F)
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> POLISHED_LIMESTONE_SLAB = create(
+            "polished_limestone_slab",
+            () -> new SlabBlock(
+                    Properties.copy(POLISHED_LIMESTONE.get())
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> POLISHED_LIMESTONE_STAIRS = create(
+            "polished_limestone_stairs",
+            () -> new StairBlock(
+                    POLISHED_LIMESTONE.get().defaultBlockState(),
+                    Properties.copy(POLISHED_LIMESTONE.get())
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> POLISHED_LIMESTONE_WALL = create(
+            "polished_limestone_wall",
+            () -> new WallBlock(
+                    Properties.copy(POLISHED_LIMESTONE.get())
+            ), GeologicExpansion.CREATIVE_TAB
+    );
 
     // ========== GEYSER ===============================================================================================
-
-    public static final Supplier<Block> GEYSER = create("geyser", () -> new GeyserBlock(Properties.of(Material.STONE).randomTicks().requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
+    public static final Supplier<Block> GEYSER = create(
+            "geyser",
+            () -> new GeyserBlock(
+                    Properties.of(Material.STONE)
+                            .requiresCorrectToolForDrops()
+                            .sound(SoundType.TUFF)
+                            .strength(1.5F, 6.0F)
+            ), GeologicExpansion.CREATIVE_TAB
+    );
 
     // ========== PRISMATIC STONE ======================================================================================
     public static final Supplier<Block> PRISMATIC_STONE = create("prismatic_stone", () -> new Block(Properties.of(Material.STONE).requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
