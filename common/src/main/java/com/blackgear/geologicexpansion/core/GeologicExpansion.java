@@ -7,6 +7,7 @@ import com.blackgear.geologicexpansion.common.registries.*;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEBiomes;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEFeatures;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GENoises;
+import com.blackgear.geologicexpansion.core.data.GEBiomeTags;
 import com.blackgear.geologicexpansion.core.data.GEBlockTags;
 import com.blackgear.geologicexpansion.core.platform.Environment;
 import com.blackgear.geologicexpansion.core.platform.ModInstance;
@@ -52,5 +53,6 @@ public class GeologicExpansion {
 
         // ========== TAG REGISTRY =====================================================================================
         GEBlockTags.TAGS.register();
+        GEBiomeTags.TAGS.register();
     }
 }

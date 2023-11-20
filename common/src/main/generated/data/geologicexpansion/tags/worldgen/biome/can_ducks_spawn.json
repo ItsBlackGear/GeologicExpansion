@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:swamp",
+    "minecraft:mangrove_swamp",
+    "minecraft:meadow",
+    "minecraft:river",
+    "minecraft:taiga",
+    "minecraft:old_growth_pine_taiga",
+    "minecraft:old_growth_spruce_taiga",
+    "geologicexpansion:prismatic_caldera"
+  ]
+}
