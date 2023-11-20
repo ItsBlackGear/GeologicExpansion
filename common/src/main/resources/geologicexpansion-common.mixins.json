@@ -6,6 +6,7 @@
   ],
   "mixins": [
     "BlockEntityTypeMixin",
+    "access.BuilderAccessor",
     "access.HierarchicalModelAccessor",
     "access.NoiseGeneratorSettingsAccessor",
     "access.OverworldBiomesAccessor",

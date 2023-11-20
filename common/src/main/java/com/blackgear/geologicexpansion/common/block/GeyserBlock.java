@@ -48,6 +48,7 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final EnumProperty<Stage> STAGE = EnumProperty.create("stage", Stage.class);
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     protected static final VoxelShape UPPER_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 14.0D, 14.0D);
 
@@ -58,6 +59,7 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
                         .any()
                         .setValue(HALF, DoubleBlockHalf.LOWER)
                         .setValue(STAGE, Stage.ASLEEP)
+                        .setValue(POWERED, false)
         );
     }
 
@@ -180,7 +182,7 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HALF, WATERLOGGED, STAGE);
+        builder.add(HALF, WATERLOGGED, STAGE, POWERED);
     }
 
     @Override

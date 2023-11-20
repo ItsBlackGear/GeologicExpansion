@@ -16,12 +16,10 @@ public class ClientSetup {
         // ========== ENTITY RENDERER REGISTRY =========================================================================
         RenderRegistry.entity(GEEntities.DUCK, DuckRenderer::new, GEModelLayers.DUCK, DuckModel::createBodyLayer);
 
-        RenderRegistry.block(RenderType.cutout(), GEBlocks.OVERGROWTH.get());
-
         ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);
     }
 
     public static void postInstance() {
-
+        RenderRegistry.block(RenderType.cutout(), GEBlocks.OVERGROWTH.get());
     }
 }

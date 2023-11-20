@@ -173,7 +173,6 @@ public class GeyserBlockEntity extends BlockEntity {
             }
 
             int delay = stage.duration().sample(level.random);
-//            int delay = DELAY_UNTIL_NEXT_STAGE_STATE.getInt(stage);
             if (delay != -1) {
                 this.cooldown = delay;
             }

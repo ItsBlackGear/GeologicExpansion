@@ -37,10 +37,10 @@ public class GeologicExpansion {
         INSTANCE.bootstrap();
 
         // ========== MISCELLANEOUS REGISTRY ===========================================================================
+        GEBlockEntities.BLOCK_ENTITIES.register();
         GEBlocks.BLOCKS.register();
         GEItems.ITEMS.register();
         GESounds.SOUNDS.register();
-        GEBlockEntities.BLOCK_ENTITIES.register();
         GEParticleTypes.PARTICLES.register();
 
         // ========== ENTITY REGISTRY ==================================================================================
