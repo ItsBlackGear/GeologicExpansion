@@ -214,9 +214,13 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
     public enum Stage implements StringRepresentable {
         ASLEEP("asleep", TimeValue.minutes(1, 5), false),
-        AWAKE("awake", TimeValue.minutes(5, 15), true),
+//        ASLEEP("asleep", TimeValue.minutes(1, 5), false),
+        AWAKE("awake", TimeValue.minutes(1, 10), true),
+//        AWAKE("awake", TimeValue.minutes(5, 15), true),
         ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6)), true),
+//        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6)), true),
         COOLING_OFF("cooling_off", TimeValue.minutes(1, 3), false);
+//        COOLING_OFF("cooling_off", TimeValue.minutes(1, 3), false);
 
         private final String name;
         private final IntProvider duration;

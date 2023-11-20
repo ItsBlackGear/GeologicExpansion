@@ -49,18 +49,6 @@ public class CalderaFeatures {
                     UniformInt.of(1, 2),
                     0.3F
             )
-//        new VegetationPatchConfiguration(
-//                    BlockTags.MOSS_REPLACEABLE,
-//                    BlockStateProvider.simple(GEBlocks.GRAY_PRISMATIC_STONE.get()),
-//                    PlacementUtils.inlinePlaced(GEFeatures.GEYSER_PATCH.get(), FeatureConfiguration.NONE),
-//                    CaveSurface.FLOOR,
-//                    UniformInt.of(2, 3),
-//                    0.8F,
-//                    5,
-//                    0.75F,
-//                    UniformInt.of(1, 2),
-//                    0.75F
-//            )
     );
 
     // ========== PRISMATIC BORDER COLORS ==============================================================================

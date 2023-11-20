@@ -32,7 +32,7 @@ public class WorldGeneration {
             }
 
             if (context.is(GEBiomeTags.CAN_DUCKS_SPAWN)) {
-                writer.spawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(GEEntities.DUCK.get(), 60, 4, 6));
+                writer.spawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(GEEntities.DUCK.get(), 60, 2, 4));
             }
         });
     }

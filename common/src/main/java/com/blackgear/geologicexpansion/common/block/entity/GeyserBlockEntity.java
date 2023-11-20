@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeyserBlockEntity extends BlockEntity {
-    private int cooldown = TimeValue.minutes(3, 5).sample(RandomSource.create());
+    private int cooldown = TimeValue.minutes(1, 3).sample(RandomSource.create());
 
     public GeyserBlockEntity(BlockPos pos, BlockState state) {
         super(GEBlockEntities.GEYSER.get(), pos, state);

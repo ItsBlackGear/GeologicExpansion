@@ -27,7 +27,10 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
                 Blocks.PODZOL,
                 Blocks.MOSSY_COBBLESTONE
         );
-
+        this.tag(BlockTags.BASE_STONE_OVERWORLD).add(
+                GEBlocks.PRISMATIC_STONE.get(),
+                GEBlocks.LIMESTONE.get()
+        );
         this.tag(BlockTags.REPLACEABLE_PLANTS).add(
                 GEBlocks.OVERGROWTH.get()
         );
