@@ -10,11 +10,13 @@ import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.core.platform.client.ParticleRegistry;
 import com.blackgear.geologicexpansion.core.platform.client.RenderRegistry;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 
 public class ClientSetup {
     public static void onInstance() {
         // ========== ENTITY RENDERER REGISTRY =========================================================================
         RenderRegistry.entity(GEEntities.DUCK, DuckRenderer::new, GEModelLayers.DUCK, DuckModel::createBodyLayer);
+        RenderRegistry.renderer(GEEntities.DUCK_EGG, ThrownItemRenderer::new);
 
         ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);
     }

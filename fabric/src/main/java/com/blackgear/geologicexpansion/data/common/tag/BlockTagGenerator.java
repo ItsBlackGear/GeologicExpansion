@@ -31,6 +31,10 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
                 GEBlocks.PRISMATIC_STONE.get(),
                 GEBlocks.LIMESTONE.get()
         );
+        this.tag(BlockTags.STONE_ORE_REPLACEABLES).add(
+                GEBlocks.PRISMATIC_STONE.get(),
+                GEBlocks.LIMESTONE.get()
+        );
         this.tag(BlockTags.REPLACEABLE_PLANTS).add(
                 GEBlocks.OVERGROWTH.get()
         );

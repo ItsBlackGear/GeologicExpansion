@@ -1,8 +1,9 @@
-// 1.19.2	2023-11-20T17:27:10.2197855	Tags for minecraft:block
+// 1.19.2	2023-11-20T18:05:32.1460444	Tags for minecraft:block
 33bc1ebfb102c1df997dfd4149867afe285cfc79 data\geologicexpansion\tags\blocks\overgrowth_growable_blocks.json
-26024dd5328be2e55a839b1bc7164da234b5838b data\minecraft\tags\blocks\walls.json
-b7b5fa3332dbe2e50ce46a03db52dec88478f299 data\minecraft\tags\blocks\slabs.json
+51168792922c7aacf7b11a453942275e29f22839 data\minecraft\tags\blocks\walls.json
+93a202c9ec55572c12326dd50d44019489e0acec data\minecraft\tags\blocks\slabs.json
 16d72e60db3ce5773d0e1d39786cb034a71af81a data\minecraft\tags\blocks\base_stone_overworld.json
+16d72e60db3ce5773d0e1d39786cb034a71af81a data\minecraft\tags\blocks\stone_ore_replaceables.json
 877b93cc2f2eb99f69e852e7a658f968079f5b45 data\minecraft\tags\blocks\replaceable_plants.json
-707ec02cf5d994f6c99be8ab998e4527bd3b557b data\minecraft\tags\blocks\stairs.json
-b926aaea95077f965e489e813e57ee5c38f87ca6 data\minecraft\tags\blocks\mineable\pickaxe.json
+36b7342eac8b64fd1b0bbc6b69a910b8b5887ae8 data\minecraft\tags\blocks\stairs.json
+caf6d8407bc5ec7d9e45f7e947b216075dd5dd05 data\minecraft\tags\blocks\mineable\pickaxe.json

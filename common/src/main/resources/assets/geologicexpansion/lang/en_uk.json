@@ -169,11 +169,13 @@
   "block.geologicexpansion.black_polished_prismatic_stone_wall": "Black Polished Prismatic Stone Wall",
 
   "item.geologicexpansion.duck_spawn_egg": "Duck Spawn Egg",
+  "item.geologicexpansion.duck_egg": "Duck Egg",
 
   "entity.geologicexpansion.duck": "Duck",
+
   "subtitles.block.geyser.erupt": "Geyser Erupts",
   "subtitles.entity.duck.ambient": "Duck Quacks",
   "subtitles.entity.duck.step": "Duck Steps",
   "subtitles.entity.duck.hurt": "Duck Hurts",
-  "subtitles.entity.duck.death": "Duck Dies"
+  "subtitles.entity.duck.death": "Duck Dies",
 }

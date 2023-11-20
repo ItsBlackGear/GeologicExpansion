@@ -1,5 +1,6 @@
 package com.blackgear.geologicexpansion.data.common.tag;
 
+import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.data.resources.GEBlockFamilies;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -15,6 +16,9 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
     @Override
     protected void generateTags() {
         GEBlockFamilies.getAllFamilies().forEach(this::populateTags);
+
+        this.tag(ItemTags.STONE_TOOL_MATERIALS).add(GEBlocks.PRISMATIC_STONE.get().asItem());
+        this.tag(ItemTags.STONE_CRAFTING_MATERIALS).add(GEBlocks.PRISMATIC_STONE.get().asItem());
     }
 
     private void populateTags(BlockFamily family) {

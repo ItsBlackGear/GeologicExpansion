@@ -9,8 +9,11 @@ import com.blackgear.geologicexpansion.common.worldgen.placements.SurfaceFeature
 import com.blackgear.geologicexpansion.common.worldgen.placements.SurfacePlacements;
 import com.blackgear.geologicexpansion.common.worldgen.placements.UndergroundFeatures;
 import com.blackgear.geologicexpansion.common.worldgen.placements.UndergroundPlacements;
+import com.blackgear.geologicexpansion.core.mixin.access.SpawnPlacementsAccessor;
 import com.blackgear.geologicexpansion.core.platform.common.BiomeManager;
 import com.blackgear.geologicexpansion.core.platform.common.EntityRegistry;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 public class CommonSetup {
     public static void onInstance() {
@@ -30,5 +33,8 @@ public class CommonSetup {
         // ========= WORLD GEN INITIALIZATION ==========================================================================
         BiomeManager.bootstrap();
         WorldGeneration.bootstrap();
+
+        // ========== ENTITY SPAWN REGISTRY ============================================================================
+        SpawnPlacementsAccessor.register(GEEntities.DUCK.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Duck::checkDuckSpawnRules);
     }
 }

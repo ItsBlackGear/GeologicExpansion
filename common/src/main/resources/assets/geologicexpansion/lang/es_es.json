@@ -169,6 +169,13 @@
   "block.geologicexpansion.black_polished_prismatic_stone_wall": "Muro de piedra prismática pulida negra",
 
   "item.geologicexpansion.duck_spawn_egg": "Generar Pato",
+  "item.geologicexpansion.duck_egg": "Huevo de Pato",
 
-  "entity.geologicexpansion.duck": "Pato"
+  "entity.geologicexpansion.duck": "Pato",
+
+  "subtitles.block.geyser.erupt": "Geiser Erupciona",
+  "subtitles.entity.duck.ambient": "Pato Grazna",
+  "subtitles.entity.duck.step": "Pato Pisa",
+  "subtitles.entity.duck.hurt": "Pato Gime",
+  "subtitles.entity.duck.death": "Pato Muere"
 }

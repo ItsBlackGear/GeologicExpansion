@@ -11,6 +11,7 @@
     "access.NoiseGeneratorSettingsAccessor",
     "access.OverworldBiomesAccessor",
     "access.SimpleParticleTypeAccessor",
+    "access.SpawnPlacementsAccessor",
     "common.LiquidBlockMixin",
     "common.MinecraftServerMixin",
     "common.OverworldBiomeBuilderMixin"

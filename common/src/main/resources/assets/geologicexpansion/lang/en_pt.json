@@ -169,11 +169,13 @@
   "block.geologicexpansion.black_polished_prismatic_stone_wall": "Black wall o' good lookin' sparklin' pebbles",
 
   "item.geologicexpansion.duck_spawn_egg": "Quackin' Bird Cackle Fruit",
+  "item.geologicexpansion.duck_egg": "Quackin' Bird Fruit",
 
   "entity.geologicexpansion.duck": "Quackin' Bird",
-  "subtitles.block.geyser.erupt": "Geyser Erupts",
-  "subtitles.entity.duck.ambient": "Duck Quacks",
-  "subtitles.entity.duck.step": "Duck Steps",
-  "subtitles.entity.duck.hurt": "Duck Hurts",
-  "subtitles.entity.duck.death": "Duck Dies"
+
+  "subtitles.block.geyser.erupt": "Land Cannon Erupts",
+  "subtitles.entity.duck.ambient": "Quackin' Bird Quacks",
+  "subtitles.entity.duck.step": "Quackin' Bird Steps",
+  "subtitles.entity.duck.hurt": "Quackin' Bird Hurts",
+  "subtitles.entity.duck.death": "Quackin' Bird Dies"
 }

@@ -5,11 +5,13 @@ import com.blackgear.geologicexpansion.common.entity.duck.behavior.DuckGoToOpenW
 import com.blackgear.geologicexpansion.common.entity.duck.behavior.DuckGoToWaterGoal;
 import com.blackgear.geologicexpansion.common.entity.resource.FluidWalker;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
+import com.blackgear.geologicexpansion.common.registries.GEItems;
 import com.blackgear.geologicexpansion.common.registries.GESounds;
 import com.blackgear.geologicexpansion.core.platform.common.resource.TimeValue;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,10 +19,13 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -30,7 +35,9 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
@@ -52,9 +59,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathFinder;
@@ -99,8 +108,11 @@ public class Duck extends Animal implements FluidWalker {
     private int eatAnimationTick;
     private DuckFishGoal duckFishGoal;
 
+    private int eggTime;
+
     public Duck(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
+        this.eggTime = this.random.nextInt(6000) + 6000;
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
         this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(level.random);
     }
@@ -213,6 +225,12 @@ public class Duck extends Animal implements FluidWalker {
         }
 
         this.flap += this.flapping * 2.0F;
+        if (!this.level.isClientSide && this.isOnGround() && !this.isInWaterOrBubble() && this.isAlive() && !this.isBaby() && --this.eggTime <= 0) {
+            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+            this.spawnAtLocation(GEItems.DUCK_EGG.get());
+            this.gameEvent(GameEvent.ENTITY_PLACE);
+            this.eggTime = this.random.nextInt(6000) + 6000;
+        }
     }
 
     private void postFishing() {
@@ -374,6 +392,20 @@ public class Duck extends Animal implements FluidWalker {
         return stack.is(Items.COD) || stack.is(Items.SALMON) || stack.is(Items.WHEAT_SEEDS);
     }
 
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("EggLayTime")) {
+            this.eggTime = tag.getInt("EggLayTime");
+        }
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("EggLayTime", this.eggTime);
+    }
+
     // ========== FLOAT BEHAVIOR =======================================================================================
 
     private void floatDuck() {
@@ -414,6 +446,22 @@ public class Duck extends Animal implements FluidWalker {
     @Override
     public VoxelShape getStableLiquidShape() {
         return Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0);
+    }
+
+    // ========== SPAWNS ===============================================================================================
+
+    public static boolean checkDuckSpawnRules(EntityType<Duck> duck, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        BlockState state = level.getBlockState(pos.below());
+        return (state.is(BlockTags.ANIMALS_SPAWNABLE_ON) || state.is(Blocks.WATER)) && isBrightEnoughToSpawn(level, pos);
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+        if (spawnData == null) {
+            spawnData = new AgeableMobGroupData(0.75F);
+        }
+
+        return super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
     }
 
     // ========== SOUNDS ===============================================================================================
