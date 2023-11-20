@@ -3,6 +3,9 @@
 
   "itemGroup.minecraft.geologicexpansion": "Geologic Expansion",
 
+  "block.geologicexpansion.overgrowth": "Overgrowth",
+  "block.geologicexpansion.geyser": "Geyser",
+
   "block.geologicexpansion.limestone": "Limestone",
   "block.geologicexpansion.limestone_slab": "Limestone Slab",
   "block.geologicexpansion.limestone_stairs": "Limestone Stairs",

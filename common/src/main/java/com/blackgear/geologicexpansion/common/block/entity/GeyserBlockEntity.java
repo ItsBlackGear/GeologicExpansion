@@ -106,60 +106,75 @@ public class GeyserBlockEntity extends BlockEntity {
 
     @SuppressWarnings("unused")
     public static void serverTicker(Level level, BlockPos pos, BlockState state, GeyserBlockEntity geyser) {
-        geyser.tick(level, pos, state);
+        if (state.getBlock() instanceof GeyserBlock block) {
+            geyser.tick(level, pos, state, block);
 
-        if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.ERUPTING) {
-            double velocity = 0.25;
+            if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.ERUPTING) {
+                double velocity = 0.25;
 
-            // Checks for entities in a vertical range of 15 blocks
-            List<Entity> entities = new ArrayList<>();
-            for (int i = 1; i < 15; i++) {
-                BlockPos scanPos = pos.above(i);
+                // Checks for entities in a vertical range of 15 blocks
+                List<Entity> entities = new ArrayList<>();
+                for (int i = 1; i < 15; i++) {
+                    BlockPos scanPos = pos.above(i);
 
-                // stops if there's a solid block that prevents its movement upwards
-                if (level.getBlockState(scanPos).getMaterial().isSolidBlocking()) {
-                    break;
-                }
-
-                AABB boundingBox = new AABB(
-                        scanPos.getX(),
-                        scanPos.getY(),
-                        scanPos.getZ(),
-                        scanPos.getX() + 1.0,
-                        scanPos.getY() + 1.0,
-                        scanPos.getZ() + 1.0
-                );
-                entities.addAll(level.getEntitiesOfClass(LivingEntity.class, boundingBox));
-            }
-
-            for (Entity entity : entities) {
-                if (entity instanceof LivingEntity living) {
-                    int protLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_PROTECTION, living);
-                    float damage = 1.0F - (float)protLevel * 0.15F;
-
-                    if (!living.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                        living.hurt(DamageSource.HOT_FLOOR, damage);
+                    // stops if there's a solid block that prevents its movement upwards
+                    if (level.getBlockState(scanPos).getMaterial().isSolidBlocking()) {
+                        break;
                     }
+
+                    AABB boundingBox = new AABB(
+                            scanPos.getX(),
+                            scanPos.getY(),
+                            scanPos.getZ(),
+                            scanPos.getX() + 1.0,
+                            scanPos.getY() + 1.0,
+                            scanPos.getZ() + 1.0
+                    );
+                    entities.addAll(level.getEntitiesOfClass(LivingEntity.class, boundingBox));
                 }
 
-                entity.setDeltaMovement(entity.getDeltaMovement().add(0.0, velocity, 0.0));
-                entity.hurtMarked = true;
+                for (Entity entity : entities) {
+                    if (entity instanceof LivingEntity living) {
+                        int protLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_PROTECTION, living);
+                        float damage = 1.0F - (float)protLevel * 0.15F;
+
+                        if (!living.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+                            living.hurt(DamageSource.HOT_FLOOR, damage);
+                        }
+                    }
+
+                    entity.setDeltaMovement(entity.getDeltaMovement().add(0.0, velocity, 0.0));
+                    entity.hurtMarked = true;
+                }
             }
         }
     }
 
-    private void tick(Level level, BlockPos pos, BlockState state) {
-        if (this.cooldown-- <= 0) {
-            if (state.getValue(GeyserBlock.HALF) == DoubleBlockHalf.UPPER) {
-                GeyserBlock.Stage stage = state.getValue(GeyserBlock.STAGE);
-                if (stage == GeyserBlock.Stage.ASLEEP) {
-                    this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.AWAKE, null);
-                } else if (stage == GeyserBlock.Stage.AWAKE) {
-                    this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ERUPTING, GESounds.GEYSER_ERUPT.get());
-                } else if (stage == GeyserBlock.Stage.ERUPTING) {
-                    this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.COOLING_OFF, null);
-                } else if (stage == GeyserBlock.Stage.COOLING_OFF) {
-                    this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ASLEEP, null);
+    private void tick(Level level, BlockPos pos, BlockState state, GeyserBlock geyser) {
+        if (state.getValue(GeyserBlock.HALF) == DoubleBlockHalf.UPPER) {
+            // check if the block below has signal
+            // stop the cooldown
+            // start erupting
+            if (level.hasNeighborSignal(pos.below())) {
+                if (this.cooldown != 0) {
+                    this.cooldown = 0;
+                }
+
+                if (state.getValue(GeyserBlock.STAGE) != GeyserBlock.Stage.ERUPTING) {
+                    geyser.setStage(state, level, pos, GeyserBlock.Stage.ERUPTING);
+                }
+            } else {
+                if (this.cooldown-- <= 0) {
+                    GeyserBlock.Stage stage = state.getValue(GeyserBlock.STAGE);
+                    if (stage == GeyserBlock.Stage.ASLEEP) {
+                        this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.AWAKE, null);
+                    } else if (stage == GeyserBlock.Stage.AWAKE) {
+                        this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ERUPTING, GESounds.GEYSER_ERUPT.get());
+                    } else if (stage == GeyserBlock.Stage.ERUPTING) {
+                        this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.COOLING_OFF, null);
+                    } else if (stage == GeyserBlock.Stage.COOLING_OFF) {
+                        this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ASLEEP, null);
+                    }
                 }
             }
         }

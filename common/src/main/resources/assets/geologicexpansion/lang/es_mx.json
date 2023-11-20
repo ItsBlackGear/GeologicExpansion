@@ -3,6 +3,9 @@
 
   "itemGroup.minecraft.geologicexpansion": "Geologic Expansion",
 
+  "block.geologicexpansion.overgrowth": "Sobrecrecimiento",
+  "block.geologicexpansion.geyser": "Geiser",
+
   "block.geologicexpansion.limestone": "Piedra caliza",
   "block.geologicexpansion.limestone_slab": "Losa de piedra caliza",
   "block.geologicexpansion.limestone_stairs": "Escaleras de piedra caliza",

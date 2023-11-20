@@ -19,12 +19,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -48,7 +43,6 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final EnumProperty<Stage> STAGE = EnumProperty.create("stage", Stage.class);
-    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     protected static final VoxelShape UPPER_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 14.0D, 14.0D);
 
@@ -59,7 +53,6 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
                         .any()
                         .setValue(HALF, DoubleBlockHalf.LOWER)
                         .setValue(STAGE, Stage.ASLEEP)
-                        .setValue(POWERED, false)
         );
     }
 
@@ -182,7 +175,7 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HALF, WATERLOGGED, STAGE, POWERED);
+        builder.add(HALF, WATERLOGGED, STAGE);
     }
 
     @Override
@@ -214,13 +207,9 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
     public enum Stage implements StringRepresentable {
         ASLEEP("asleep", TimeValue.minutes(1, 5), false),
-//        ASLEEP("asleep", TimeValue.minutes(1, 5), false),
         AWAKE("awake", TimeValue.minutes(1, 10), true),
-//        AWAKE("awake", TimeValue.minutes(5, 15), true),
         ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6)), true),
-//        ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6)), true),
         COOLING_OFF("cooling_off", TimeValue.minutes(1, 3), false);
-//        COOLING_OFF("cooling_off", TimeValue.minutes(1, 3), false);
 
         private final String name;
         private final IntProvider duration;
