@@ -1,4 +1,4 @@
-package com.blackgear.geologicexpansion.data.common;
+package com.blackgear.geologicexpansion.data.common.loot;
 
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.data.resources.GEBlockFamilies;
