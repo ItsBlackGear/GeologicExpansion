@@ -38,6 +38,9 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
         this.tag(BlockTags.REPLACEABLE_PLANTS).add(
                 GEBlocks.OVERGROWTH.get()
         );
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
+                GEBlocks.GEYSER.get()
+        );
     }
 
     private void populateTags(BlockFamily family) {

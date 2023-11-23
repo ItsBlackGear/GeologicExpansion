@@ -17,6 +17,7 @@ public class BlockLootTableGenerator extends FabricBlockLootTableProvider {
         GEBlockFamilies.getStoneFamilies().forEach(this::familyDropsSelf);
 
         this.add(GEBlocks.OVERGROWTH.get(), BlockLoot::createShearsOnlyDrop);
+        this.add(GEBlocks.GEYSER.get(), BlockLoot::createDoorTable);
     }
 
     private void familyDropsSelf(BlockFamily family) {

@@ -118,7 +118,7 @@ public class Duck extends Animal implements FluidWalker {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0).add(Attributes.MOVEMENT_SPEED, 0.25).add(Attributes.LUCK, 1.0D);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0).add(Attributes.MOVEMENT_SPEED, 0.25).add(Attributes.LUCK, 2.0D);
     }
 
     // ========= DATA CONTROL ==========================================================================================
@@ -379,6 +379,7 @@ public class Duck extends Animal implements FluidWalker {
         ItemStack duckHeld = this.getItemBySlot(EquipmentSlot.MAINHAND);
         if (this.isFood(playerHeld) && !duckHeld.isEmpty()) {
             // play sound duck trade
+            this.setItemSlot(EquipmentSlot.MAINHAND, playerHeld);
             ItemStack tradeResult = ItemUtils.createFilledResult(playerHeld, player, duckHeld);
             player.setItemInHand(hand, tradeResult);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
@@ -389,7 +390,7 @@ public class Duck extends Animal implements FluidWalker {
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return stack.is(Items.COD) || stack.is(Items.SALMON) || stack.is(Items.WHEAT_SEEDS);
+        return stack.is(Items.WHEAT_SEEDS);
     }
 
     @Override

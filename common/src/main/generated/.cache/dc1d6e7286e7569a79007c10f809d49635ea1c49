@@ -1,5 +1,6 @@
-// 1.19.2	2023-11-20T18:05:32.1260513	Block Loot Tables
+// 1.19.2	2023-11-20T19:01:01.4374814	Block Loot Tables
 98331378a9e08d3644f2cc68df798ee4d794516a data\geologicexpansion\loot_tables\blocks\red_polished_prismatic_stone_stairs.json
+60c3674aefd19705b8d26389ad828d0196d36e60 data\geologicexpansion\loot_tables\blocks\geyser.json
 c04772357a7ec386839a6b5cc650cf8b0ebf6927 data\geologicexpansion\loot_tables\blocks\white_polished_prismatic_stone_wall.json
 7ca366965763ab5f1b46c4c5b31adbe25a9a30ec data\geologicexpansion\loot_tables\blocks\blue_prismatic_stone_slab.json
 e3d0f563fc1defe69ddd9ad0eaa3e6a1a77393c3 data\geologicexpansion\loot_tables\blocks\red_polished_prismatic_stone_slab.json

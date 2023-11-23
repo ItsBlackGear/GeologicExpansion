@@ -53,18 +53,16 @@ public class GeyserBlockEntity extends BlockEntity {
 
         if (random.nextFloat() < 0.11F && !state.getValue(BlockStateProperties.WATERLOGGED) && state.getValue(GeyserBlock.HALF) == DoubleBlockHalf.UPPER) {
             if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.AWAKE) {
-                for (int i = 0; i < random.nextInt(2) + 2; i++) {
-                    level.addAlwaysVisibleParticle(
-                            ParticleTypes.CAMPFIRE_COSY_SMOKE,
-                            true,
-                            pos.getX() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
-                            pos.getY() + 0.5 + random.nextDouble() + random.nextDouble(),
-                            pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
-                            0.0,
-                            0.07,
-                            0.0
-                    );
-                }
+                level.addAlwaysVisibleParticle(
+                        ParticleTypes.CAMPFIRE_COSY_SMOKE,
+                        true,
+                        pos.getX() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
+                        pos.getY() + 0.5 + random.nextDouble() + random.nextDouble(),
+                        pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
+                        0.0,
+                        0.07,
+                        0.0
+                );
             } else if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.COOLING_OFF) {
                 for (int i = 0; i < random.nextInt(2) + 2; i++) {
                     level.addParticle(
@@ -97,7 +95,7 @@ public class GeyserBlockEntity extends BlockEntity {
                         (double)pos.getY() + 1,
                         (double)pos.getZ() + 0.5,
                         random.nextFloat() / 2.0F,
-                        5.0E-5,
+                        0.0,
                         random.nextFloat() / 2.0F
                 );
             }
@@ -108,53 +106,54 @@ public class GeyserBlockEntity extends BlockEntity {
     public static void serverTicker(Level level, BlockPos pos, BlockState state, GeyserBlockEntity geyser) {
         if (state.getBlock() instanceof GeyserBlock block) {
             geyser.tick(level, pos, state, block);
+            causeEruption(level, pos, state, level.getBestNeighborSignal(pos.below()));
+        }
+    }
 
-            if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.ERUPTING) {
-                double velocity = 0.25;
+    private static void causeEruption(Level level, BlockPos pos, BlockState state, int signalPower) {
+        if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.ERUPTING) {
+            int signal = level.hasNeighborSignal(pos.below()) ? signalPower : 15;
+            double velocity = 0.25;
 
-                // Checks for entities in a vertical range of 15 blocks
-                List<Entity> entities = new ArrayList<>();
-                for (int i = 1; i < 15; i++) {
-                    BlockPos scanPos = pos.above(i);
+            // Checks for entities in a vertical range of 15 blocks
+            List<Entity> entities = new ArrayList<>();
+            for (int i = 1; i <= signal; i++) {
+                BlockPos scanPos = pos.above(i);
 
-                    // stops if there's a solid block that prevents its movement upwards
-                    if (level.getBlockState(scanPos).getMaterial().isSolidBlocking()) {
-                        break;
-                    }
-
-                    AABB boundingBox = new AABB(
-                            scanPos.getX(),
-                            scanPos.getY(),
-                            scanPos.getZ(),
-                            scanPos.getX() + 1.0,
-                            scanPos.getY() + 1.0,
-                            scanPos.getZ() + 1.0
-                    );
-                    entities.addAll(level.getEntitiesOfClass(LivingEntity.class, boundingBox));
+                // stops if there's a solid block that prevents its movement upwards
+                if (level.getBlockState(scanPos).getMaterial().isSolidBlocking()) {
+                    break;
                 }
 
-                for (Entity entity : entities) {
-                    if (entity instanceof LivingEntity living) {
-                        int protLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_PROTECTION, living);
-                        float damage = 1.0F - (float)protLevel * 0.15F;
+                AABB boundingBox = new AABB(
+                        scanPos.getX(),
+                        scanPos.getY(),
+                        scanPos.getZ(),
+                        scanPos.getX() + 1.0,
+                        scanPos.getY() + 1.0,
+                        scanPos.getZ() + 1.0
+                );
+                entities.addAll(level.getEntitiesOfClass(LivingEntity.class, boundingBox));
+            }
 
-                        if (!living.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                            living.hurt(DamageSource.HOT_FLOOR, damage);
-                        }
+            for (Entity entity : entities) {
+                if (entity instanceof LivingEntity living) {
+                    int protLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_PROTECTION, living);
+                    float damage = 1.0F - (float)protLevel * 0.15F;
+
+                    if (!living.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+                        living.hurt(DamageSource.HOT_FLOOR, damage);
                     }
-
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(0.0, velocity, 0.0));
-                    entity.hurtMarked = true;
                 }
+
+                entity.setDeltaMovement(entity.getDeltaMovement().add(0.0, velocity, 0.0));
+                entity.hurtMarked = true;
             }
         }
     }
 
     private void tick(Level level, BlockPos pos, BlockState state, GeyserBlock geyser) {
         if (state.getValue(GeyserBlock.HALF) == DoubleBlockHalf.UPPER) {
-            // check if the block below has signal
-            // stop the cooldown
-            // start erupting
             if (level.hasNeighborSignal(pos.below())) {
                 if (this.cooldown != 0) {
                     this.cooldown = 0;
@@ -162,6 +161,8 @@ public class GeyserBlockEntity extends BlockEntity {
 
                 if (state.getValue(GeyserBlock.STAGE) != GeyserBlock.Stage.ERUPTING) {
                     geyser.setStage(state, level, pos, GeyserBlock.Stage.ERUPTING);
+
+                    level.playSound(null, pos, GESounds.GEYSER_ERUPT.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
             } else {
                 if (this.cooldown-- <= 0) {
