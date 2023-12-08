@@ -8,6 +8,7 @@
     "BlockEntityTypeMixin",
     "access.BuilderAccessor",
     "access.HierarchicalModelAccessor",
+    "access.NoiseBasedChunkGeneratorAccessor",
     "access.NoiseGeneratorSettingsAccessor",
     "access.OverworldBiomesAccessor",
     "access.SimpleParticleTypeAccessor",

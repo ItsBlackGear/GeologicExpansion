@@ -54,6 +54,19 @@ public class PrismaticCalderaSurface extends SurfaceBuilder {
         SurfaceRules.RuleSource ruleSource3 = SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, makeRuleState(Blocks.STONE)), makeRuleState(Blocks.GRAVEL));
 
         return SurfaceRules.sequence(
+                SurfaceRules.ifTrue(
+                        SurfaceRules.ON_FLOOR,
+                        SurfaceRules.ifTrue(
+                                SurfaceRules.yBlockCheck(VerticalAnchor.absolute(62), 0),
+                                SurfaceRules.ifTrue(
+                                        SurfaceRules.not(SurfaceRules.yBlockCheck(VerticalAnchor.absolute(63), 0)),
+                                        SurfaceRules.ifTrue(
+                                                SurfaceRules.noiseCondition(Noises.SWAMP, 0.0),
+                                                makeRuleState(Blocks.WATER)
+                                        )
+                                )
+                        )
+                ),
                 PRISMATIC_PATCHES,
                 CALDERA_VEGETATION,
                 SurfaceRules.ifTrue(
@@ -84,7 +97,13 @@ public class PrismaticCalderaSurface extends SurfaceBuilder {
                                 )
                         )
                 ),
-                SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, SurfaceRules.ifTrue(conditionSource10, makeRuleState(GEBlocks.PRISMATIC_STONE.get())))
+                SurfaceRules.ifTrue(
+                        SurfaceRules.UNDER_FLOOR,
+                        SurfaceRules.ifTrue(
+                                conditionSource10,
+                                makeRuleState(GEBlocks.PRISMATIC_STONE.get())
+                        )
+                )
         );
     }
 

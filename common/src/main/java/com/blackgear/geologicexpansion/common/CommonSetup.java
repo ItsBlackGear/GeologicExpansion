@@ -2,6 +2,7 @@ package com.blackgear.geologicexpansion.common;
 
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
+import com.blackgear.geologicexpansion.common.worldgen.TerrablenderCompat;
 import com.blackgear.geologicexpansion.common.worldgen.WorldGeneration;
 import com.blackgear.geologicexpansion.common.worldgen.placements.CalderaFeatures;
 import com.blackgear.geologicexpansion.common.worldgen.placements.CalderaPlacements;
@@ -33,6 +34,7 @@ public class CommonSetup {
         // ========= WORLD GEN INITIALIZATION ==========================================================================
         BiomeManager.bootstrap();
         WorldGeneration.bootstrap();
+        TerrablenderCompat.registerSurfaceRules();
 
         // ========== ENTITY SPAWN REGISTRY ============================================================================
         SpawnPlacementsAccessor.register(GEEntities.DUCK.get(),
