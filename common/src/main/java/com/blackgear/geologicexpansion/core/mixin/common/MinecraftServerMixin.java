@@ -4,6 +4,7 @@ import com.blackgear.geologicexpansion.common.worldgen.surface.GESurfaceRules;
 import com.blackgear.geologicexpansion.core.util.LevelUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.progress.ChunkProgressListener;
+import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.storage.WorldData;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,6 +19,8 @@ public abstract class MinecraftServerMixin {
 
     @Inject(method = "createLevels", at = @At("RETURN"))
     private void addSurfaceRules(ChunkProgressListener listener, CallbackInfo ci) {
-        LevelUtils.appendSurfaceRules(this.getWorldData(), LevelStem.OVERWORLD, GESurfaceRules.makeRules());
+        if (!(this.getWorldData().worldGenSettings().dimensions().getHolderOrThrow(LevelStem.OVERWORLD).value().generator().getBiomeSource() instanceof MultiNoiseBiomeSource)) {
+            LevelUtils.appendSurfaceRules(this.getWorldData(), LevelStem.OVERWORLD, GESurfaceRules.makeRules());
+        }
     }
 }

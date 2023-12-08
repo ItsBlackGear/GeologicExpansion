@@ -1,5 +1,6 @@
 package com.blackgear.geologicexpansion.core.util;
 
+import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.mixin.access.NoiseGeneratorSettingsAccessor;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -19,9 +20,13 @@ public class LevelUtils {
         }
 
         ChunkGenerator generator = stem.generator();
-        if (generator instanceof NoiseBasedChunkGenerator noise) {
-            NoiseGeneratorSettings settings = noise.generatorSettings().value();
-            ((NoiseGeneratorSettingsAccessor)(Object)settings).setSurfaceRule(SurfaceRules.sequence(surfaceRules, settings.surfaceRule()));
+
+        boolean isGexBiome = generator.getBiomeSource().possibleBiomes().stream().anyMatch(holder -> holder.unwrapKey().orElseThrow().location().getNamespace().equals(GeologicExpansion.MOD_ID));
+        if (isGexBiome) {
+            if (generator instanceof NoiseBasedChunkGenerator noise) {
+                NoiseGeneratorSettings settings = noise.generatorSettings().value();
+                ((NoiseGeneratorSettingsAccessor)(Object)settings).setSurfaceRule(SurfaceRules.sequence(surfaceRules, settings.surfaceRule()));
+            }
         }
     }
 }

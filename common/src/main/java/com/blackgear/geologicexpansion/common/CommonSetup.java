@@ -35,6 +35,10 @@ public class CommonSetup {
         WorldGeneration.bootstrap();
 
         // ========== ENTITY SPAWN REGISTRY ============================================================================
-        SpawnPlacementsAccessor.register(GEEntities.DUCK.get(), SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Duck::checkDuckSpawnRules);
+        SpawnPlacementsAccessor.register(GEEntities.DUCK.get(),
+                SpawnPlacements.Type.NO_RESTRICTIONS,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Duck::checkDuckSpawnRules
+        );
     }
 }

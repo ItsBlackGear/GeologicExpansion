@@ -167,14 +167,11 @@ public class GeyserBlockEntity extends BlockEntity {
             } else {
                 if (this.cooldown-- <= 0) {
                     GeyserBlock.Stage stage = state.getValue(GeyserBlock.STAGE);
-                    if (stage == GeyserBlock.Stage.ASLEEP) {
-                        this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.AWAKE, null);
-                    } else if (stage == GeyserBlock.Stage.AWAKE) {
-                        this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ERUPTING, GESounds.GEYSER_ERUPT.get());
-                    } else if (stage == GeyserBlock.Stage.ERUPTING) {
-                        this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.COOLING_OFF, null);
-                    } else if (stage == GeyserBlock.Stage.COOLING_OFF) {
-                        this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ASLEEP, null);
+                    switch (stage) {
+                        case ASLEEP -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.AWAKE, null);
+                        case AWAKE -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ERUPTING, GESounds.GEYSER_ERUPT.get());
+                        case ERUPTING -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.COOLING_OFF, null);
+                        case COOLING_OFF -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ASLEEP, null);
                     }
                 }
             }

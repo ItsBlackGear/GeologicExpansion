@@ -92,8 +92,6 @@ public class ScatteredVegetationPatchFeature extends Feature<VegetationPatchConf
     protected void distributeVegetation(FeaturePlaceContext<VegetationPatchConfiguration> context, WorldGenLevel level, VegetationPatchConfiguration config, RandomSource random, Set<BlockPos> possiblePositions) {
         for(BlockPos pos : possiblePositions) {
             if (config.vegetationChance > 0.0F && random.nextFloat() < config.vegetationChance) {
-//            if (config.vegetationChance > 0.0F && random.nextFloat() < config.vegetationChance && level.getBlockState(pos).is(GEBlocks.PRISMATIC_STONE.get())) {
-//            if (config.vegetationChance > 0.0F && random.nextFloat() < config.vegetationChance && level.getBlockState(pos).is(context.config().replaceable)) {
                 this.placeVegetation(level, config, context.chunkGenerator(), random, pos);
             }
         }

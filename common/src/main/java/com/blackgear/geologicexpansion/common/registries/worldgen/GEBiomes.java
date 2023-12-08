@@ -44,8 +44,9 @@ public class GEBiomes {
         BiomeDefaultFeatures.addTaigaTrees(biomeGenerationSettings);
         BiomeDefaultFeatures.addDefaultFlowers(biomeGenerationSettings);
         BiomeDefaultFeatures.addGiantTaigaVegetation(biomeGenerationSettings);
-        BiomeDefaultFeatures.addTaigaGrass(biomeGenerationSettings);
+        BiomeDefaultFeatures.addDefaultMushrooms(biomeGenerationSettings);
         BiomeDefaultFeatures.addDefaultExtraVegetation(biomeGenerationSettings);
+        BiomeDefaultFeatures.addCommonBerryBushes(biomeGenerationSettings);
         return OverworldBiomesAccessor.callBiome(Biome.Precipitation.RAIN, 0.24775F, 0.8F, mobSpawnSettings, biomeGenerationSettings, Musics.createGameMusic(SoundEvents.MUSIC_BIOME_OLD_GROWTH_TAIGA));
     }
 }

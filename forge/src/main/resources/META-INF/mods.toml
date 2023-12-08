@@ -1,17 +1,18 @@
 modLoader = "javafml"
 loaderVersion = "[43,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "All Rights Reserved"
 
 [[mods]]
 modId = "geologicexpansion"
 version = "${version}"
 displayName = "Geologic Expansion"
-authors = "Me!"
+authors = "ItsBlackGear"
+credits = "ItsBlackGear, Dringles"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Geologic Expansion is a mod that adds new features to expand on the overworld and the geological aspects of the game.
 '''
-#logoFile = ""
+logoFile = "icon.png"
 
 [[dependencies.geologicexpansion]]
 modId = "forge"
