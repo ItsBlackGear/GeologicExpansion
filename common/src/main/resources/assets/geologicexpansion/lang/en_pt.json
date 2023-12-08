@@ -177,5 +177,21 @@
   "subtitles.entity.duck.ambient": "Quackin' Bird Quacks",
   "subtitles.entity.duck.step": "Quackin' Bird Steps",
   "subtitles.entity.duck.hurt": "Quackin' Bird Hurts",
-  "subtitles.entity.duck.death": "Quackin' Bird Dies"
+  "subtitles.entity.duck.death": "Quackin' Bird Dies",
+
+  "text.autoconfig.geologicexpansion.title": "Geologic Expansion",
+
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures": "Findable Treasures",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeGeysers": "Findable land cannons",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeGeysers.@Tooltip": "Tell yer mates if ye want to find land cannons",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeLimestone": "Findable bony pebbles",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeLimestone.@Tooltip": "Tell yer mates if ye want to find bony pebbles",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeOvergrowth": "Findable good ol' moss",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeOvergrowth.@Tooltip": "Tell yer mates if ye want to find good ol' moss",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeDucks": "Findable quackin' birds",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeDucks.@Tooltip": "Tell yer mates if ye want to find quackin' birds",
+
+  "text.autoconfig.geologicexpansion.option.entityBehavior": "Critter Behavior",
+  "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish": "Quackin' birds can fish",
+  "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish.@Tooltip": "Determine if quackin' birds best be able t' fish"
 }

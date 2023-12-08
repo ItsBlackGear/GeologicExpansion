@@ -1,6 +1,7 @@
 package com.blackgear.geologicexpansion.common.entity.duck.behavior;
 
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
+import com.blackgear.geologicexpansion.core.config.ConfigEntries;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -23,6 +24,10 @@ public class DuckFishGoal extends Goal {
 
     @Override
     public boolean canUse() {
+        if (!ConfigEntries.canDucksFish()) {
+            return false;
+        }
+
         if (this.duck.getRandom().nextInt(1000) != 0) {
             return false;
         } else {

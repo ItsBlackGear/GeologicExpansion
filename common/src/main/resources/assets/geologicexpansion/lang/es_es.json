@@ -177,5 +177,21 @@
   "subtitles.entity.duck.ambient": "Pato Grazna",
   "subtitles.entity.duck.step": "Pato Pisa",
   "subtitles.entity.duck.hurt": "Pato Gime",
-  "subtitles.entity.duck.death": "Pato Muere"
+  "subtitles.entity.duck.death": "Pato Muere",
+
+  "text.autoconfig.geologicexpansion.title": "Geologic Expansion",
+
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures": "Características alternables",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeGeysers": "Incluir Geisers",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeGeysers.@Tooltip": "Determina si los Geisers deberían generarse",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeLimestone": "Incluir Piedra Caliza",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeLimestone.@Tooltip": "Determina si la Piedra Caliza debería generarse",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeOvergrowth": "Incluir Sobrecrecimiento",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeOvergrowth.@Tooltip": "Determina si el Sobrecrecimiento debería generarse",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeDucks": "Incluir Patos",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeDucks.@Tooltip": "Determina si los Patos deberían generarse",
+
+  "text.autoconfig.geologicexpansion.option.entityBehavior": "Comportamiento de Entidades",
+  "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish": "Los Patos pueden pescar",
+  "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish.@Tooltip": "Determina si los Patos deberian poder pescar"
 }

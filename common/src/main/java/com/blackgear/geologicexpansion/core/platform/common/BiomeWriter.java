@@ -21,7 +21,19 @@ public abstract class BiomeWriter {
 
     public abstract void feature(GenerationStep.Decoration decoration, Holder<PlacedFeature> feature);
 
+    public void feature(GenerationStep.Decoration decoration, Holder<PlacedFeature> feature, boolean featureFlag) {
+        if (featureFlag) this.feature(decoration, feature);
+    }
+
     public abstract void spawn(MobCategory category, MobSpawnSettings.SpawnerData data);
 
+    public void spawn(MobCategory category, MobSpawnSettings.SpawnerData data, boolean featureFlag) {
+        if (featureFlag) this.spawn(category, data);
+    }
+
     public abstract void carver(GenerationStep.Carving carving, Holder<? extends ConfiguredWorldCarver<?>> carver);
+
+    public void carver(GenerationStep.Carving carving, Holder<? extends ConfiguredWorldCarver<?>> carver, boolean featureFlag) {
+        if (featureFlag) this.carver(carving, carver);
+    }
 }

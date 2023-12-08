@@ -177,5 +177,21 @@
   "subtitles.entity.duck.ambient": "Duck Quacks",
   "subtitles.entity.duck.step": "Duck Steps",
   "subtitles.entity.duck.hurt": "Duck Hurts",
-  "subtitles.entity.duck.death": "Duck Dies"
+  "subtitles.entity.duck.death": "Duck Dies",
+
+  "text.autoconfig.geologicexpansion.title": "Geologic Expansion",
+
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures": "Toggleable Features",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeGeysers": "Include Geysers",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeGeysers.@Tooltip": "Determine if Geysers should generate",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeLimestone": "Include Limestone",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeLimestone.@Tooltip": "Determine if Limestone should generate",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeOvergrowth": "Include Overgrowth",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeOvergrowth.@Tooltip": "Determine if Overgrowth should generate",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeDucks": "Include Ducks",
+  "text.autoconfig.geologicexpansion.option.toggleableFeatures.includeDucks.@Tooltip": "Determine if Ducks should generate",
+
+  "text.autoconfig.geologicexpansion.option.entityBehavior": "Entity Behavior",
+  "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish": "Can Ducks Fish",
+  "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish.@Tooltip": "Determine if Ducks sould be able to fish"
 }

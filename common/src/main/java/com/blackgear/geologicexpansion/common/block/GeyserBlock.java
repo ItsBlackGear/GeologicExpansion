@@ -185,7 +185,6 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
 
     // ========== BLOCK ENTITY =========================================================================================
 
-
     @Nullable @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new GeyserBlockEntity(pos, state);

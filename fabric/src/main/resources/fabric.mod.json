@@ -5,7 +5,11 @@
   "name": "Geologic Expansion",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Me!"
+    "ItsBlackGear"
+  ],
+  "contributors": [
+    "ItsBlackGear",
+    "Dringles"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -20,6 +24,9 @@
     ],
     "fabric-datagen": [
       "com.blackgear.geologicexpansion.data.DataGeneration"
+    ],
+    "modmenu": [
+      "com.blackgear.geologicexpansion.core.config.fabric.ModMenuImplementation"
     ]
   },
   "mixins": [

@@ -133,7 +133,7 @@ public class GeyserBlockEntity extends BlockEntity {
                         scanPos.getY() + 1.0,
                         scanPos.getZ() + 1.0
                 );
-                entities.addAll(level.getEntitiesOfClass(LivingEntity.class, boundingBox));
+                entities.addAll(level.getEntitiesOfClass(Entity.class, boundingBox));
             }
 
             for (Entity entity : entities) {
