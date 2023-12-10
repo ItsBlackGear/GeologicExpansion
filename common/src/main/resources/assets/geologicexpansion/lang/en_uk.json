@@ -193,5 +193,5 @@
 
   "text.autoconfig.geologicexpansion.option.entityBehavior": "Entity Behavior",
   "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish": "Can Ducks Fish",
-  "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish.@Tooltip": "Determine if Ducks sould be able to fish"
+  "text.autoconfig.geologicexpansion.option.entityBehavior.canDucksFish.@Tooltip": "Determine if Ducks should be able to fish"
 }

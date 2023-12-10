@@ -61,7 +61,7 @@ public class PrismaticCalderaSurface extends SurfaceBuilder {
                                 SurfaceRules.ifTrue(
                                         SurfaceRules.not(SurfaceRules.yBlockCheck(VerticalAnchor.absolute(63), 0)),
                                         SurfaceRules.ifTrue(
-                                                SurfaceRules.noiseCondition(Noises.SWAMP, 0.0),
+                                                SurfaceRules.noiseCondition(Noises.SWAMP, 0.2),
                                                 makeRuleState(Blocks.WATER)
                                         )
                                 )

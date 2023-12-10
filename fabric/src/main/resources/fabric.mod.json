@@ -8,7 +8,6 @@
     "ItsBlackGear"
   ],
   "contributors": [
-    "ItsBlackGear",
     "Dringles"
   ],
   "contact": {
@@ -16,7 +15,7 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
   "license": "Insert License Here",
-  "icon": "assets/geologicexpansion/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [

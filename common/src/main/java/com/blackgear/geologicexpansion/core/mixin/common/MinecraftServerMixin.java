@@ -1,10 +1,11 @@
 package com.blackgear.geologicexpansion.core.mixin.common;
 
 import com.blackgear.geologicexpansion.common.worldgen.surface.GESurfaceRules;
-import com.blackgear.geologicexpansion.core.mixin.access.NoiseBasedChunkGeneratorAccessor;
+import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.mixin.access.NoiseGeneratorSettingsAccessor;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.progress.ChunkProgressListener;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
@@ -15,9 +16,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin {
@@ -31,13 +29,13 @@ public abstract class MinecraftServerMixin {
 
         if (stem == null) throw new NullPointerException("LevelStem is null!");
 
-        if (stem.generator() instanceof NoiseBasedChunkGenerator) {
-            NoiseGeneratorSettings settings = ((NoiseBasedChunkGeneratorAccessor)stem.generator()).getSettings().value();
+        ChunkGenerator generator = stem.generator();
 
-            if (settings.surfaceRule() instanceof SurfaceRules.SequenceRuleSource sequence) {
-                List<SurfaceRules.RuleSource> rules = new ArrayList<>(sequence.sequence());
-                rules.add(0, GESurfaceRules.makeRules());
-                ((NoiseGeneratorSettingsAccessor)(Object)settings).setSurfaceRule(new SurfaceRules.SequenceRuleSource(rules));
+        boolean isGexBiome = generator.getBiomeSource().possibleBiomes().stream().anyMatch(holder -> holder.unwrapKey().orElseThrow().location().getNamespace().equals(GeologicExpansion.MOD_ID));
+        if (isGexBiome) {
+            if (generator instanceof NoiseBasedChunkGenerator noise) {
+                NoiseGeneratorSettings settings = noise.generatorSettings().value();
+                ((NoiseGeneratorSettingsAccessor)(Object)settings).setSurfaceRule(SurfaceRules.sequence(GESurfaceRules.makeRules(), settings.surfaceRule()));
             }
         }
     }
