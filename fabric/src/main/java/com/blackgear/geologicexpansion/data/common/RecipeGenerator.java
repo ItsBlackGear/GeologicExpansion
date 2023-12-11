@@ -2,25 +2,26 @@ package com.blackgear.geologicexpansion.data.common;
 
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.data.resources.GEBlockFamilies;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.function.Consumer;
 
 public class RecipeGenerator extends FabricRecipeProvider {
-    public RecipeGenerator(FabricDataGenerator dataGenerator) {
+    public RecipeGenerator(FabricDataOutput dataGenerator) {
         super(dataGenerator);
     }
 
     @Override
-    protected void generateRecipes(Consumer<FinishedRecipe> exporter) {
-        GEBlockFamilies.getAllFamilies().filter(BlockFamily::shouldGenerateRecipe).forEach(family -> generateRecipes(exporter, family));
-
+    public void buildRecipes(Consumer<FinishedRecipe> exporter) {
+        GEBlockFamilies.getAllFamilies().filter(family -> family.shouldGenerateRecipe(FeatureFlagSet.of())).forEach(family -> generateRecipes(exporter, family));
         GEBlockFamilies.getStoneFamilies().forEach(family -> generateStonecutterRecipes(exporter, family));
         generateDyedPrismaticStone(exporter, GEBlocks.WHITE_PRISMATIC_STONE.get(), Items.WHITE_DYE);
         generateDyedPrismaticStone(exporter, GEBlocks.ORANGE_PRISMATIC_STONE.get(), Items.ORANGE_DYE);
@@ -42,7 +43,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
     private void generateDyedPrismaticStone(Consumer<FinishedRecipe> exporter, ItemLike colored, ItemLike dye) {
         ShapedRecipeBuilder
-                .shaped(colored, 8)
+                .shaped(RecipeCategory.BUILDING_BLOCKS, colored, 8)
                 .define('#', GEBlocks.PRISMATIC_STONE.get())
                 .define('X', dye)
                 .pattern("###")
@@ -55,19 +56,19 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
     private void generateStonecutterRecipes(Consumer<FinishedRecipe> exporter, BlockFamily family) {
         if (family.getVariants().containsKey(BlockFamily.Variant.SLAB)) {
-            stonecutterResultFromBase(exporter, family.get(BlockFamily.Variant.SLAB), family.getBaseBlock(), 2);
+            stonecutterResultFromBase(exporter, RecipeCategory.BUILDING_BLOCKS, family.get(BlockFamily.Variant.SLAB), family.getBaseBlock(), 2);
         }
 
         if (family.getVariants().containsKey(BlockFamily.Variant.STAIRS)) {
-            stonecutterResultFromBase(exporter, family.get(BlockFamily.Variant.STAIRS), family.getBaseBlock());
+            stonecutterResultFromBase(exporter, RecipeCategory.BUILDING_BLOCKS, family.get(BlockFamily.Variant.STAIRS), family.getBaseBlock());
         }
 
         if (family.getVariants().containsKey(BlockFamily.Variant.WALL)) {
-            stonecutterResultFromBase(exporter, family.get(BlockFamily.Variant.WALL), family.getBaseBlock());
+            stonecutterResultFromBase(exporter, RecipeCategory.DECORATIONS, family.get(BlockFamily.Variant.WALL), family.getBaseBlock());
         }
 
         if (family.getVariants().containsKey(BlockFamily.Variant.POLISHED)) {
-            stonecutterResultFromBase(exporter, family.get(BlockFamily.Variant.POLISHED), family.getBaseBlock());
+            stonecutterResultFromBase(exporter, RecipeCategory.BUILDING_BLOCKS, family.get(BlockFamily.Variant.POLISHED), family.getBaseBlock());
         }
     }
 }

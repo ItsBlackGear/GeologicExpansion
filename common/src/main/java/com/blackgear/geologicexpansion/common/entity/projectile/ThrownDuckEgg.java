@@ -5,7 +5,6 @@ import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.common.registries.GEItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -32,7 +31,7 @@ public class ThrownDuckEgg extends ThrowableItemProjectile {
     public void handleEntityEvent(byte id) {
         if (id == 3) {
             for(int i = 0; i < 8; ++i) {
-                this.level.addParticle(
+                this.level().addParticle(
                         new ItemParticleOption(ParticleTypes.ITEM, this.getItem()),
                         this.getX(),
                         this.getY(),
@@ -48,13 +47,13 @@ public class ThrownDuckEgg extends ThrowableItemProjectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        result.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+        result.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), 0.0F);
     }
 
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             if (this.random.nextInt(8) == 0) {
                 int amount = 1;
                 if (this.random.nextInt(32) == 0) {
@@ -62,16 +61,16 @@ public class ThrownDuckEgg extends ThrowableItemProjectile {
                 }
 
                 for(int i = 0; i < amount; ++i) {
-                    Duck duck = GEEntities.DUCK.get().create(this.level);
+                    Duck duck = GEEntities.DUCK.get().create(this.level());
                     if (duck != null) {
                         duck.setAge(-24000);
                         duck.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
-                        this.level.addFreshEntity(duck);
+                        this.level().addFreshEntity(duck);
                     }
                 }
             }
 
-            this.level.broadcastEntityEvent(this, (byte)3);
+            this.level().broadcastEntityEvent(this, (byte)3);
             this.discard();
         }
 

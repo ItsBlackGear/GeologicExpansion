@@ -1,0 +1,6 @@
+// 1.20.1	2023-12-11T15:10:59.2768411	Geologic Expansion/Tags for minecraft:item
+a047a53ab1107916d7072f8dc636e3357257c0e7 data\minecraft\tags\items\walls.json
+14beed5701b224ca7527cf34baca225f3f76850e data\minecraft\tags\items\slabs.json
+9822a63679b0576c06228f2604eac71248451b99 data\minecraft\tags\items\stone_tool_materials.json
+9822a63679b0576c06228f2604eac71248451b99 data\minecraft\tags\items\stone_crafting_materials.json
+bd8539a888a0c52c960292654f0f1dac9fa82777 data\minecraft\tags\items\stairs.json

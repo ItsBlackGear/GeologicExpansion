@@ -3,6 +3,8 @@ package com.blackgear.geologicexpansion.core.mixin.common;
 import com.blackgear.geologicexpansion.common.worldgen.surface.GESurfaceRules;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.mixin.access.NoiseGeneratorSettingsAccessor;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.progress.ChunkProgressListener;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -21,11 +23,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MinecraftServerMixin {
     @Shadow public abstract WorldData getWorldData();
 
+    @Shadow public abstract RegistryAccess.Frozen registryAccess();
+
     @Inject(method = "createLevels", at = @At("TAIL"))
     private void addSurfaceRules(ChunkProgressListener listener, CallbackInfo ci) {
         if (this.getWorldData() == null) throw new NullPointerException("WorldData is null!");
 
-        LevelStem stem = this.getWorldData().worldGenSettings().dimensions().get(LevelStem.OVERWORLD);
+        LevelStem stem = this.registryAccess().registryOrThrow(Registries.LEVEL_STEM).get(LevelStem.OVERWORLD);
 
         if (stem == null) throw new NullPointerException("LevelStem is null!");
 

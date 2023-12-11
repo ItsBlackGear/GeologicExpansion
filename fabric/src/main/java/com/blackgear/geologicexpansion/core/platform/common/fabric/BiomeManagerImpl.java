@@ -1,14 +1,13 @@
 package com.blackgear.geologicexpansion.core.platform.common.fabric;
 
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
-import com.blackgear.geologicexpansion.core.platform.common.BiomeWriter;
 import com.blackgear.geologicexpansion.core.platform.common.BiomeContext;
 import com.blackgear.geologicexpansion.core.platform.common.BiomeManager;
+import com.blackgear.geologicexpansion.core.platform.common.BiomeWriter;
 import net.fabricmc.fabric.api.biome.v1.BiomeModificationContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -21,7 +20,14 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 
 public class BiomeManagerImpl {
     public static void bootstrap() {
-        BiomeModifications.create(new ResourceLocation(GeologicExpansion.MOD_ID, "biome_modifier")).add(ModificationPhase.ADDITIONS, context -> true, (selector, modifier) -> BiomeManager.INSTANCE.register(new FabricBiomeWriter(selector, modifier)));
+        BiomeModifications.create(new ResourceLocation(GeologicExpansion.MOD_ID, "biome_modifier"))
+                .add(
+                        ModificationPhase.ADDITIONS,
+                        context -> true,
+                        (selector, modifier) -> {
+                            BiomeManager.INSTANCE.register(new FabricBiomeWriter(selector, modifier));
+                        }
+                );
     }
 
     static class FabricBiomeWriter extends BiomeWriter {
@@ -54,8 +60,8 @@ public class BiomeManagerImpl {
         }
 
         @Override
-        public void feature(GenerationStep.Decoration decoration, Holder<PlacedFeature> feature) {
-            this.modifier.getGenerationSettings().addBuiltInFeature(decoration, feature.value());
+        public void feature(GenerationStep.Decoration decoration, ResourceKey<PlacedFeature> feature) {
+            this.modifier.getGenerationSettings().addFeature(decoration, feature);
         }
 
         @Override
@@ -64,8 +70,8 @@ public class BiomeManagerImpl {
         }
 
         @Override
-        public void carver(GenerationStep.Carving carving, Holder<? extends ConfiguredWorldCarver<?>> carver) {
-            this.modifier.getGenerationSettings().addBuiltInCarver(carving, carver.value());
+        public void carver(GenerationStep.Carving carving, ResourceKey<ConfiguredWorldCarver<?>> carver) {
+            this.modifier.getGenerationSettings().addCarver(carving, carver);
         }
     }
 }

@@ -25,10 +25,10 @@ public class ParticleRegistryImpl {
     }
 
     public static <T extends ParticleOptions, P extends ParticleType<T>> void create(Supplier<P> type, ParticleProvider<T> provider) {
-        FACTORIES.add(event -> event.register(type.get(), provider));
+        FACTORIES.add(event -> event.registerSpecial(type.get(), provider));
     }
 
     public static <T extends ParticleOptions, P extends ParticleType<T>> void create(Supplier<P> type, ParticleRegistry.Factory<T> factory) {
-        FACTORIES.add(event -> event.register(type.get(), factory::create));
+        FACTORIES.add(event -> event.registerSpriteSet(type.get(), factory::create));
     }
 }

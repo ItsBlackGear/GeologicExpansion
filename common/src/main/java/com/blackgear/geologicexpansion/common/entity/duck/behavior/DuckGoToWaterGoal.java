@@ -22,7 +22,7 @@ public class DuckGoToWaterGoal extends MoveToBlockGoal {
 
     @Override
     public boolean canContinueToUse() {
-        return (this.shouldUse() || this.duck.getFeetBlockState().is(Blocks.LILY_PAD)) && this.isValidTarget(this.duck.level, this.blockPos);
+        return (this.shouldUse() || this.duck.getFeetBlockState().is(Blocks.LILY_PAD)) && this.isValidTarget(this.duck.level(), this.blockPos);
     }
 
     @Override

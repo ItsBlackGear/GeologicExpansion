@@ -11,13 +11,20 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(OverworldBiomes.class)
 public interface OverworldBiomesAccessor {
-    @Invoker
-    static Biome callBiome(Biome.Precipitation precipitation, float temperature, float downfall, MobSpawnSettings.Builder mobSpawnSettings, BiomeGenerationSettings.Builder biomeGenerationSettings, @Nullable Music music) {
+    @Invoker("globalOverworldGeneration")
+    static void globalOverworldGeneration(BiomeGenerationSettings.Builder builder) {
         throw new UnsupportedOperationException();
     }
 
-    @Invoker("globalOverworldGeneration")
-    static void globalOverworldGeneration(BiomeGenerationSettings.Builder builder) {
+    @Invoker
+    static Biome callBiome(
+        boolean hasPercipitation,
+        float temperature,
+        float downfall,
+        MobSpawnSettings.Builder mobSpawnSettings,
+        BiomeGenerationSettings.Builder generationSettings,
+        @Nullable Music backgroundMusic
+    ) {
         throw new UnsupportedOperationException();
     }
 }

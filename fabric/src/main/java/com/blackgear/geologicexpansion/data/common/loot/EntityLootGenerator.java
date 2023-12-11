@@ -1,7 +1,7 @@
 package com.blackgear.geologicexpansion.data.common.loot;
 
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
 import net.minecraft.advancements.critereon.EntityFlagsPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
@@ -26,12 +26,12 @@ import java.util.function.Supplier;
 
 public class EntityLootGenerator extends SimpleFabricLootTableProvider {
     private static final EntityPredicate.Builder ENTITY_ON_FIRE = EntityPredicate.Builder.entity().flags(EntityFlagsPredicate.Builder.flags().setOnFire(true).build());
-    public EntityLootGenerator(FabricDataGenerator dataGenerator) {
+    public EntityLootGenerator(FabricDataOutput dataGenerator) {
         super(dataGenerator, LootContextParamSets.ENTITY);
     }
 
     @Override
-    public void accept(BiConsumer<ResourceLocation, LootTable.Builder> exporter) {
+    public void generate(BiConsumer<ResourceLocation, LootTable.Builder> exporter) {
         this.add(
                 GEEntities.DUCK,
                 exporter,

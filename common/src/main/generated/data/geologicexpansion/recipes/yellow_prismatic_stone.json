@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "prismatic_stone",
   "key": {
     "#": {
@@ -17,5 +18,6 @@
   "result": {
     "count": 8,
     "item": "geologicexpansion:yellow_prismatic_stone"
-  }
+  },
+  "show_notification": true
 }

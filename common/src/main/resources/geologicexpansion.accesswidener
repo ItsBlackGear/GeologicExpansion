@@ -4,9 +4,6 @@ accessible method net/minecraft/world/level/block/state/properties/WoodType regi
 accessible method net/minecraft/client/renderer/Sheets createSignMaterial (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/client/resources/model/Material;
 accessible method net/minecraft/world/level/block/FireBlock setFlammable (Lnet/minecraft/world/level/block/Block;II)V
 
-accessible method net/minecraft/core/Registry registerSimple (Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/Registry$RegistryBootstrap;)Lnet/minecraft/core/Registry;
-
-accessible class net/minecraft/core/Registry$RegistryBootstrap
 accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
 
 mutable field net/minecraft/world/item/AxeItem STRIPPABLES Ljava/util/Map;

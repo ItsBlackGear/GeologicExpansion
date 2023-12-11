@@ -69,7 +69,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -171,7 +171,7 @@ public class Duck extends Animal implements FluidWalker {
 
     @Override
     public void tick() {
-        if (this.level.isClientSide()) {
+        if (this.level().isClientSide()) {
             if (this.isInWaterOrBubble()) {
                 this.floatTransformationState.startIfStopped(this.tickCount);
             } else {
@@ -186,7 +186,7 @@ public class Duck extends Animal implements FluidWalker {
         this.checkInsideBlocks();
 
         // Resets the hunts per day each morning
-        float timeOfDay = this.level.getTimeOfDay(1.0F);
+        float timeOfDay = this.level().getTimeOfDay(1.0F);
         if ((double)timeOfDay < 0.79 && (double)timeOfDay > 0.76 && this.getHuntsRemaining() < 5) {
             this.setHuntsRemaining(5);
         }
@@ -200,32 +200,32 @@ public class Duck extends Animal implements FluidWalker {
 
     @Override
     public void aiStep() {
-        if (!this.level.isClientSide && this.isAlive() && this.isEffectiveAi()) {
+        if (!this.level().isClientSide && this.isAlive() && this.isEffectiveAi()) {
             this.postFishing();
         }
 
-        if (this.level.isClientSide) {
+        if (this.level().isClientSide) {
             this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
         }
 
         super.aiStep();
         this.oFlap = this.flap;
         this.oFlapSpeed = this.flapSpeed;
-        this.flapSpeed += (this.onGround ? -1.0F : 4.0F) * 0.3F;
+        this.flapSpeed += (this.onGround() ? -1.0F : 4.0F) * 0.3F;
         this.flapSpeed = Mth.clamp(this.flapSpeed, 0.0F, 1.0F);
 
-        if (!this.onGround && this.flapping < 1.0F) {
+        if (!this.onGround() && this.flapping < 1.0F) {
             this.flapping = 1.0F;
         }
 
         this.flapping *= 0.9F;
         Vec3 movement = this.getDeltaMovement();
-        if (!this.onGround && movement.y < 0.0) {
+        if (!this.onGround() && movement.y < 0.0) {
             this.setDeltaMovement(movement.multiply(1.0, 0.6, 1.0));
         }
 
         this.flap += this.flapping * 2.0F;
-        if (!this.level.isClientSide && this.isOnGround() && !this.isInWaterOrBubble() && this.isAlive() && !this.isBaby() && --this.eggTime <= 0) {
+        if (!this.level().isClientSide && this.onGround() && !this.isInWaterOrBubble() && this.isAlive() && !this.isBaby() && --this.eggTime <= 0) {
             this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
             this.spawnAtLocation(GEItems.DUCK_EGG.get());
             this.gameEvent(GameEvent.ENTITY_PLACE);
@@ -240,7 +240,7 @@ public class Duck extends Animal implements FluidWalker {
                 ++this.ticksSinceEaten;
                 if (this.ticksSinceEaten > TimeValue.seconds(30)) {
                     // Starts consuming the item, applying effects if possible
-                    ItemStack consumedStack = stack.finishUsingItem(this.level, this);
+                    ItemStack consumedStack = stack.finishUsingItem(this.level(), this);
                     if (!consumedStack.isEmpty()) {
                         this.setItemSlot(EquipmentSlot.MAINHAND, consumedStack);
                     }
@@ -251,7 +251,7 @@ public class Duck extends Animal implements FluidWalker {
                     postFishingProgress();
                 } else if (this.ticksSinceEaten > TimeValue.seconds(28) && this.random.nextFloat() < 0.1F) {
                     this.playSound(SoundEvents.FOX_EAT, 1.0F, 1.0F);
-                    this.level.broadcastEntityEvent(this, DUCK_FISHING_PARTICLES);
+                    this.level().broadcastEntityEvent(this, DUCK_FISHING_PARTICLES);
 
                     postFishingProgress();
                 }
@@ -259,8 +259,8 @@ public class Duck extends Animal implements FluidWalker {
                 // Discard Item
                 if (--this.discardCooldown == 0) {
                     this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-                    this.level.broadcastEntityEvent(this, DUCK_FISHING_ANIMATION);
-                    this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(this.level.random);
+                    this.level().broadcastEntityEvent(this, DUCK_FISHING_ANIMATION);
+                    this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(this.level().random);
 
                     // Decreases the hunts remaining per day
                     postFishingProgress();
@@ -277,7 +277,7 @@ public class Duck extends Animal implements FluidWalker {
     }
 
     private boolean canEat(ItemStack stack) {
-        return stack.getItem().isEdible() && this.onGround && !stack.is(Items.PUFFERFISH);
+        return stack.getItem().isEdible() && this.onGround() && !stack.is(Items.PUFFERFISH);
     }
 
     @Override
@@ -291,7 +291,7 @@ public class Duck extends Animal implements FluidWalker {
                     Vec3 vec3 = new Vec3(((double)this.random.nextFloat() - 0.5) * 0.1, Math.random() * 0.1 + 0.1, 0.0)
                             .xRot(-this.getXRot() * (float) (Math.PI / 180.0))
                             .yRot(-this.getYRot() * (float) (Math.PI / 180.0));
-                    this.level.addParticle(
+                    this.level().addParticle(
                             new ItemParticleOption(ParticleTypes.ITEM, stack),
                             this.getX() + this.getLookAngle().x / 2.0,
                             this.getY(),
@@ -382,7 +382,7 @@ public class Duck extends Animal implements FluidWalker {
             this.setItemSlot(EquipmentSlot.MAINHAND, playerHeld);
             ItemStack tradeResult = ItemUtils.createFilledResult(playerHeld, player, duckHeld);
             player.setItemInHand(hand, tradeResult);
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         } else {
             return super.mobInteract(player, hand);
         }
@@ -412,8 +412,8 @@ public class Duck extends Animal implements FluidWalker {
     private void floatDuck() {
         if (this.isInWater()) {
             CollisionContext context = CollisionContext.of(this);
-            if (context.isAbove(this.getStableLiquidShape(), this.blockPosition(), true) && !this.level.getFluidState(this.blockPosition().above()).is(FluidTags.WATER)) {
-                this.onGround = true;
+            if (context.isAbove(this.getStableLiquidShape(), this.blockPosition(), true) && !this.level().getFluidState(this.blockPosition().above()).is(FluidTags.WATER)) {
+                this.setOnGround(true);
             } else {
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.5D).add(0.0D, 0.05D, 0.0D));
             }
@@ -490,17 +490,17 @@ public class Duck extends Animal implements FluidWalker {
     // ========== FISHING BEHAVIOR =====================================================================================
 
     private void retrieve() {
-        MinecraftServer server = this.level.getServer();
-        if (!this.level.isClientSide && server != null) {
+        MinecraftServer server = this.level().getServer();
+        if (!this.level().isClientSide && server != null) {
             // Get an item from the fishing loot table
-            LootContext.Builder builder = new LootContext.Builder((ServerLevel)this.level)
+            LootParams builder = new LootParams.Builder((ServerLevel)this.level())
                     .withParameter(LootContextParams.ORIGIN, this.position())
                     .withParameter(LootContextParams.TOOL, new ItemStack(Items.FISHING_ROD))
                     .withParameter(LootContextParams.THIS_ENTITY, this)
-                    .withRandom(this.random)
-                    .withLuck((float)this.getAttributeValue(Attributes.LUCK));
-            LootTable lootTable = server.getLootTables().get(BuiltInLootTables.FISHING);
-            List<ItemStack> items = lootTable.getRandomItems(builder.create(LootContextParamSets.FISHING));
+                    .withLuck((float)this.getAttributeValue(Attributes.LUCK))
+                    .create(LootContextParamSets.FISHING);
+            LootTable lootTable = server.getLootData().getLootTable(BuiltInLootTables.FISHING);
+            List<ItemStack> items = lootTable.getRandomItems(builder);
 
             // For each item found, hold it in the beak and set it as guaranteed drop
             for (ItemStack item : items) {
@@ -549,12 +549,12 @@ public class Duck extends Animal implements FluidWalker {
     }
 
     private OpenWaterType getOpenWaterTypeForBlock(BlockPos pos) {
-        BlockState state = this.level.getBlockState(pos);
+        BlockState state = this.level().getBlockState(pos);
         if (!state.isAir() && !state.is(Blocks.LILY_PAD)) {
             FluidState fluidState = state.getFluidState();
             return fluidState.is(FluidTags.WATER) &&
                     fluidState.isSource() &&
-                    state.getCollisionShape(this.level, pos).isEmpty() ?
+                    state.getCollisionShape(this.level(), pos).isEmpty() ?
                     OpenWaterType.INSIDE_WATER : OpenWaterType.INVALID;
         } else {
             return OpenWaterType.ABOVE_WATER;

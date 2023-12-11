@@ -18,7 +18,7 @@ public class DuckFishGoal extends Goal {
 
     public DuckFishGoal(Duck duck) {
         this.duck = duck;
-        this.level = duck.level;
+        this.level = duck.level();
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
     }
 

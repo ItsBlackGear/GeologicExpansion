@@ -31,7 +31,6 @@ public class RenderRegistryImpl {
     private static final Set<Consumer<RegisterColorHandlersEvent.Block>> BLOCK_COLORS = ConcurrentHashMap.newKeySet();
     private static final Set<Consumer<RegisterColorHandlersEvent.Item>> ITEM_COLORS = ConcurrentHashMap.newKeySet();
 
-    @SuppressWarnings("removal")
     public static void block(RenderType type, Block... blocks) {
         Arrays.stream(blocks).forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, type));
     }

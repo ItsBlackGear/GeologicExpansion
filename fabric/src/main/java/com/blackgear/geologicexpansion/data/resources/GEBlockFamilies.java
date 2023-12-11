@@ -2,7 +2,7 @@ package com.blackgear.geologicexpansion.data.resources;
 
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.google.common.collect.Maps;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.world.level.block.Block;
 
@@ -254,7 +254,7 @@ public class GEBlockFamilies {
         BlockFamily.Builder builder = create(baseBlock);
         BlockFamily family = STONE.put(baseBlock, builder.getFamily());
         if (family != null) {
-            throw new IllegalStateException("Duplicate stone type definition for " + Registry.BLOCK.getKey(baseBlock));
+            throw new IllegalStateException("Duplicate stone type definition for " + BuiltInRegistries.BLOCK.getKey(baseBlock));
         } else {
             return builder;
         }
@@ -264,7 +264,7 @@ public class GEBlockFamilies {
         BlockFamily.Builder builder = new BlockFamily.Builder(baseBlock);
         BlockFamily family = FAMILIES.put(baseBlock, builder.getFamily());
         if (family != null) {
-            throw new IllegalStateException("Duplicate family definition for " + Registry.BLOCK.getKey(baseBlock));
+            throw new IllegalStateException("Duplicate family definition for " + BuiltInRegistries.BLOCK.getKey(baseBlock));
         } else {
             return builder;
         }

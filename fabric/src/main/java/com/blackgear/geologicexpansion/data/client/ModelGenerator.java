@@ -3,7 +3,7 @@ package com.blackgear.geologicexpansion.data.client;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.data.resources.GEBlockFamilies;
 import com.google.common.collect.ImmutableMap;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.models.BlockModelGenerators;
@@ -18,7 +18,7 @@ public class ModelGenerator extends FabricModelProvider {
             .put(GEBlocks.LIMESTONE.get(), TexturedModel.COLUMN_WITH_WALL.get(GEBlocks.LIMESTONE.get()))
             .build();
 
-    public ModelGenerator(FabricDataGenerator generator) {
+    public ModelGenerator(FabricDataOutput generator) {
         super(generator);
     }
 

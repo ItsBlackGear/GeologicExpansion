@@ -1,6 +1,6 @@
 package com.blackgear.geologicexpansion.core.platform.common;
 
-import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -19,9 +19,9 @@ public abstract class BiomeWriter {
 
     public abstract BiomeContext context();
 
-    public abstract void feature(GenerationStep.Decoration decoration, Holder<PlacedFeature> feature);
+    public abstract void feature(GenerationStep.Decoration decoration, ResourceKey<PlacedFeature> feature);
 
-    public void feature(GenerationStep.Decoration decoration, Holder<PlacedFeature> feature, boolean featureFlag) {
+    public void feature(GenerationStep.Decoration decoration, ResourceKey<PlacedFeature> feature, boolean featureFlag) {
         if (featureFlag) this.feature(decoration, feature);
     }
 
@@ -31,9 +31,9 @@ public abstract class BiomeWriter {
         if (featureFlag) this.spawn(category, data);
     }
 
-    public abstract void carver(GenerationStep.Carving carving, Holder<? extends ConfiguredWorldCarver<?>> carver);
+    public abstract void carver(GenerationStep.Carving carving, ResourceKey<ConfiguredWorldCarver<?>> carver);
 
-    public void carver(GenerationStep.Carving carving, Holder<? extends ConfiguredWorldCarver<?>> carver, boolean featureFlag) {
+    public void carver(GenerationStep.Carving carving, ResourceKey<ConfiguredWorldCarver<?>> carver, boolean featureFlag) {
         if (featureFlag) this.carver(carving, carver);
     }
 }

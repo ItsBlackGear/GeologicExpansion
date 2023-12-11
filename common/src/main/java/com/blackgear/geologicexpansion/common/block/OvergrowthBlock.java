@@ -3,6 +3,7 @@ package com.blackgear.geologicexpansion.common.block;
 import com.blackgear.geologicexpansion.common.worldgen.placements.SurfaceFeatures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
@@ -47,7 +48,7 @@ public class OvergrowthBlock extends CarpetBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter level, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
         return level.getBlockState(pos.above()).isAir();
     }
 
@@ -58,6 +59,9 @@ public class OvergrowthBlock extends CarpetBlock implements BonemealableBlock {
 
     @Override
     public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-        SurfaceFeatures.OVERGROWTH_PATCH_BONEMEAL.value().place(level, level.getChunkSource().getGenerator(), random, pos.above());
+        level.registryAccess()
+                .registry(Registries.CONFIGURED_FEATURE)
+                .flatMap(registry -> registry.getHolder(SurfaceFeatures.OVERGROWTH_PATCH_BONEMEAL))
+                .ifPresent(reference -> reference.value().place(level, level.getChunkSource().getGenerator(), random, pos.above()));
     }
 }

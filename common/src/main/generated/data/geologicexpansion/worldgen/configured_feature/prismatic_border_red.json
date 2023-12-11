@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:disk",
+  "config": {
+    "half_height": 2,
+    "radius": {
+      "type": "minecraft:uniform",
+      "value": {
+        "max_inclusive": 4,
+        "min_inclusive": 3
+      }
+    },
+    "state_provider": {
+      "fallback": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "geologicexpansion:red_prismatic_stone"
+        }
+      },
+      "rules": []
+    },
+    "target": {
+      "type": "minecraft:matching_blocks",
+      "blocks": [
+        "geologicexpansion:purple_prismatic_stone",
+        "geologicexpansion:brown_prismatic_stone",
+        "geologicexpansion:prismatic_stone",
+        "minecraft:coarse_dirt",
+        "minecraft:dirt",
+        "minecraft:grass_block"
+      ]
+    }
+  }
+}

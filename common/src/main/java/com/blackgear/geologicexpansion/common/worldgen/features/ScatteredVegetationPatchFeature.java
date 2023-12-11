@@ -30,7 +30,6 @@ public class ScatteredVegetationPatchFeature extends Feature<VegetationPatchConf
         BlockPos pos = context.origin();
 
         Predicate<BlockState> replaceable = blockState -> blockState.is(GEBlocks.PRISMATIC_STONE.get());
-//        Predicate<BlockState> replaceable = blockState -> blockState.is(config.replaceable);
 
         int xRadius = config.xzRadius.sample(random) + 1;
         int zRadius = config.xzRadius.sample(random) + 1;

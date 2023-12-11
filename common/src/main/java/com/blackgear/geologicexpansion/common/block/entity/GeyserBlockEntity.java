@@ -11,7 +11,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -126,7 +125,7 @@ public class GeyserBlockEntity extends BlockEntity {
                 BlockPos scanPos = pos.above(i);
 
                 // stops if there's a solid block that prevents its movement upwards
-                if (level.getBlockState(scanPos).getMaterial().isSolidBlocking()) {
+                if (level.getBlockState(scanPos).isSolid()) {
                     break;
                 }
 
@@ -147,7 +146,7 @@ public class GeyserBlockEntity extends BlockEntity {
                     float damage = 1.0F - (float)protLevel * 0.15F;
 
                     if (!living.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                        living.hurt(DamageSource.HOT_FLOOR, damage);
+                        living.hurt(living.damageSources().hotFloor(), damage);
                     }
                 }
 

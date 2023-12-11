@@ -1,0 +1,8 @@
+// 1.20.1	2023-12-11T15:10:59.2778394	Geologic Expansion/Tags for minecraft:block
+33bc1ebfb102c1df997dfd4149867afe285cfc79 data\geologicexpansion\tags\blocks\overgrowth_growable_blocks.json
+14beed5701b224ca7527cf34baca225f3f76850e data\minecraft\tags\blocks\slabs.json
+a047a53ab1107916d7072f8dc636e3357257c0e7 data\minecraft\tags\blocks\walls.json
+16d72e60db3ce5773d0e1d39786cb034a71af81a data\minecraft\tags\blocks\base_stone_overworld.json
+16d72e60db3ce5773d0e1d39786cb034a71af81a data\minecraft\tags\blocks\stone_ore_replaceables.json
+bd8539a888a0c52c960292654f0f1dac9fa82777 data\minecraft\tags\blocks\stairs.json
+31e8d73f0ef1f87e310ed1e0a4023558557f102b data\minecraft\tags\blocks\mineable\pickaxe.json

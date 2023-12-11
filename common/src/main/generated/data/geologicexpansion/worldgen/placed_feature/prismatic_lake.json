@@ -1,0 +1,215 @@
+{
+  "feature": "geologicexpansion:prismatic_lake",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 20
+    },
+    {
+      "type": "minecraft:count",
+      "count": 30
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "WORLD_SURFACE_WG"
+    },
+    {
+      "type": "minecraft:count",
+      "count": 5
+    },
+    {
+      "type": "minecraft:random_offset",
+      "xz_spread": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 4,
+          "min_inclusive": -4
+        }
+      },
+      "y_spread": 0
+    },
+    {
+      "type": "minecraft:environment_scan",
+      "direction_of_search": "down",
+      "max_steps": 6,
+      "target_condition": {
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "minecraft:not",
+            "predicate": {
+              "type": "minecraft:any_of",
+              "predicates": [
+                {
+                  "type": "minecraft:matching_blocks",
+                  "blocks": [
+                    "geologicexpansion:orange_prismatic_stone",
+                    "geologicexpansion:brown_prismatic_stone",
+                    "geologicexpansion:red_prismatic_stone",
+                    "minecraft:air",
+                    "minecraft:lava"
+                  ],
+                  "offset": [
+                    0,
+                    0,
+                    -1
+                  ]
+                },
+                {
+                  "type": "minecraft:matching_blocks",
+                  "blocks": [
+                    "geologicexpansion:orange_prismatic_stone",
+                    "geologicexpansion:brown_prismatic_stone",
+                    "geologicexpansion:red_prismatic_stone",
+                    "minecraft:air",
+                    "minecraft:lava"
+                  ],
+                  "offset": [
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "type": "minecraft:matching_blocks",
+                  "blocks": [
+                    "geologicexpansion:orange_prismatic_stone",
+                    "geologicexpansion:brown_prismatic_stone",
+                    "geologicexpansion:red_prismatic_stone",
+                    "minecraft:air",
+                    "minecraft:lava"
+                  ],
+                  "offset": [
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "type": "minecraft:matching_blocks",
+                  "blocks": [
+                    "geologicexpansion:orange_prismatic_stone",
+                    "geologicexpansion:brown_prismatic_stone",
+                    "geologicexpansion:red_prismatic_stone",
+                    "minecraft:air",
+                    "minecraft:lava"
+                  ],
+                  "offset": [
+                    -1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": [
+              "geologicexpansion:yellow_prismatic_stone",
+              "minecraft:magma_block"
+            ]
+          },
+          {
+            "type": "minecraft:not",
+            "predicate": {
+              "type": "minecraft:any_of",
+              "predicates": [
+                {
+                  "type": "minecraft:matching_blocks",
+                  "blocks": [
+                    "geologicexpansion:yellow_prismatic_stone",
+                    "geologicexpansion:orange_prismatic_stone",
+                    "geologicexpansion:purple_prismatic_stone",
+                    "geologicexpansion:brown_prismatic_stone",
+                    "geologicexpansion:red_prismatic_stone",
+                    "geologicexpansion:prismatic_stone",
+                    "minecraft:lava",
+                    "minecraft:grass_block",
+                    "minecraft:dirt",
+                    "minecraft:coarse_dirt",
+                    "minecraft:water"
+                  ],
+                  "offset": [
+                    0,
+                    1,
+                    -1
+                  ]
+                },
+                {
+                  "type": "minecraft:matching_blocks",
+                  "blocks": [
+                    "geologicexpansion:yellow_prismatic_stone",
+                    "geologicexpansion:orange_prismatic_stone",
+                    "geologicexpansion:purple_prismatic_stone",
+                    "geologicexpansion:brown_prismatic_stone",
+                    "geologicexpansion:red_prismatic_stone",
+                    "geologicexpansion:prismatic_stone",
+                    "minecraft:lava",
+                    "minecraft:grass_block",
+                    "minecraft:dirt",
+                    "minecraft:coarse_dirt",
+                    "minecraft:water"
+                  ],
+                  "offset": [
+                    1,
+                    1,
+                    0
+                  ]
+                },
+                {
+                  "type": "minecraft:matching_blocks",
+                  "blocks": [
+                    "geologicexpansion:yellow_prismatic_stone",
+                    "geologicexpansion:orange_prismatic_stone",
+                    "geologicexpansion:purple_prismatic_stone",
+                    "geologicexpansion:brown_prismatic_stone",
+                    "geologicexpansion:red_prismatic_stone",
+                    "geologicexpansion:prismatic_stone",
+                    "minecraft:lava",
+                    "minecraft:grass_block",
+                    "minecraft:dirt",
+                    "minecraft:coarse_dirt",
+                    "minecraft:water"
+                  ],
+                  "offset": [
+                    0,
+                    1,
+                    1
+                  ]
+                },
+                {
+                  "type": "minecraft:matching_blocks",
+                  "blocks": [
+                    "geologicexpansion:yellow_prismatic_stone",
+                    "geologicexpansion:orange_prismatic_stone",
+                    "geologicexpansion:purple_prismatic_stone",
+                    "geologicexpansion:brown_prismatic_stone",
+                    "geologicexpansion:red_prismatic_stone",
+                    "geologicexpansion:prismatic_stone",
+                    "minecraft:lava",
+                    "minecraft:grass_block",
+                    "minecraft:dirt",
+                    "minecraft:coarse_dirt",
+                    "minecraft:water"
+                  ],
+                  "offset": [
+                    -1,
+                    1,
+                    0
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -38,12 +38,12 @@ public class DuckRenderer extends MobRenderer<Duck, DuckModel<Duck>> {
     @Override
     protected void setupRotations(Duck duck, PoseStack matrixStack, float ageInTicks, float rotationYaw, float partialTicks) {
         super.setupRotations(duck, matrixStack, ageInTicks, rotationYaw, partialTicks);
-        if (!((double)duck.animationSpeed < 0.01) && !duck.isInWaterOrBubble()) {
+        if (!((double)duck.walkAnimation.speed() < 0.01) && !duck.isInWaterOrBubble()) {
             // Add waddle animation
             float f = 13.0F;
-            float g = duck.animationPosition - duck.animationSpeed * (1.0F - partialTicks) + 6.0F;
+            float g = duck.walkAnimation.position(partialTicks) + 6.0F;
             float h = (Math.abs(g % f - 6.5F) - 3.25F) / 3.25F;
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(6.5F * h));
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(6.5F * h));
         }
     }
 }

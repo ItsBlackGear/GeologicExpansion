@@ -3,7 +3,6 @@ package com.blackgear.geologicexpansion.client.renderer.entity.model;
 import com.blackgear.geologicexpansion.core.mixin.access.HierarchicalModelAccessor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.animation.AnimationDefinition;
