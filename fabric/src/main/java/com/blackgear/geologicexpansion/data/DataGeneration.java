@@ -8,6 +8,7 @@ import com.blackgear.geologicexpansion.data.common.tag.BiomeTagGenerator;
 import com.blackgear.geologicexpansion.data.common.tag.BlockTagGenerator;
 import com.blackgear.geologicexpansion.data.common.tag.EntityTypeTagGenerator;
 import com.blackgear.geologicexpansion.data.common.tag.ItemTagGenerator;
+import com.blackgear.geologicexpansion.data.common.tag.PoiTypeTagGenerator;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -21,6 +22,7 @@ public class DataGeneration implements DataGeneratorEntrypoint {
         generator.addProvider(gen -> new ItemTagGenerator(gen, blockTags));
         generator.addProvider(BiomeTagGenerator::new);
         generator.addProvider(EntityTypeTagGenerator::new);
+        generator.addProvider(PoiTypeTagGenerator::new);
 
         generator.addProvider(BlockLootTableGenerator::new);
         generator.addProvider(EntityLootGenerator::new);

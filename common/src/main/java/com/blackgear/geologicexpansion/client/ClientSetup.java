@@ -22,6 +22,9 @@ public class ClientSetup {
     }
 
     public static void postInstance() {
-        RenderRegistry.block(RenderType.cutout(), GEBlocks.OVERGROWTH.get());
+        RenderRegistry.block(RenderType.cutout(),
+                GEBlocks.OVERGROWTH.get(),
+                GEBlocks.FIERY_HIBISCUS.get()
+        );
     }
 }

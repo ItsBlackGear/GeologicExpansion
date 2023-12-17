@@ -7,8 +7,11 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Consumer;
 
@@ -38,6 +41,27 @@ public class RecipeGenerator extends FabricRecipeProvider {
         generateDyedPrismaticStone(exporter, GEBlocks.GREEN_PRISMATIC_STONE.get(), Items.GREEN_DYE);
         generateDyedPrismaticStone(exporter, GEBlocks.RED_PRISMATIC_STONE.get(), Items.RED_DYE);
         generateDyedPrismaticStone(exporter, GEBlocks.BLACK_PRISMATIC_STONE.get(), Items.BLACK_DYE);
+
+        ShapedRecipeBuilder.shaped(GEBlocks.GEOLOGIST_TABLE.get())
+                .define('#', ItemTags.PLANKS)
+                .define('X', Items.AMETHYST_SHARD)
+                .pattern("XX")
+                .pattern("##")
+                .pattern("##")
+                .unlockedBy("has_amethyst_shard", has(Items.AMETHYST_SHARD))
+                .save(exporter);
+
+        ShapelessRecipeBuilder.shapeless(GEBlocks.ROCK.get(), 4)
+                .requires(Blocks.COBBLESTONE)
+                .unlockedBy("has_cobblestone", has(Blocks.COBBLESTONE))
+                .save(exporter);
+
+        ShapedRecipeBuilder.shaped(Blocks.COBBLESTONE)
+                .define('#', GEBlocks.ROCK.get())
+                .pattern("##")
+                .pattern("##")
+                .unlockedBy("has_rock", has(GEBlocks.ROCK.get()))
+                .save(exporter);
     }
 
     private void generateDyedPrismaticStone(Consumer<FinishedRecipe> exporter, ItemLike colored, ItemLike dye) {

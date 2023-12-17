@@ -12,6 +12,13 @@ import java.util.function.Supplier;
 public class GEItems {
     public static final CoreRegistry<Item> ITEMS = CoreRegistry.create(Registry.ITEM, GeologicExpansion.MOD_ID);
 
+    // ========== MISCELLANEOUS ========================================================================================
+
+    public static final Supplier<Item> ROCK_HAMMER = create("rock_hammer", () -> new Item(new Item.Properties().tab(GeologicExpansion.CREATIVE_TAB)));
+    public static final Supplier<Item> FIERY_FILAMENT = create("fiery_filament", () -> new Item(new Item.Properties().tab(GeologicExpansion.CREATIVE_TAB)));
+
+    // ========== DUCK ITEMS ===========================================================================================
+
     public static final Supplier<Item> DUCK_SPAWN_EGG = create("duck_spawn_egg", () -> new SpawnEggItem(GEEntities.DUCK.get(), 4927013, 1543936, new Item.Properties().tab(GeologicExpansion.CREATIVE_TAB)));
     public static final Supplier<Item> DUCK_EGG = create("duck_egg", () -> new DuckEggItem(new Item.Properties().stacksTo(16).tab(GeologicExpansion.CREATIVE_TAB)));
 

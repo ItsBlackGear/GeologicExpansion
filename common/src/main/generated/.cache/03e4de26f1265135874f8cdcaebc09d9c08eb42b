@@ -1,6 +1,6 @@
-// 1.19.2	2023-11-20T19:01:01.4464778	Tags for minecraft:item
-d86c11055a90b5b81750d1d31a7c78108a1a2334 data\minecraft\tags\items\walls.json
-aff44859e9eda16720fd0e718ba19f3b03e20f94 data\minecraft\tags\items\slabs.json
+// 1.19.2	2023-12-14T19:23:47.3487298	Tags for minecraft:item
+00c9ca1ee401ecdb12b830bcc16a9cf53ceb5d8c data\minecraft\tags\items\walls.json
+7ca082f91fcdea60c103081ceb1c99c23158e394 data\minecraft\tags\items\slabs.json
 9822a63679b0576c06228f2604eac71248451b99 data\minecraft\tags\items\stone_tool_materials.json
 9822a63679b0576c06228f2604eac71248451b99 data\minecraft\tags\items\stone_crafting_materials.json
-362f0a0b8571370a325b61604c28f4d0b374efcc data\minecraft\tags\items\stairs.json
+b76f4b34e24c713f4cdc492c69c08136a4ef1684 data\minecraft\tags\items\stairs.json

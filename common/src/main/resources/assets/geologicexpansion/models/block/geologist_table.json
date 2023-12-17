@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "geologicexpansion:block/geologist_table_bottom",
+    "east": "geologicexpansion:block/geologist_table_side",
+    "north": "geologicexpansion:block/geologist_table_front",
+    "particle": "geologicexpansion:block/geologist_table_front",
+    "south": "geologicexpansion:block/geologist_table_front",
+    "up": "geologicexpansion:block/geologist_table_top",
+    "west": "geologicexpansion:block/geologist_table_side"
+  }
+}

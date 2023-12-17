@@ -19,6 +19,7 @@ public class WorldGeneration {
             if (context.is(BiomeTags.IS_OVERWORLD)) {
                 writer.feature(GenerationStep.Decoration.UNDERGROUND_ORES, UndergroundPlacements.ORE_LIMESTONE, ConfigEntries.includeLimestone());
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, SurfacePlacements.OVERGROWTH_PATCH, ConfigEntries.includeOvergrowth());
+                writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, SurfacePlacements.ROCK_PATCH);
             }
 
             if (context.is(GEBiomes.PRISMATIC_CALDERA)) {

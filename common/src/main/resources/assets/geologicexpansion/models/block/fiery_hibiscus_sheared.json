@@ -1,0 +1,59 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"base": "block/spore_blossom_base",
+		"flower": "geologicexpansion:block/fiery_hibiscus",
+		"particle": "geologicexpansion:block/fiery_hibiscus"
+	},
+	"elements": [
+		{
+			"from": [0, 0.1, 0],
+			"to": [16, 0.1, 16],
+			"shade": false,
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#base"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#base"}
+			}
+		},
+		{
+			"from": [0, 0.3, -8],
+			"to": [16, 0.3, 8],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 0, 8], "rescale": false },
+			"shade": false,
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#flower"},
+				"down": {"uv": [0, 16, 16, 0], "texture": "#flower"}
+			}
+		},
+		{
+			"from": [-8, 0.3, 0],
+			"to": [8, 0.3, 16],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 0, 8], "rescale": false },
+			"shade": false,
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#flower"},
+				"down": {"uv": [0, 16, 16, 0], "rotation": 90, "texture": "#flower"}
+			}
+		},
+		{
+			"from": [0, 0.3, 8],
+			"to": [16, 0.3, 24],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 0, 8], "rescale": false },
+			"shade": false,
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#flower"},
+				"down": {"uv": [0, 16, 16, 0], "rotation": 180, "texture": "#flower"}
+			}
+		},
+		{
+			"from": [8, 0.3, 0],
+			"to": [24, 0.3, 16],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 0, 8], "rescale": false },
+			"shade": false,
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#flower"},
+				"down": {"uv": [0, 16, 16, 0], "rotation": 270, "texture": "#flower"}
+			}
+		}
+	]
+}

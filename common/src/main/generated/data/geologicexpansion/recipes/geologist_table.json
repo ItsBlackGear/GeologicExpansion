@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "X": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    "XX",
+    "##",
+    "##"
+  ],
+  "result": {
+    "item": "geologicexpansion:geologist_table"
+  }
+}

@@ -168,8 +168,14 @@
   "block.geologicexpansion.black_polished_prismatic_stone_stairs": "Black stairs o' good lookin' sparklin' pebbles",
   "block.geologicexpansion.black_polished_prismatic_stone_wall": "Black wall o' good lookin' sparklin' pebbles",
 
-  "item.geologicexpansion.duck_spawn_egg": "Quackin' Bird Cackle Fruit",
-  "item.geologicexpansion.duck_egg": "Quackin' Bird Fruit",
+  "block.geologicexpansion.rock": "Small pebble",
+  "block.geologicexpansion.fiery_hibiscus": "Big flamey flower",
+  "block.geologicexpansion.geologist_table": "Pebble lover's table",
+
+  "item.geologicexpansion.duck_spawn_egg": "Quackin' bird cackle fruit",
+  "item.geologicexpansion.duck_egg": "Quackin' bird fruit",
+  "item.geologicexpansion.rock_hammer": "Pebble smasher",
+  "item.geologicexpansion.fiery_filament": "Flamey strings",
 
   "entity.geologicexpansion.duck": "Quackin' Bird",
 

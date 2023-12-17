@@ -4,6 +4,7 @@ import com.blackgear.geologicexpansion.client.ClientSetup;
 import com.blackgear.geologicexpansion.client.registries.GEParticleTypes;
 import com.blackgear.geologicexpansion.common.CommonSetup;
 import com.blackgear.geologicexpansion.common.registries.*;
+import com.blackgear.geologicexpansion.common.registries.entities.GEProfessions;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEBiomes;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEFeatures;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GENoises;
@@ -42,9 +43,11 @@ public class GeologicExpansion {
         GEItems.ITEMS.register();
         GESounds.SOUNDS.register();
         GEParticleTypes.PARTICLES.register();
+        GEPointOfInterests.POINTS.register();
 
         // ========== ENTITY REGISTRY ==================================================================================
         GEEntities.ENTITIES.register();
+        GEProfessions.PROFESSIONS.register();
 
         // ========== WORLD GEN REGISTRY ===============================================================================
         GEFeatures.FEATURES.register();

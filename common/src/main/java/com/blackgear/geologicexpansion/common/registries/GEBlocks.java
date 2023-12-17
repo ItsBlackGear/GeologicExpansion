@@ -1,7 +1,9 @@
 package com.blackgear.geologicexpansion.common.registries;
 
+import com.blackgear.geologicexpansion.common.block.FieryHibiscusBlock;
 import com.blackgear.geologicexpansion.common.block.GeyserBlock;
 import com.blackgear.geologicexpansion.common.block.OvergrowthBlock;
+import com.blackgear.geologicexpansion.common.block.RockBlock;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.platform.CoreRegistry;
 import net.minecraft.core.Registry;
@@ -13,6 +15,7 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -22,6 +25,39 @@ import java.util.function.Supplier;
 
 public class GEBlocks {
     public static final CoreRegistry<Block> BLOCKS = CoreRegistry.create(Registry.BLOCK, GeologicExpansion.MOD_ID);
+
+    // ========== MISCELLANEOUS ========================================================================================
+
+    public static final Supplier<Block> ROCK = create(
+            "rock",
+            () -> new RockBlock(
+                    Properties.of(Material.STONE)
+                            .strength(0.25F)
+                            .noOcclusion()
+                            .dynamicShape()
+                            .offsetType(BlockBehaviour.OffsetType.XZ)
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+
+    public static final Supplier<Block> FIERY_HIBISCUS = create(
+            "fiery_hibiscus",
+            () -> new FieryHibiscusBlock(
+                    Properties.of(Material.PLANT, MaterialColor.COLOR_ORANGE)
+                            .lightLevel(FieryHibiscusBlock.LIGHT_VALUE)
+                            .noCollission()
+                            .instabreak()
+                            .sound(SoundType.SPORE_BLOSSOM)
+            ), GeologicExpansion.CREATIVE_TAB
+    );
+
+    public static final Supplier<Block> GEOLOGIST_TABLE = create(
+            "geologist_table",
+            () -> new Block(
+                    Properties.of(Material.WOOD)
+                            .strength(2.5F)
+                            .sound(SoundType.WOOD)
+            ), GeologicExpansion.CREATIVE_TAB
+    );
 
     // ========== OVERGROWTH ===========================================================================================
     public static final Supplier<Block> OVERGROWTH = create(

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "has_filament=true": {
+      "model": "geologicexpansion:block/fiery_hibiscus"
+    },
+    "has_filament=false": {
+      "model": "geologicexpansion:block/fiery_hibiscus_sheared"
+    }
+  }
+}

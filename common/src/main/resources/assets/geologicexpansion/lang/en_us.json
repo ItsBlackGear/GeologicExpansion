@@ -168,8 +168,14 @@
   "block.geologicexpansion.black_polished_prismatic_stone_stairs": "Black Polished Prismatic Stone Stairs",
   "block.geologicexpansion.black_polished_prismatic_stone_wall": "Black Polished Prismatic Stone Wall",
 
+  "block.geologicexpansion.rock": "Rock",
+  "block.geologicexpansion.fiery_hibiscus": "Fiery Hibiscus",
+  "block.geologicexpansion.geologist_table": "Geologist Table",
+
   "item.geologicexpansion.duck_spawn_egg": "Duck Spawn Egg",
   "item.geologicexpansion.duck_egg": "Duck Egg",
+  "item.geologicexpansion.rock_hammer": "Rock Hammer",
+  "item.geologicexpansion.fiery_filament": "Fiery Filament",
 
   "entity.geologicexpansion.duck": "Duck",
 

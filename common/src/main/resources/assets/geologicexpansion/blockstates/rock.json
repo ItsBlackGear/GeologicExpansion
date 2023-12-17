@@ -1,0 +1,72 @@
+{
+  "variants": {
+    "rocks=1": [
+      {
+        "model": "geologicexpansion:block/rocks_1"
+      },
+      {
+        "model": "geologicexpansion:block/rocks_1",
+        "y": 90
+      },
+      {
+        "model": "geologicexpansion:block/rocks_1",
+        "y": 180
+      },
+      {
+        "model": "geologicexpansion:block/rocks_1",
+        "y": 270
+      }
+    ],
+    "rocks=2": [
+      {
+        "model": "geologicexpansion:block/rocks_2"
+      },
+      {
+        "model": "geologicexpansion:block/rocks_2",
+        "y": 90
+      },
+      {
+        "model": "geologicexpansion:block/rocks_2",
+        "y": 180
+      },
+      {
+        "model": "geologicexpansion:block/rocks_2",
+        "y": 270
+      }
+    ],
+    "rocks=3": [
+      {
+        "model": "geologicexpansion:block/rocks_3"
+      },
+      {
+        "model": "geologicexpansion:block/rocks_3",
+        "y": 90
+      },
+      {
+        "model": "geologicexpansion:block/rocks_3",
+        "y": 180
+      },
+      {
+        "model": "geologicexpansion:block/rocks_3",
+        "y": 270
+      }
+    ],
+    "rocks=4": [
+      {
+        "model": "geologicexpansion:block/rocks_4"
+      },
+      {
+        "model": "geologicexpansion:block/rocks_4",
+        "y": 90
+      },
+      {
+        "model": "geologicexpansion:block/rocks_4",
+        "y": 180
+      },
+      {
+        "model": "geologicexpansion:block/rocks_4",
+        "y": 270
+      }
+    ]
+  }
+}

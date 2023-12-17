@@ -11,6 +11,7 @@
     "access.NoiseBasedChunkGeneratorAccessor",
     "access.NoiseGeneratorSettingsAccessor",
     "access.OverworldBiomesAccessor",
+    "access.PoiTypesAccessor",
     "access.SimpleParticleTypeAccessor",
     "access.SpawnPlacementsAccessor",
     "common.LiquidBlockMixin",

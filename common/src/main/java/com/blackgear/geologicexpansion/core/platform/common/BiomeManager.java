@@ -1,7 +1,7 @@
 package com.blackgear.geologicexpansion.core.platform.common;
 
+import com.google.common.collect.Lists;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 import java.util.function.BiConsumer;

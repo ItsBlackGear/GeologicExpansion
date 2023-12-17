@@ -3,9 +3,14 @@
   "package": "com.blackgear.geologicexpansion.core.mixin.fabric",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "SheetsMixin"
+    "SheetsMixin",
+    "datafix.HotbarStorageMixin"
   ],
   "mixins": [
+    "datafix.ChunkSerializerMixin",
+    "datafix.NbtUtilsMixin",
+    "datafix.PlayerMixin",
+    "datafix.StructureTemplateMixin"
   ],
   "injectors": {
     "defaultRequire": 1
