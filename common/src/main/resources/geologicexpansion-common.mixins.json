@@ -3,19 +3,28 @@
   "package": "com.blackgear.geologicexpansion.core.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "access.HierarchicalModelAccessor"
   ],
   "mixins": [
     "BlockEntityTypeMixin",
     "access.BuilderAccessor",
-    "access.HierarchicalModelAccessor",
+    "access.ContextAccessor",
+    "access.DoorBlockAccessor",
+    "access.FoliagePlacerTypeAccessor",
     "access.NoiseBasedChunkGeneratorAccessor",
     "access.NoiseGeneratorSettingsAccessor",
     "access.OverworldBiomesAccessor",
     "access.PoiTypesAccessor",
+    "access.PressurePlateBlockAccessor",
     "access.SimpleParticleTypeAccessor",
     "access.SpawnPlacementsAccessor",
+    "access.SurfaceSystemAccessor",
+    "access.TrapDoorBlockAccessor",
+    "access.TrunkPlacerTypeAccessor",
+    "access.WoodButtonBlockAccessor",
     "common.LiquidBlockMixin",
     "common.MinecraftServerMixin",
+    "common.NoiseGeneratorSettingsMixin",
     "common.OverworldBiomeBuilderMixin"
   ],
   "injectors": {

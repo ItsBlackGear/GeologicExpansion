@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "geologicexpansion:maple_log",
+    "geologicexpansion:stripped_maple_log",
+    "geologicexpansion:maple_wood",
+    "geologicexpansion:stripped_maple_wood"
+  ]
+}

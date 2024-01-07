@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "geologicexpansion:block/maple_planks",
+    "side": "geologicexpansion:block/maple_planks",
+    "top": "geologicexpansion:block/maple_planks"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "geologicexpansion:block/maple_log",
+    "side": "geologicexpansion:block/maple_log"
+  }
+}

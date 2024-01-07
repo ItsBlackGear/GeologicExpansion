@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "hanging=false": {
       "model": "geologicexpansion:block/overgrowth"
+    },
+    "hanging=true": {
+      "model": "geologicexpansion:block/overgrowth_hanging"
     }
   }
 }

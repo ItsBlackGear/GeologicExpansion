@@ -59,7 +59,7 @@ public class ScatteredVegetationPatchFeature extends Feature<VegetationPatchConf
                 boolean isCorner = isXEdge && isZEdge;
                 boolean isMiddle = isEdge && !isCorner;
 
-                if (!isCorner && (!isMiddle || config.extraEdgeColumnChance != 0.0F && !(random.nextFloat() > config.extraEdgeColumnChance))) {
+                if (!isCorner && (!isMiddle || config.extraEdgeColumnChance != 0.0F && random.nextFloat() <= config.extraEdgeColumnChance)) {
                     currentPos.setWithOffset(pos, xOffset, 0, zOffset);
 
                     for(int yOffset = 0; level.isStateAtPosition(currentPos, BlockBehaviour.BlockStateBase::isAir) && yOffset < config.verticalRange; ++yOffset) {

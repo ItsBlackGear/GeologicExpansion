@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "geologicexpansion:maple_planks"
+    }
+  ],
+  "result": {
+    "item": "geologicexpansion:maple_button"
+  }
+}

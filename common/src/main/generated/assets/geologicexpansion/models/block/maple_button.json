@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button",
+  "textures": {
+    "texture": "geologicexpansion:block/maple_planks"
+  }
+}

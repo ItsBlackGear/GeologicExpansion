@@ -1,5 +1,6 @@
 package com.blackgear.geologicexpansion.common;
 
+import com.blackgear.geologicexpansion.common.entity.bear.GrizzlyBear;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
@@ -9,6 +10,10 @@ import com.blackgear.geologicexpansion.common.worldgen.TerrablenderCompat;
 import com.blackgear.geologicexpansion.common.worldgen.WorldGeneration;
 import com.blackgear.geologicexpansion.common.worldgen.placements.CalderaFeatures;
 import com.blackgear.geologicexpansion.common.worldgen.placements.CalderaPlacements;
+import com.blackgear.geologicexpansion.common.worldgen.placements.MapleForestFeatures;
+import com.blackgear.geologicexpansion.common.worldgen.placements.MapleForestPlacements;
+import com.blackgear.geologicexpansion.common.worldgen.placements.SavannaFeatures;
+import com.blackgear.geologicexpansion.common.worldgen.placements.SavannaPlacements;
 import com.blackgear.geologicexpansion.common.worldgen.placements.SurfaceFeatures;
 import com.blackgear.geologicexpansion.common.worldgen.placements.SurfacePlacements;
 import com.blackgear.geologicexpansion.common.worldgen.placements.UndergroundFeatures;
@@ -29,12 +34,17 @@ public class CommonSetup {
     public static void onInstance() {
         // ========== ENTITY ATTRIBUTE REGISTRY ========================================================================
         EntityRegistry.attributes(GEEntities.DUCK, Duck::createAttributes);
+        EntityRegistry.attributes(GEEntities.GRIZZLY_BEAR, GrizzlyBear::createAttributes);
     }
 
     public static void postInstance() {
         // ========== FEATURE REGISTRY =================================================================================
         CalderaFeatures.FEATURES.register();
         CalderaPlacements.FEATURES.register();
+        MapleForestFeatures.FEATURES.register();
+        MapleForestPlacements.FEATURES.register();
+        SavannaFeatures.FEATURES.register();
+        SavannaPlacements.FEATURES.register();
         SurfaceFeatures.FEATURES.register();
         SurfacePlacements.FEATURES.register();
         UndergroundFeatures.FEATURES.register();
@@ -104,5 +114,9 @@ public class CommonSetup {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Duck::checkDuckSpawnRules
         );
+        SpawnPlacementsAccessor.register(GEEntities.GRIZZLY_BEAR.get(),
+                SpawnPlacements.Type.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                GrizzlyBear::checkGrizzlyBearSpawnRules);
     }
 }

@@ -451,6 +451,7 @@ public class Duck extends Animal implements FluidWalker {
 
     // ========== SPAWNS ===============================================================================================
 
+    @SuppressWarnings("unused")
     public static boolean checkDuckSpawnRules(EntityType<Duck> duck, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         BlockState state = level.getBlockState(pos.below());
         return (state.is(BlockTags.ANIMALS_SPAWNABLE_ON) || state.is(Blocks.WATER)) && isBrightEnoughToSpawn(level, pos);

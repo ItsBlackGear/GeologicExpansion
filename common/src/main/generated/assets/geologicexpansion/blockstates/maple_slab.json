@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "geologicexpansion:block/maple_slab"
+    },
+    "type=double": {
+      "model": "geologicexpansion:block/maple_planks"
+    },
+    "type=top": {
+      "model": "geologicexpansion:block/maple_slab_top"
+    }
+  }
+}

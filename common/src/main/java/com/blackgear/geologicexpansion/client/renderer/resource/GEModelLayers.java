@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GEModelLayers {
     public static final ModelLayerLocation DUCK = create("duck");
+    public static final ModelLayerLocation GRIZZLY_BEAR = create("grizzly_bear");
 
     private static ModelLayerLocation create(String key) {
         return create(key, "main");

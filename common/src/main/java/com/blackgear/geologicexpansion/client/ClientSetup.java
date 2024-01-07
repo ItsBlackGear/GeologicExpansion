@@ -1,30 +1,66 @@
 package com.blackgear.geologicexpansion.client;
 
 import com.blackgear.geologicexpansion.client.particle.GeyserEruptionParticle;
+import com.blackgear.geologicexpansion.client.particle.MapleParticle;
 import com.blackgear.geologicexpansion.client.registries.GEParticleTypes;
 import com.blackgear.geologicexpansion.client.renderer.entity.DuckRenderer;
+import com.blackgear.geologicexpansion.client.renderer.entity.GrizzlyBearRenderer;
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
+import com.blackgear.geologicexpansion.client.renderer.entity.model.GrizzlyBearModel;
 import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.core.platform.client.ParticleRegistry;
 import com.blackgear.geologicexpansion.core.platform.client.RenderRegistry;
+import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.GrassColor;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ClientSetup {
     public static void onInstance() {
         // ========== ENTITY RENDERER REGISTRY =========================================================================
         RenderRegistry.entity(GEEntities.DUCK, DuckRenderer::new, GEModelLayers.DUCK, DuckModel::createBodyLayer);
         RenderRegistry.renderer(GEEntities.DUCK_EGG, ThrownItemRenderer::new);
+        RenderRegistry.entity(GEEntities.GRIZZLY_BEAR, GrizzlyBearRenderer::new, GEModelLayers.GRIZZLY_BEAR, GrizzlyBearModel::createBodyLayer);
 
-        ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);
+
+        // ========== BLOCK COLOR REGISTRY =============================================================================
+
+        BlockColor color = (state, level, pos, tint) -> {
+            if (level != null && pos != null) {
+                return BiomeColors.getAverageGrassColor(level, pos);
+            }
+
+            return GrassColor.get(0.5D, 1.0D);
+        };
+
+        RenderRegistry.blockColor(color, GEBlocks.OVERGROWTH);
+
+        RenderRegistry.itemColor((stack, tint) -> {
+            BlockState state = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
+            return color.getColor(state, null, null, tint);
+        }, GEBlocks.OVERGROWTH);
     }
 
     public static void postInstance() {
+        ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);
+        ParticleRegistry.create(GEParticleTypes.RED_MAPLE_LEAVES, sprites -> (type, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new MapleParticle(level, x, y, z, sprites));
+        ParticleRegistry.create(GEParticleTypes.BROWN_MAPLE_LEAVES, sprites -> (type, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new MapleParticle(level, x, y, z, sprites));
+
         RenderRegistry.block(RenderType.cutout(),
-                GEBlocks.OVERGROWTH.get(),
-                GEBlocks.FIERY_HIBISCUS.get()
+            GEBlocks.OVERGROWTH.get(),
+            GEBlocks.FIERY_HIBISCUS.get()
+        );
+        RenderRegistry.block(RenderType.cutoutMipped(),
+            GEBlocks.RED_MAPLE_LEAVES.get(),
+            GEBlocks.BROWN_MAPLE_LEAVES.get(),
+            GEBlocks.ASPEN_LEAVES.get(),
+            GEBlocks.RED_MAPLE_LEAF_CARPET.get(),
+            GEBlocks.BROWN_MAPLE_LEAF_CARPET.get()
         );
     }
 }

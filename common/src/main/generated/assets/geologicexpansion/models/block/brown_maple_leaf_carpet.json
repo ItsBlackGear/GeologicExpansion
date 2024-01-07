@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/carpet",
+  "textures": {
+    "wool": "geologicexpansion:block/brown_maple_leaves"
+  }
+}

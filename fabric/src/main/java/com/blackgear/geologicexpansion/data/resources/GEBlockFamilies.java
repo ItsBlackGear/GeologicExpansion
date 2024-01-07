@@ -13,6 +13,20 @@ public class GEBlockFamilies {
     private static final Map<Block, BlockFamily> FAMILIES = Maps.newHashMap();
     private static final Map<Block, BlockFamily> STONE = Maps.newHashMap();
 
+    public static final BlockFamily MAPLE_PLANKS = create(GEBlocks.MAPLE_PLANKS.get())
+        .button(GEBlocks.MAPLE_BUTTON.get())
+        .fence(GEBlocks.MAPLE_FENCE.get())
+        .fenceGate(GEBlocks.MAPLE_FENCE_GATE.get())
+        .pressurePlate(GEBlocks.MAPLE_PRESSURE_PLATE.get())
+//        .sign(GEBlocks.MAPLE_SIGN.get(), GEBlocks.MAPLE_WALL_SIGN.get())
+        .slab(GEBlocks.MAPLE_SLAB.get())
+        .stairs(GEBlocks.MAPLE_STAIRS.get())
+//        .door(GEBlocks.MAPLE_DOOR.get())
+//        .trapdoor(GEBlocks.MAPLE_TRAPDOOR.get())
+        .recipeGroupPrefix("wooden")
+        .recipeUnlockedBy("has_planks")
+        .getFamily();
+
     // LIMESTONE
     public static final BlockFamily LIMESTONE = stone(GEBlocks.LIMESTONE.get())
             .slab(GEBlocks.LIMESTONE_SLAB.get())
@@ -251,7 +265,7 @@ public class GEBlockFamilies {
 
 
     public static BlockFamily.Builder stone(Block baseBlock) {
-        BlockFamily.Builder builder = create(baseBlock);
+        BlockFamily.Builder builder = new BlockFamily.Builder(baseBlock);
         BlockFamily family = STONE.put(baseBlock, builder.getFamily());
         if (family != null) {
             throw new IllegalStateException("Duplicate stone type definition for " + Registry.BLOCK.getKey(baseBlock));

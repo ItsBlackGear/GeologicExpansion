@@ -1,16 +1,25 @@
 package com.blackgear.geologicexpansion.common.registries;
 
+import com.blackgear.geologicexpansion.common.block.BlockBuilder;
 import com.blackgear.geologicexpansion.common.block.FieryHibiscusBlock;
 import com.blackgear.geologicexpansion.common.block.GeyserBlock;
+import com.blackgear.geologicexpansion.common.block.LeafCarpetBlock;
+import com.blackgear.geologicexpansion.common.block.MapleLeavesBlock;
 import com.blackgear.geologicexpansion.common.block.OvergrowthBlock;
 import com.blackgear.geologicexpansion.common.block.RockBlock;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
+import com.blackgear.geologicexpansion.core.mixin.access.PressurePlateBlockAccessor;
+import com.blackgear.geologicexpansion.core.mixin.access.WoodButtonBlockAccessor;
 import com.blackgear.geologicexpansion.core.platform.CoreRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.PressurePlateBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -26,115 +35,262 @@ import java.util.function.Supplier;
 public class GEBlocks {
     public static final CoreRegistry<Block> BLOCKS = CoreRegistry.create(Registry.BLOCK, GeologicExpansion.MOD_ID);
 
+    // ========== MAPLE ================================================================================================
+    public static final Supplier<Block> MAPLE_LOG = create("maple_log",
+        () -> BlockBuilder.log(MaterialColor.TERRACOTTA_RED, MaterialColor.TERRACOTTA_LIGHT_GRAY),
+        GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> STRIPPED_MAPLE_LOG = create("stripped_maple_log",
+        () -> BlockBuilder.log(MaterialColor.TERRACOTTA_RED, MaterialColor.TERRACOTTA_RED),
+        GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_WOOD = create("maple_wood",
+        () -> new RotatedPillarBlock(
+            Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_LIGHT_GRAY)
+                .strength(2.0F)
+                .sound(SoundType.WOOD)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> STRIPPED_MAPLE_WOOD = create("stripped_maple_wood",
+        () -> new RotatedPillarBlock(
+            Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_RED)
+                .strength(2.0F)
+                .sound(SoundType.WOOD)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> RED_MAPLE_LEAVES = create("red_maple_leaves",
+        () -> new MapleLeavesBlock(
+            BlockBehaviour.Properties.of(Material.LEAVES)
+                    .strength(0.2F)
+                    .randomTicks()
+                    .sound(SoundType.GRASS)
+                    .noOcclusion()
+                    .isValidSpawn(BlockBuilder::ocelotOrParrot)
+                    .isSuffocating(BlockBuilder::never)
+                    .isViewBlocking(BlockBuilder::never),
+            MapleLeavesBlock.Type.RED
+        ),
+        GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> BROWN_MAPLE_LEAVES = create("brown_maple_leaves",
+        () -> new MapleLeavesBlock(
+            BlockBehaviour.Properties.of(Material.LEAVES)
+                .strength(0.2F)
+                .randomTicks()
+                .sound(SoundType.GRASS)
+                .noOcclusion()
+                .isValidSpawn(BlockBuilder::ocelotOrParrot)
+                .isSuffocating(BlockBuilder::never)
+                .isViewBlocking(BlockBuilder::never),
+            MapleLeavesBlock.Type.BROWN
+        ),
+        GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_PLANKS = create("maple_planks",
+        () -> new Block(
+            Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_RED)
+                .strength(2.0F, 3.0F)
+                .sound(SoundType.WOOD)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_STAIRS = create("maple_stairs",
+        () -> new StairBlock(
+            MAPLE_PLANKS.get().defaultBlockState(),
+            Properties.copy(MAPLE_PLANKS.get())
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_SLAB = create("maple_slab",
+        () -> new SlabBlock(Properties.copy(MAPLE_PLANKS.get())),
+        GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_BUTTON = create("maple_button",
+        () -> WoodButtonBlockAccessor.createWoodButtonBlock(
+            Properties.of(Material.DECORATION)
+                .noCollission()
+                .strength(0.5F)
+                .sound(SoundType.WOOD)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_FENCE = create("maple_fence",
+        () -> new FenceBlock(
+            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())
+                .strength(2.0F, 3.0F)
+                .sound(SoundType.WOOD)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_FENCE_GATE = create("maple_fence_gate",
+        () -> new FenceGateBlock(
+            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())
+                .strength(2.0F, 3.0F)
+                .sound(SoundType.WOOD)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_PRESSURE_PLATE = create("maple_pressure_plate",
+        () -> PressurePlateBlockAccessor.createPressurePlateBlock(
+            PressurePlateBlock.Sensitivity.EVERYTHING,
+            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())
+                .noCollission()
+                .strength(0.5F)
+                .sound(SoundType.WOOD)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+//    public static final Supplier<Block> MAPLE_TRAPDOOR = create("maple_trapdoor",
+//        () -> TrapDoorBlockAccessor.createTrapDoorBlock(
+//            Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_RED)
+//                .strength(3.0F)
+//                .sound(SoundType.WOOD)
+//                .isValidSpawn(BlockBuilder::never)
+//                .noOcclusion()
+//        ), GeologicExpansion.CREATIVE_TAB
+//    );
+//    public static final Supplier<Block> MAPLE_DOOR = create("maple_door",
+//        () -> DoorBlockAccessor.createDoorBlock(
+//            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())
+//                .strength(3.0F)
+//                .sound(SoundType.WOOD)
+//                .isValidSpawn(BlockBuilder::never)
+//                .noOcclusion()
+//        ), GeologicExpansion.CREATIVE_TAB
+//    );
+//    public static final Supplier<Block> MAPLE_SIGN = create("maple_sign",
+//        () -> new StandingSignBlock(
+//            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())
+//                .noCollission()
+//                .strength(1.0F)
+//                .sound(SoundType.WOOD),
+//            WoodType.CRIMSON
+//        ), GeologicExpansion.CREATIVE_TAB
+//    );
+//    public static final Supplier<Block> MAPLE_WALL_SIGN = create("maple_wall_sign",
+//        () -> new WallSignBlock(
+//            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())
+//                .noCollission()
+//                .strength(1.0F)
+//                .sound(SoundType.WOOD),
+//            WoodType.CRIMSON
+//        ), GeologicExpansion.CREATIVE_TAB
+//    );
+    public static final Supplier<Block> RED_MAPLE_LEAF_CARPET = create("red_maple_leaf_carpet",
+        () -> new LeafCarpetBlock(
+            Properties.of(Material.REPLACEABLE_PLANT)
+                .instabreak()
+                .noOcclusion()
+                .noCollission()
+                .sound(SoundType.GRASS)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> BROWN_MAPLE_LEAF_CARPET = create("brown_maple_leaf_carpet",
+        () -> new LeafCarpetBlock(
+            Properties.of(Material.REPLACEABLE_PLANT)
+                .instabreak()
+                .noOcclusion()
+                .noCollission()
+                .sound(SoundType.GRASS)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+
+    // ========== ASPEN ================================================================================================
+    public static final Supplier<Block> ASPEN_LEAVES = create("aspen_leaves",
+        () -> BlockBuilder.leaves(SoundType.GRASS),
+        GeologicExpansion.CREATIVE_TAB
+    );
+
     // ========== MISCELLANEOUS ========================================================================================
 
-    public static final Supplier<Block> ROCK = create(
-            "rock",
-            () -> new RockBlock(
-                    Properties.of(Material.STONE)
-                            .strength(0.25F)
-                            .noOcclusion()
-                            .dynamicShape()
-                            .offsetType(BlockBehaviour.OffsetType.XZ)
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> ROCK = create("rock",
+        () -> new RockBlock(
+            Properties.of(Material.STONE)
+                .strength(0.25F)
+                .noOcclusion()
+                .dynamicShape()
+                .offsetType(BlockBehaviour.OffsetType.XZ)
+        ), GeologicExpansion.CREATIVE_TAB
     );
 
-    public static final Supplier<Block> FIERY_HIBISCUS = create(
-            "fiery_hibiscus",
-            () -> new FieryHibiscusBlock(
-                    Properties.of(Material.PLANT, MaterialColor.COLOR_ORANGE)
-                            .lightLevel(FieryHibiscusBlock.LIGHT_VALUE)
-                            .noCollission()
-                            .instabreak()
-                            .sound(SoundType.SPORE_BLOSSOM)
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> FIERY_HIBISCUS = create("fiery_hibiscus",
+        () -> new FieryHibiscusBlock(
+            Properties.of(Material.PLANT, MaterialColor.COLOR_ORANGE)
+                .lightLevel(FieryHibiscusBlock.LIGHT_VALUE)
+                .noCollission()
+                .instabreak()
+                .sound(SoundType.SPORE_BLOSSOM)
+        ), GeologicExpansion.CREATIVE_TAB
     );
 
-    public static final Supplier<Block> GEOLOGIST_TABLE = create(
-            "geologist_table",
-            () -> new Block(
-                    Properties.of(Material.WOOD)
-                            .strength(2.5F)
-                            .sound(SoundType.WOOD)
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> GEOLOGIST_TABLE = create("geologist_table",
+        () -> new Block(
+            Properties.of(Material.WOOD)
+                .strength(2.5F)
+                .sound(SoundType.WOOD)
+        ), GeologicExpansion.CREATIVE_TAB
     );
 
     // ========== OVERGROWTH ===========================================================================================
-    public static final Supplier<Block> OVERGROWTH = create(
-            "overgrowth",
-            () -> new OvergrowthBlock(
-                    Properties.of(Material.REPLACEABLE_PLANT)
-                            .instabreak()
-                            .noOcclusion()
-                            .sound(SoundType.MOSS_CARPET)
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> OVERGROWTH = create("overgrowth",
+        () -> new OvergrowthBlock(
+            Properties.of(Material.REPLACEABLE_PLANT)
+                .instabreak()
+                .noOcclusion()
+                .noCollission()
+                .offsetType(state -> state.getValue(OvergrowthBlock.HANGING) ? BlockBehaviour.OffsetType.XZ : BlockBehaviour.OffsetType.NONE)
+                .dynamicShape()
+                .sound(SoundType.MOSS_CARPET)
+        ), GeologicExpansion.CREATIVE_TAB
     );
 
     // ========== LIMESTONE ============================================================================================
-    public static final Supplier<Block> LIMESTONE = create(
-            "limestone",
-            () -> new Block(
-                    Properties.of(Material.STONE, MaterialColor.SAND)
-                            .requiresCorrectToolForDrops()
-                            .strength(1.5F, 6.0F)
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> LIMESTONE = create("limestone",
+        () -> new Block(
+            Properties.of(Material.STONE, MaterialColor.SAND)
+                .requiresCorrectToolForDrops()
+                .strength(1.5F, 6.0F)
+        ), GeologicExpansion.CREATIVE_TAB
     );
-    public static final Supplier<Block> LIMESTONE_SLAB = create(
-            "limestone_slab",
-            () -> new SlabBlock(
-                    Properties.copy(LIMESTONE.get())
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> LIMESTONE_SLAB = create("limestone_slab",
+        () -> new SlabBlock(Properties.copy(LIMESTONE.get())),
+        GeologicExpansion.CREATIVE_TAB
     );
-    public static final Supplier<Block> LIMESTONE_STAIRS = create(
-            "limestone_stairs",
-            () -> new StairBlock(
-                    LIMESTONE.get().defaultBlockState(),
-                    Properties.copy(LIMESTONE.get())
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> LIMESTONE_STAIRS = create("limestone_stairs",
+        () -> new StairBlock(
+            LIMESTONE.get().defaultBlockState(),
+            Properties.copy(LIMESTONE.get())
+        ), GeologicExpansion.CREATIVE_TAB
     );
-    public static final Supplier<Block> LIMESTONE_WALL = create(
-            "limestone_wall",
-            () -> new WallBlock(
-                    Properties.copy(LIMESTONE.get())
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> LIMESTONE_WALL = create("limestone_wall",
+        () -> new WallBlock(Properties.copy(LIMESTONE.get())),
+        GeologicExpansion.CREATIVE_TAB
     );
-    public static final Supplier<Block> POLISHED_LIMESTONE = create(
-            "polished_limestone",
-            () -> new Block(
-                    Properties.of(Material.STONE, MaterialColor.SAND)
-                            .requiresCorrectToolForDrops()
-                            .strength(1.5F, 6.0F)
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> POLISHED_LIMESTONE = create("polished_limestone",
+        () -> new Block(
+            Properties.of(Material.STONE, MaterialColor.SAND)
+                .requiresCorrectToolForDrops()
+                .strength(1.5F, 6.0F)
+        ), GeologicExpansion.CREATIVE_TAB
     );
-    public static final Supplier<Block> POLISHED_LIMESTONE_SLAB = create(
-            "polished_limestone_slab",
-            () -> new SlabBlock(
-                    Properties.copy(POLISHED_LIMESTONE.get())
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> POLISHED_LIMESTONE_SLAB = create("polished_limestone_slab",
+        () -> new SlabBlock(Properties.copy(POLISHED_LIMESTONE.get())),
+        GeologicExpansion.CREATIVE_TAB
     );
-    public static final Supplier<Block> POLISHED_LIMESTONE_STAIRS = create(
-            "polished_limestone_stairs",
-            () -> new StairBlock(
-                    POLISHED_LIMESTONE.get().defaultBlockState(),
-                    Properties.copy(POLISHED_LIMESTONE.get())
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> POLISHED_LIMESTONE_STAIRS = create("polished_limestone_stairs",
+        () -> new StairBlock(
+            POLISHED_LIMESTONE.get().defaultBlockState(),
+            Properties.copy(POLISHED_LIMESTONE.get())
+        ), GeologicExpansion.CREATIVE_TAB
     );
-    public static final Supplier<Block> POLISHED_LIMESTONE_WALL = create(
-            "polished_limestone_wall",
-            () -> new WallBlock(
-                    Properties.copy(POLISHED_LIMESTONE.get())
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> POLISHED_LIMESTONE_WALL = create("polished_limestone_wall",
+        () -> new WallBlock(
+            Properties.copy(POLISHED_LIMESTONE.get())
+        ), GeologicExpansion.CREATIVE_TAB
     );
 
     // ========== GEYSER ===============================================================================================
-    public static final Supplier<Block> GEYSER = create(
-            "geyser",
-            () -> new GeyserBlock(
-                    Properties.of(Material.STONE)
-                            .requiresCorrectToolForDrops()
-                            .sound(SoundType.TUFF)
-                            .strength(1.5F, 6.0F)
-            ), GeologicExpansion.CREATIVE_TAB
+    public static final Supplier<Block> GEYSER = create("geyser",
+        () -> new GeyserBlock(
+            Properties.of(Material.STONE)
+                .requiresCorrectToolForDrops()
+                .sound(SoundType.TUFF)
+                .strength(1.5F, 6.0F)
+        ), GeologicExpansion.CREATIVE_TAB
     );
 
     // ========== PRISMATIC STONE ======================================================================================

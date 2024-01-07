@@ -93,7 +93,6 @@ public class CalderaPlacements {
     }
 
     // ========= GEYSER ================================================================================================
-
     public static final Holder<PlacedFeature> GEYSER_PATCH = FEATURES.create("geyser_patch",
             CalderaFeatures.GEYSER_PATCH,
             CountPlacement.of(10),

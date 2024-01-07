@@ -1,9 +1,17 @@
-// 1.19.2	2023-12-14T19:23:47.3007454	Tags for minecraft:block
-33bc1ebfb102c1df997dfd4149867afe285cfc79 data\geologicexpansion\tags\blocks\overgrowth_growable_blocks.json
-00c9ca1ee401ecdb12b830bcc16a9cf53ceb5d8c data\minecraft\tags\blocks\walls.json
-7ca082f91fcdea60c103081ceb1c99c23158e394 data\minecraft\tags\blocks\slabs.json
+// 1.19.2	2024-01-05T22:40:39.9657851	Tags for minecraft:block
+28a144d3ac57bcf78a3ef5ccb2940d1dd8ff82b2 data\geologicexpansion\tags\blocks\savanna_terracotta.json
+f48c8baf4386cf3b9186bf48212fbb0b19b11efa data\minecraft\tags\blocks\leaves.json
 16d72e60db3ce5773d0e1d39786cb034a71af81a data\minecraft\tags\blocks\base_stone_overworld.json
+4eb564e0917f5fe739cfa8474594db1be38eb831 data\minecraft\tags\blocks\fence_gates.json
 16d72e60db3ce5773d0e1d39786cb034a71af81a data\minecraft\tags\blocks\stone_ore_replaceables.json
 877b93cc2f2eb99f69e852e7a658f968079f5b45 data\minecraft\tags\blocks\replaceable_plants.json
-b76f4b34e24c713f4cdc492c69c08136a4ef1684 data\minecraft\tags\blocks\stairs.json
-545d0fe7c022cc37ea97d8b06005cceebff61d06 data\minecraft\tags\blocks\mineable\pickaxe.json
+5518029cf2904cd9c462d5777a7e1dd98240224e data\geologicexpansion\tags\blocks\maple_logs.json
+632b7f669082d9d29b9108c36387a0d23f6f671d data\minecraft\tags\blocks\logs_that_burn.json
+33bc1ebfb102c1df997dfd4149867afe285cfc79 data\geologicexpansion\tags\blocks\overgrowth_growable_blocks.json
+410c64e66a5b98442588394f6294a9e66b18a2bf data\geologicexpansion\tags\blocks\can_fallen_trees_generate_on.json
+b760d726cf2708ed960ad461dd716ca9c4473307 data\minecraft\tags\blocks\slabs.json
+f48c8baf4386cf3b9186bf48212fbb0b19b11efa data\minecraft\tags\blocks\mineable\hoe.json
+09b953ac45e6e3fb3671bd36d0365ae893c479ab data\minecraft\tags\blocks\fences.json
+f52570f8740395ce0a7794c85c1a22f89c3bdc18 data\minecraft\tags\blocks\stairs.json
+5893ad48dc6ffaaadaa3d434732d9ce4d6e0b80a data\minecraft\tags\blocks\mineable\pickaxe.json
+25b1b6277184e7afb00d2715f2664f12a419df68 data\minecraft\tags\blocks\overworld_carver_replaceables.json

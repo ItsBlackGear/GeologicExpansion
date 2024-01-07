@@ -16,6 +16,8 @@ public class GEParticleTypes {
     public static final CoreRegistry<ParticleType<?>> PARTICLES = CoreRegistry.create(Registry.PARTICLE_TYPE, GeologicExpansion.MOD_ID);
 
     public static final Supplier<SimpleParticleType> GEYSER_ERUPTION = create("geyser_eruption", false);
+    public static final Supplier<SimpleParticleType> RED_MAPLE_LEAVES = create("red_maple_leaves", false);
+    public static final Supplier<SimpleParticleType> BROWN_MAPLE_LEAVES = create("brown_maple_leaves", false);
 
     private static Supplier<SimpleParticleType> create(String key, boolean overrideLimiter) {
         return PARTICLES.register(key, () -> SimpleParticleTypeAccessor.create(overrideLimiter));
