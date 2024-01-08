@@ -23,12 +23,7 @@ import java.util.List;
 public class UndergroundPlacements {
     public static final WorldGenRegistry FEATURES = WorldGenRegistry.of(GeologicExpansion.MOD_ID);
 
-    public static final Holder<PlacedFeature> ORE_LIMESTONE = FEATURES.create(
-            "ore_limestone",
-            UndergroundFeatures.ORE_LIMESTONE,
-            rareOrePlacement(2, HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(16)))
-    );
-
+    // ========== MOSSY CAVES ==========================================================================================
     public static final Holder<PlacedFeature> MOSSY_PATCH_FLOOR = FEATURES.create(
             "mossy_patch_floor",
             UndergroundFeatures.MOSSY_PATCH_FLOOR,
@@ -39,7 +34,6 @@ public class UndergroundPlacements {
             RandomOffsetPlacement.vertical(ConstantInt.of(1)),
             BiomeFilter.biome()
     );
-
     public static final Holder<PlacedFeature> MOSSY_PATCH_CEILING = FEATURES.create(
             "mossy_patch_ceiling",
             UndergroundFeatures.MOSSY_PATCH_CEILING,
@@ -51,6 +45,14 @@ public class UndergroundPlacements {
             BiomeFilter.biome()
     );
 
+    // ========== ORES =================================================================================================
+    public static final Holder<PlacedFeature> ORE_LIMESTONE = FEATURES.create(
+        "ore_limestone",
+        UndergroundFeatures.ORE_LIMESTONE,
+        rareOrePlacement(2, HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(16)))
+    );
+
+    // ========== ORE BUILDERS =========================================================================================
     private static List<PlacementModifier> orePlacement(PlacementModifier placementModifier, PlacementModifier placementModifier2) {
         return List.of(placementModifier, InSquarePlacement.spread(), placementModifier2, BiomeFilter.biome());
     }

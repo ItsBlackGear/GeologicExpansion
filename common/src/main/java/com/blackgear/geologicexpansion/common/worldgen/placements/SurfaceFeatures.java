@@ -41,25 +41,6 @@ import java.util.OptionalInt;
 public class SurfaceFeatures {
     public static final WorldGenRegistry FEATURES = WorldGenRegistry.of(GeologicExpansion.MOD_ID);
 
-    public static final Holder<ConfiguredFeature<DiskConfiguration, ?>> DISK_PACKED_MUD = FEATURES.create("disk_packed_mud",
-        Feature.DISK,
-        new DiskConfiguration(
-            RuleBasedBlockStateProvider.simple(Blocks.PACKED_MUD),
-            BlockPredicate.matchesBlocks(List.of(Blocks.DIRT, Blocks.GRASS_BLOCK)),
-            UniformInt.of(2, 6),
-            2
-        )
-    );
-    public static final Holder<ConfiguredFeature<DiskConfiguration, ?>> DISK_MUD = FEATURES.create("disk_mud",
-        Feature.DISK,
-        new DiskConfiguration(
-            RuleBasedBlockStateProvider.simple(Blocks.MUD),
-            BlockPredicate.matchesBlocks(List.of(Blocks.PACKED_MUD, Blocks.DIRT, Blocks.GRASS_BLOCK)),
-            UniformInt.of(2, 3),
-            1
-        )
-    );
-
     public static final Holder<ConfiguredFeature<RandomFeatureConfiguration, ?>> TREES_MAPLE_FOREST = FEATURES.create("trees_maple_forest",
         Feature.RANDOM_SELECTOR,
         new RandomFeatureConfiguration(

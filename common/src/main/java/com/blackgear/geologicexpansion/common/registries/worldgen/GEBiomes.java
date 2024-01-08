@@ -23,7 +23,6 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.OptionalInt;
 import java.util.function.Supplier;
 
 public class GEBiomes {
@@ -62,20 +61,20 @@ public class GEBiomes {
     public static Biome mapleForest() {
         MobSpawnSettings.Builder mobSpawnSettings = new MobSpawnSettings.Builder();
         BiomeDefaultFeatures.farmAnimals(mobSpawnSettings);
-        mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.WOLF, 8, 4, 4));
         mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.RABBIT, 4, 2, 3));
         mobSpawnSettings.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(EntityType.FOX, 8, 2, 4));
         BiomeDefaultFeatures.commonSpawns(mobSpawnSettings);
         BiomeGenerationSettings.Builder biomeGenerationSettings = new BiomeGenerationSettings.Builder();
         OverworldBiomesAccessor.globalOverworldGeneration(biomeGenerationSettings);
+        BiomeDefaultFeatures.addDefaultSoftDisks(biomeGenerationSettings);
         BiomeDefaultFeatures.addDefaultFlowers(biomeGenerationSettings);
         biomeGenerationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_GRASS_PLAIN);
         biomeGenerationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.MUSHROOM_ISLAND_VEGETATION);
         biomeGenerationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.RED_MUSHROOM_TAIGA);
         biomeGenerationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.BROWN_MUSHROOM_TAIGA);
-//        biomeGenerationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.BROWN_MUSHROOM_OLD_GROWTH);
         BiomeDefaultFeatures.addDefaultMushrooms(biomeGenerationSettings);
         BiomeDefaultFeatures.addDefaultExtraVegetation(biomeGenerationSettings);
+        BiomeDefaultFeatures.addCommonBerryBushes(biomeGenerationSettings);
         return biome(Biome.Precipitation.RAIN, 0.5F, 0.8F, mobSpawnSettings, biomeGenerationSettings, Musics.createGameMusic(SoundEvents.MUSIC_BIOME_LUSH_CAVES));
     }
 
@@ -85,34 +84,30 @@ public class GEBiomes {
         return Mth.hsvToRgb(0.62222224F - modifier * 0.05F, 0.5F + modifier * 0.1F, 1.0F);
     }
 
-    private static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, MobSpawnSettings.Builder mobSpawnSettingsBuilder, BiomeGenerationSettings.Builder biomeGenerationSettingsBuilder, @Nullable Music music) {
-        return biome(precipitation, temperature, downfall, 4159204, 329011, OptionalInt.empty(), mobSpawnSettingsBuilder, biomeGenerationSettingsBuilder, music);
+    public static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, MobSpawnSettings.Builder spawnSettingsBuilder, BiomeGenerationSettings.Builder generationSettingsBuilder, @Nullable Music music) {
+        return biome(precipitation, temperature, downfall, 4159204, 329011, spawnSettingsBuilder, generationSettingsBuilder, music);
     }
 
-    private static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, int grassColorOverride, MobSpawnSettings.Builder mobSpawnSettingsBuilder, BiomeGenerationSettings.Builder biomeGenerationSettingsBuilder, @Nullable Music music) {
-        return biome(precipitation, temperature, downfall, 4159204, 329011, OptionalInt.of(grassColorOverride), mobSpawnSettingsBuilder, biomeGenerationSettingsBuilder, music);
-    }
-
-    private static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, int waterColor, int fogColor, OptionalInt grassColorOverride, MobSpawnSettings.Builder mobSpawnSettingsBuilder, BiomeGenerationSettings.Builder biomeGenerationSettingsBuilder, @Nullable Music music) {
+    public static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, int waterColor, int waterFogColor, MobSpawnSettings.Builder spawnSettingsBuilder, BiomeGenerationSettings.Builder generationSettingsBuilder, @Nullable Music music) {
         BiomeSpecialEffects.Builder specialEffectsBuilder = new BiomeSpecialEffects.Builder();
-        if (grassColorOverride.isPresent()) {
-            specialEffectsBuilder.grassColorOverride(grassColorOverride.getAsInt());
-        }
-
         specialEffectsBuilder.waterColor(waterColor);
-        specialEffectsBuilder.waterFogColor(fogColor);
+        specialEffectsBuilder.waterFogColor(waterFogColor);
         specialEffectsBuilder.fogColor(12638463);
         specialEffectsBuilder.skyColor(calculateSkyColor(temperature));
         specialEffectsBuilder.ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
         specialEffectsBuilder.backgroundMusic(music);
 
+        return biome(precipitation, temperature, downfall, specialEffectsBuilder, spawnSettingsBuilder, generationSettingsBuilder);
+    }
+
+    public static Biome biome(Biome.Precipitation precipitation, float temperature, float downfall, BiomeSpecialEffects.Builder specialEffectsBuilder, MobSpawnSettings.Builder spawnSettingsBuilder, BiomeGenerationSettings.Builder generationSettingsBuilder) {
         return new Biome.BiomeBuilder()
             .precipitation(precipitation)
             .temperature(temperature)
             .downfall(downfall)
             .specialEffects(specialEffectsBuilder.build())
-            .mobSpawnSettings(mobSpawnSettingsBuilder.build())
-            .generationSettings(biomeGenerationSettingsBuilder.build())
+            .mobSpawnSettings(spawnSettingsBuilder.build())
+            .generationSettings(generationSettingsBuilder.build())
             .build();
     }
 }

@@ -22,7 +22,6 @@ public class WorldGeneration {
         BiomeManager.add((writer, context) -> {
             if (context.is(BiomeTags.IS_OVERWORLD)) {
                 writer.feature(GenerationStep.Decoration.UNDERGROUND_ORES, UndergroundPlacements.ORE_LIMESTONE, ConfigEntries.includeLimestone());
-//                writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, SurfacePlacements.OVERGROWTH_PATCH, ConfigEntries.includeOvergrowth());
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, SurfacePlacements.ROCK_PATCH);
 
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, UndergroundPlacements.MOSSY_PATCH_CEILING);
@@ -82,8 +81,6 @@ public class WorldGeneration {
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, TreeVegetationPlacements.FALLEN_MAPLE_TREE);
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, MapleForestPlacements.MAPLE_LEAF_CARPETS);
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, MapleForestPlacements.MAPLE_PATCH_PUMPKIN);
-                writer.feature(GenerationStep.Decoration.UNDERGROUND_ORES, SurfacePlacements.DISK_PACKED_MUD);
-                writer.feature(GenerationStep.Decoration.UNDERGROUND_ORES, SurfacePlacements.DISK_MUD);
             }
         });
     }

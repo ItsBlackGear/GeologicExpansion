@@ -14,7 +14,7 @@ public class LeafCarpetBlock extends CarpetBlock {
 
     @Override
     public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction direction) {
-        return adjacentBlockState.is(this) && direction.getAxis() != Direction.Axis.Y || super.skipRendering(state, adjacentBlockState, direction);
+        return adjacentBlockState.getBlock() instanceof LeafCarpetBlock && direction.getAxis() != Direction.Axis.Y || super.skipRendering(state, adjacentBlockState, direction);
     }
 
     @Override

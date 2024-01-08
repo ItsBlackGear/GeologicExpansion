@@ -20,7 +20,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.AcaciaFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.BushFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.BeehiveDecorator;
@@ -133,6 +133,8 @@ public class TreeVegetationFeatures {
                 ConstantInt.of(4),
                 ConstantInt.of(0),
                 ConstantInt.of(5),
+                0.25F,
+                0.5F,
                 0.27F,
                 0.53F
             ),
@@ -161,9 +163,10 @@ public class TreeVegetationFeatures {
             BlockStateProvider.simple(log),
             new StraightTrunkPlacer(1, 0, 0),
             BlockStateProvider.simple(leaves),
-            new AcaciaFoliagePlacer(
+            new BushFoliagePlacer(
                 ConstantInt.of(2),
-                ConstantInt.of(0)
+                ConstantInt.of(0),
+                1
             ),
             new TwoLayersFeatureSize(0, 0, 0)
         ).build();

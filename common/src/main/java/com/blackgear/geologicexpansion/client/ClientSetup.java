@@ -27,9 +27,12 @@ public class ClientSetup {
         RenderRegistry.renderer(GEEntities.DUCK_EGG, ThrownItemRenderer::new);
         RenderRegistry.entity(GEEntities.GRIZZLY_BEAR, GrizzlyBearRenderer::new, GEModelLayers.GRIZZLY_BEAR, GrizzlyBearModel::createBodyLayer);
 
+        // ========== PARTICLE REGISTRY ================================================================================
+        ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);
+        ParticleRegistry.create(GEParticleTypes.RED_MAPLE_LEAVES, MapleParticle.Provider::new);
+        ParticleRegistry.create(GEParticleTypes.BROWN_MAPLE_LEAVES, MapleParticle.Provider::new);
 
-        // ========== BLOCK COLOR REGISTRY =============================================================================
-
+        // ========== COLOR REGISTRY ===================================================================================
         BlockColor color = (state, level, pos, tint) -> {
             if (level != null && pos != null) {
                 return BiomeColors.getAverageGrassColor(level, pos);
@@ -47,10 +50,7 @@ public class ClientSetup {
     }
 
     public static void postInstance() {
-        ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);
-        ParticleRegistry.create(GEParticleTypes.RED_MAPLE_LEAVES, sprites -> (type, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new MapleParticle(level, x, y, z, sprites));
-        ParticleRegistry.create(GEParticleTypes.BROWN_MAPLE_LEAVES, sprites -> (type, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new MapleParticle(level, x, y, z, sprites));
-
+        // ========== BLOCK RENDERER REGISTRY ==========================================================================
         RenderRegistry.block(RenderType.cutout(),
             GEBlocks.OVERGROWTH.get(),
             GEBlocks.FIERY_HIBISCUS.get()

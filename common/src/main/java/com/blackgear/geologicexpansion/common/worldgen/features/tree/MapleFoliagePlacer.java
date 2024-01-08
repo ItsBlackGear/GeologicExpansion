@@ -21,18 +21,24 @@ public class MapleFoliagePlacer extends FoliagePlacer {
     public static final Codec<MapleFoliagePlacer> CODEC = RecordCodecBuilder.create(instance -> {
         return foliagePlacerParts(instance).and(instance.group(
             IntProvider.codec(4, 16).fieldOf("height").forGetter(placer -> placer.height),
+            Codec.floatRange(0.0F, 1.0F).fieldOf("wide_bottom_layer_hole_chance").forGetter(placer -> placer.wideBottomLayerHoleChance),
+            Codec.floatRange(0.0F, 1.0F).fieldOf("corner_hole_chance").forGetter(placer -> placer.cornerHoleChance),
             Codec.floatRange(0.0F, 1.0F).fieldOf("hanging_leaves_chance").forGetter(placer -> placer.hangingLeavesChance),
             Codec.floatRange(0.0F, 1.0F).fieldOf("hanging_leaves_extension_chance").forGetter(placer -> placer.hangingLeavesExtensionChance)
         )).apply(instance, MapleFoliagePlacer::new);
     });
 
     private final IntProvider height;
+    private final float wideBottomLayerHoleChance;
+    private final float cornerHoleChance;
     private final float hangingLeavesChance;
     private final float hangingLeavesExtensionChance;
 
-    public MapleFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height, float hangingLeavesChance, float hangingLeavesExtensionChance) {
+    public MapleFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider height, float wideBottomLayerHoleChance, float cornerHoleChance, float hangingLeavesChance, float hangingLeavesExtensionChance) {
         super(radius, offset);
         this.height = height;
+        this.wideBottomLayerHoleChance = wideBottomLayerHoleChance;
+        this.cornerHoleChance = cornerHoleChance;
         this.hangingLeavesChance = hangingLeavesChance;
         this.hangingLeavesExtensionChance = hangingLeavesExtensionChance;
     }
@@ -95,14 +101,14 @@ public class MapleFoliagePlacer extends FoliagePlacer {
 
     @Override
     protected boolean shouldSkipLocation(RandomSource random, int i, int j, int k, int l, boolean large) {
-        if (j == -1 && (i == l || k == l)) {
+        if (j == -1 && (i == l || k == l) && random.nextFloat() < this.wideBottomLayerHoleChance) {
             return true;
         }
 
         boolean bl2 = i == l && k == l;
         boolean bl3 = l > 2;
         if (bl3) {
-            return bl2 || i + k > l * 2 - 2;
+            return bl2 || i + k > l * 2 - 2 && random.nextFloat() < this.cornerHoleChance;
         }
 
         return bl2;

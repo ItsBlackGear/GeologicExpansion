@@ -52,6 +52,8 @@ public class CommonSetup {
 
         // ========== INTEGRATION REGISTRY =============================================================================
         IntegrationRegistry.compostable(GEBlocks.OVERGROWTH.get(), 0.3F);
+        IntegrationRegistry.strippable(GEBlocks.MAPLE_LOG.get(), GEBlocks.STRIPPED_MAPLE_LOG.get());
+        IntegrationRegistry.strippable(GEBlocks.MAPLE_WOOD.get(), GEBlocks.STRIPPED_MAPLE_WOOD.get());
 
         // ========== VILLAGER TRADE REGISTRY ==========================================================================
         TradeRegistry.registerTrade(
