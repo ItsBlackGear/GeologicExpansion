@@ -57,6 +57,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -118,7 +119,10 @@ public class Duck extends Animal implements FluidWalker {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0).add(Attributes.MOVEMENT_SPEED, 0.25).add(Attributes.LUCK, 2.0D);
+        return Mob.createMobAttributes()
+            .add(Attributes.MAX_HEALTH, 4.0)
+            .add(Attributes.MOVEMENT_SPEED, 0.25)
+            .add(Attributes.LUCK, 2.0D);
     }
 
     // ========= DATA CONTROL ==========================================================================================
@@ -289,16 +293,16 @@ public class Duck extends Animal implements FluidWalker {
             if (!stack.isEmpty()) {
                 for(int i = 0; i < 8; ++i) {
                     Vec3 vec3 = new Vec3(((double)this.random.nextFloat() - 0.5) * 0.1, Math.random() * 0.1 + 0.1, 0.0)
-                            .xRot(-this.getXRot() * (float) (Math.PI / 180.0))
-                            .yRot(-this.getYRot() * (float) (Math.PI / 180.0));
+                        .xRot(-this.getXRot() * (float) (Math.PI / 180.0))
+                        .yRot(-this.getYRot() * (float) (Math.PI / 180.0));
                     this.level.addParticle(
-                            new ItemParticleOption(ParticleTypes.ITEM, stack),
-                            this.getX() + this.getLookAngle().x / 2.0,
-                            this.getY(),
-                            this.getZ() + this.getLookAngle().z / 2.0,
-                            vec3.x,
-                            vec3.y + 0.05,
-                            vec3.z
+                        new ItemParticleOption(ParticleTypes.ITEM, stack),
+                        this.getX() + this.getLookAngle().x / 2.0,
+                        this.getY(),
+                        this.getZ() + this.getLookAngle().z / 2.0,
+                        vec3.x,
+                        vec3.y + 0.05,
+                        vec3.z
                     );
                 }
             }
@@ -458,7 +462,13 @@ public class Duck extends Animal implements FluidWalker {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(
+        ServerLevelAccessor level,
+        DifficultyInstance difficulty,
+        MobSpawnType reason,
+        @Nullable SpawnGroupData spawnData,
+        @Nullable CompoundTag dataTag
+    ) {
         if (spawnData == null) {
             spawnData = new AgeableMobGroupData(0.75F);
         }
@@ -495,11 +505,11 @@ public class Duck extends Animal implements FluidWalker {
         if (!this.level.isClientSide && server != null) {
             // Get an item from the fishing loot table
             LootContext.Builder builder = new LootContext.Builder((ServerLevel)this.level)
-                    .withParameter(LootContextParams.ORIGIN, this.position())
-                    .withParameter(LootContextParams.TOOL, new ItemStack(Items.FISHING_ROD))
-                    .withParameter(LootContextParams.THIS_ENTITY, this)
-                    .withRandom(this.random)
-                    .withLuck((float)this.getAttributeValue(Attributes.LUCK));
+                .withParameter(LootContextParams.ORIGIN, this.position())
+                .withParameter(LootContextParams.TOOL, new ItemStack(Items.FISHING_ROD))
+                .withParameter(LootContextParams.THIS_ENTITY, this)
+                .withRandom(this.random)
+                .withLuck((float)this.getAttributeValue(Attributes.LUCK));
             LootTable lootTable = server.getLootTables().get(BuiltInLootTables.FISHING);
             List<ItemStack> items = lootTable.getRandomItems(builder.create(LootContextParamSets.FISHING));
 
@@ -554,9 +564,9 @@ public class Duck extends Animal implements FluidWalker {
         if (!state.isAir() && !state.is(Blocks.LILY_PAD)) {
             FluidState fluidState = state.getFluidState();
             return fluidState.is(FluidTags.WATER) &&
-                    fluidState.isSource() &&
-                    state.getCollisionShape(this.level, pos).isEmpty() ?
-                    OpenWaterType.INSIDE_WATER : OpenWaterType.INVALID;
+                fluidState.isSource() &&
+                state.getCollisionShape(this.level, pos).isEmpty() ?
+                OpenWaterType.INSIDE_WATER : OpenWaterType.INVALID;
         } else {
             return OpenWaterType.ABOVE_WATER;
         }
@@ -575,7 +585,13 @@ public class Duck extends Animal implements FluidWalker {
 
         @Override
         protected PathFinder createPathFinder(int maxVisitedNodes) {
-            this.nodeEvaluator = new WalkNodeEvaluator();
+            this.nodeEvaluator = new WalkNodeEvaluator() {
+                @Override
+                public BlockPathTypes getBlockPathType(BlockGetter level, int x, int y, int z) {
+                    BlockState state = level.getBlockState(new BlockPos(x, y, z));
+                    return state.is(Blocks.LILY_PAD) ? BlockPathTypes.OPEN : super.getBlockPathType(level, x, y, z);
+                }
+            };
             this.nodeEvaluator.setCanPassDoors(true);
             return new PathFinder(this.nodeEvaluator, maxVisitedNodes);
         }

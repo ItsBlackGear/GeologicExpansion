@@ -1,5 +1,6 @@
 package com.blackgear.geologicexpansion.common.registries.worldgen;
 
+import com.blackgear.geologicexpansion.common.worldgen.features.BoulderFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.ExposedOreConfiguration;
 import com.blackgear.geologicexpansion.common.worldgen.features.ExposedOreFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.ExtraVinesFeature;
@@ -13,6 +14,7 @@ import com.blackgear.geologicexpansion.common.worldgen.features.GeyserPatchFeatu
 import com.blackgear.geologicexpansion.common.worldgen.features.OvergrowthPatchConfiguration;
 import com.blackgear.geologicexpansion.common.worldgen.features.OvergrowthPatchFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.ScatteredVegetationPatchFeature;
+import com.blackgear.geologicexpansion.common.worldgen.features.StructurePieceConfiguration;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.platform.CoreRegistry;
 import net.minecraft.core.Registry;
@@ -35,4 +37,5 @@ public class GEFeatures {
     public static final Supplier<Feature<NoneFeatureConfiguration>> EXTRA_VINES = FEATURES.register("extra_vines", () -> new ExtraVinesFeature(NoneFeatureConfiguration.CODEC));
 
     public static final Supplier<Feature<LargeLakeFeatureConfiguration>> LARGE_LAKE = FEATURES.register("large_lake", () -> new LargeLakeFeature(LargeLakeFeatureConfiguration.CODEC));
+    public static final Supplier<Feature<StructurePieceConfiguration>> BOULDER = FEATURES.register("boulder", () -> new BoulderFeature(StructurePieceConfiguration.CODEC));
 }

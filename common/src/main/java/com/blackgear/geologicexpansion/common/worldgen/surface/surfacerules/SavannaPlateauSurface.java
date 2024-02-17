@@ -1,5 +1,6 @@
 package com.blackgear.geologicexpansion.common.worldgen.surface.surfacerules;
 
+import com.blackgear.geologicexpansion.common.registries.worldgen.GEBiomes;
 import com.blackgear.geologicexpansion.common.worldgen.surface.rulesources.SavannaBandlands;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
@@ -10,7 +11,8 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 public class SavannaPlateauSurface extends SurfaceBuilder {
     public static SurfaceRules.RuleSource generate() {
         return SurfaceRules.ifTrue(
-            SurfaceRules.isBiome(Biomes.SAVANNA_PLATEAU, Biomes.SAVANNA, Biomes.WINDSWEPT_SAVANNA),
+            SurfaceRules.isBiome(GEBiomes.SAVANNA_STRATA),
+//            SurfaceRules.isBiome(Biomes.SAVANNA_PLATEAU, Biomes.SAVANNA, Biomes.WINDSWEPT_SAVANNA),
             SurfaceRules.sequence(
                 SurfaceRules.ifTrue(
                     SurfaceRules.ON_FLOOR,

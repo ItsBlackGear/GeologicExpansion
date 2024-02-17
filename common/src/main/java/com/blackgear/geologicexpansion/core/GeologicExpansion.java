@@ -30,7 +30,12 @@ import org.apache.logging.log4j.Logger;
 public class GeologicExpansion {
     public static final String MOD_ID = "geologicexpansion";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-    public static final ModInstance INSTANCE = ModInstance.create(MOD_ID).common(CommonSetup::onInstance).postCommon(CommonSetup::postInstance).client(ClientSetup::onInstance).postClient(ClientSetup::postInstance).build();
+    public static final ModInstance INSTANCE = ModInstance.create(MOD_ID)
+        .common(CommonSetup::onInstance)
+        .postCommon(CommonSetup::postInstance)
+        .client(ClientSetup::onInstance)
+        .postClient(ClientSetup::postInstance)
+        .build();
     public static final CreativeModeTab CREATIVE_TAB = Environment.createTab(new ResourceLocation(GeologicExpansion.MOD_ID), () -> new ItemStack(Items.STONE));
 
     public static void bootstrap() {

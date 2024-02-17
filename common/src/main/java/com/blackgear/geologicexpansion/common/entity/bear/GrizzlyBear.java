@@ -130,10 +130,10 @@ public class GrizzlyBear extends Animal implements NeutralMob {
 
     public static AttributeSupplier.Builder createAttributes() {
         return AgeableMob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 30.0D)
-                .add(Attributes.FOLLOW_RANGE, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.25D)
-                .add(Attributes.ATTACK_DAMAGE, 6.0D);
+            .add(Attributes.MAX_HEALTH, 30.0D)
+            .add(Attributes.FOLLOW_RANGE, 20.0D)
+            .add(Attributes.MOVEMENT_SPEED, 0.25D)
+            .add(Attributes.ATTACK_DAMAGE, 6.0D);
     }
 
     public static boolean checkGrizzlyBearSpawnRules(EntityType<GrizzlyBear> entityType, LevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
@@ -274,7 +274,13 @@ public class GrizzlyBear extends Animal implements NeutralMob {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(
+        ServerLevelAccessor level,
+        DifficultyInstance difficulty,
+        MobSpawnType reason,
+        @Nullable SpawnGroupData spawnData,
+        @Nullable CompoundTag dataTag
+    ) {
         if (spawnData == null) {
             spawnData = new AgeableMob.AgeableMobGroupData(1.0F);
         }
@@ -291,13 +297,12 @@ public class GrizzlyBear extends Animal implements NeutralMob {
         public boolean canUse() {
             if (!GrizzlyBear.this.isBaby()) {
                 if (super.canUse()) {
-                    for (GrizzlyBear polarBear : GrizzlyBear.this.level.getEntitiesOfClass(GrizzlyBear.class, GrizzlyBear.this.getBoundingBox().inflate(8.0, 4.0, 8.0))) {
-                        if (polarBear.isBaby()) {
+                    for (GrizzlyBear bear : GrizzlyBear.this.level.getEntitiesOfClass(GrizzlyBear.class, GrizzlyBear.this.getBoundingBox().inflate(8.0, 4.0, 8.0))) {
+                        if (bear.isBaby()) {
                             return true;
                         }
                     }
                 }
-
             }
             return false;
         }

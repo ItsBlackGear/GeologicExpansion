@@ -78,19 +78,19 @@ public class TreeVegetationFeatures {
 
     // ========== FALLEN TREES =========================================================================================
     public static final Holder<ConfiguredFeature<FallenTreeConfiguration, ?>> FALLEN_OAK_TREE = FEATURES.create("fallen_oak_tree",
-        GEFeatures.FALLEN_TREE.get(), createFallenTree(Blocks.OAK_LOG)
+        GEFeatures.FALLEN_TREE.get(), createFallenTree(Blocks.OAK_LOG, 2, 4)
     );
     public static final Holder<ConfiguredFeature<FallenTreeConfiguration, ?>> FALLEN_BIRCH_TREE = FEATURES.create("fallen_birch_tree",
-        GEFeatures.FALLEN_TREE.get(), createFallenTree(Blocks.BIRCH_LOG)
+        GEFeatures.FALLEN_TREE.get(), createFallenTree(Blocks.BIRCH_LOG, 2, 5)
     );
     public static final Holder<ConfiguredFeature<FallenTreeConfiguration, ?>> FALLEN_SPRUCE_TREE = FEATURES.create("fallen_spruce_tree",
-        GEFeatures.FALLEN_TREE.get(), createFallenTree(Blocks.SPRUCE_LOG)
+        GEFeatures.FALLEN_TREE.get(), createFallenTree(Blocks.SPRUCE_LOG, 4, 8)
     );
     public static final Holder<ConfiguredFeature<FallenTreeConfiguration, ?>> FALLEN_ACACIA_TREE = FEATURES.create("fallen_acacia_tree",
-        GEFeatures.FALLEN_TREE.get(), createFallenTree(Blocks.ACACIA_LOG)
+        GEFeatures.FALLEN_TREE.get(), createFallenTree(Blocks.ACACIA_LOG, 2, 5)
     );
     public static final Holder<ConfiguredFeature<FallenTreeConfiguration, ?>> FALLEN_MAPLE_TREE = FEATURES.create("fallen_maple_tree",
-        GEFeatures.FALLEN_TREE.get(), createFallenTree(GEBlocks.MAPLE_LOG.get())
+        GEFeatures.FALLEN_TREE.get(), createFallenTree(GEBlocks.MAPLE_LOG.get(), 2, 4)
     );
 
     // ========== BUSHES ===============================================================================================
@@ -142,10 +142,10 @@ public class TreeVegetationFeatures {
         ).ignoreVines();
     }
 
-    private static FallenTreeConfiguration createFallenTree(Block log) {
+    private static FallenTreeConfiguration createFallenTree(Block log, int minLength, int maxLength) {
         return new FallenTreeConfiguration(
             BlockStateProvider.simple(log),
-            UniformInt.of(3, 5),
+            UniformInt.of(minLength, maxLength),
             ConstantInt.of(1),
             0.6F,
             new WeightedStateProvider(

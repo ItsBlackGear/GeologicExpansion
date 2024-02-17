@@ -5,6 +5,7 @@ import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEFeatures;
 import com.blackgear.geologicexpansion.common.worldgen.features.LargeLakeFeatureConfiguration;
 import com.blackgear.geologicexpansion.common.worldgen.features.OvergrowthPatchConfiguration;
+import com.blackgear.geologicexpansion.common.worldgen.features.StructurePieceConfiguration;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.data.GEBlockTags;
 import com.blackgear.geologicexpansion.core.platform.common.WorldGenRegistry;
@@ -12,6 +13,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
@@ -40,6 +43,28 @@ import java.util.OptionalInt;
 
 public class SurfaceFeatures {
     public static final WorldGenRegistry FEATURES = WorldGenRegistry.of(GeologicExpansion.MOD_ID);
+
+    private static final List<ResourceLocation> BOULDER_STRUCTURES = List.of(
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_1"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_2"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_3"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_4"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_5"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_6"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_7"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_1"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_2"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_3"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_4"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_5"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_6"),
+        new ResourceLocation(GeologicExpansion.MOD_ID, "boulder/boulder_7")
+    );
+
+    public static final Holder<ConfiguredFeature<StructurePieceConfiguration, ?>> BOULDER = FEATURES.create("boulder",
+        GEFeatures.BOULDER.get(),
+        new StructurePieceConfiguration.Builder(BOULDER_STRUCTURES).build()
+    );
 
     public static final Holder<ConfiguredFeature<RandomFeatureConfiguration, ?>> TREES_MAPLE_FOREST = FEATURES.create("trees_maple_forest",
         Feature.RANDOM_SELECTOR,

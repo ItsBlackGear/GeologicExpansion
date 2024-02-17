@@ -17,8 +17,9 @@ public class GESurfaceRules {
                         PrismaticCalderaSurface.generate()
                     ),
                     SurfaceRules.ifTrue(
-                        SurfaceRules.isBiome(Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.WINDSWEPT_SAVANNA),
-                        SavannaPlateauSurface.create()
+                        SurfaceRules.isBiome(GEBiomes.SAVANNA_STRATA),
+//                        SurfaceRules.isBiome(Biomes.SAVANNA, Biomes.SAVANNA_PLATEAU, Biomes.WINDSWEPT_SAVANNA),
+                        SavannaPlateauSurface.generate()
                     )
                 )
             )

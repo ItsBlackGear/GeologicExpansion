@@ -20,15 +20,17 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 public class WorldGeneration {
     public static void bootstrap() {
         BiomeManager.add((writer, context) -> {
-            if (context.is(BiomeTags.IS_OVERWORLD)) {
+            if (context.is(BiomeTags.IS_OVERWORLD) || context.is(GEBiomes.MAPLE_FOREST)) {
                 writer.feature(GenerationStep.Decoration.UNDERGROUND_ORES, UndergroundPlacements.ORE_LIMESTONE, ConfigEntries.includeLimestone());
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, SurfacePlacements.ROCK_PATCH);
+                writer.feature(GenerationStep.Decoration.RAW_GENERATION, SurfacePlacements.BOULDER);
 
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, UndergroundPlacements.MOSSY_PATCH_CEILING);
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, UndergroundPlacements.MOSSY_PATCH_FLOOR);
             }
 
-            if (context.is(Biomes.SAVANNA) || context.is(Biomes.SAVANNA_PLATEAU) || context.is(Biomes.WINDSWEPT_SAVANNA)) {
+            if (context.is(GEBiomes.SAVANNA_STRATA)) {
+//            if (context.is(Biomes.SAVANNA) || context.is(Biomes.SAVANNA_PLATEAU) || context.is(Biomes.WINDSWEPT_SAVANNA)) {
                 writer.feature(GenerationStep.Decoration.RAW_GENERATION, SavannaPlacements.SAVANNA_SURFACE);
             }
 
@@ -69,7 +71,7 @@ public class WorldGeneration {
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, TreeVegetationPlacements.SPRUCE_BUSH);
             }
 
-            if (context.is(BiomeTags.IS_SAVANNA)) {
+            if (context.is(BiomeTags.IS_SAVANNA) || context.is(GEBiomes.SAVANNA_STRATA)) {
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, TreeVegetationPlacements.FALLEN_ACACIA_TREE);
                 writer.feature(GenerationStep.Decoration.VEGETAL_DECORATION, TreeVegetationPlacements.ACACIA_BUSH);
             }

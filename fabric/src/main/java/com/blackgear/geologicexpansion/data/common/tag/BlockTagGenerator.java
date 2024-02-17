@@ -23,14 +23,16 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
             family.getVariants().forEach((variant, block) -> this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block));
         });
 
-        this.tag(BlockTags.BASE_STONE_OVERWORLD).add(
+        this.tag(BlockTags.BASE_STONE_OVERWORLD)
+            .add(
                 GEBlocks.PRISMATIC_STONE.get(),
                 GEBlocks.LIMESTONE.get()
-        );
-        this.tag(BlockTags.STONE_ORE_REPLACEABLES).add(
+            );
+        this.tag(BlockTags.STONE_ORE_REPLACEABLES)
+            .add(
                 GEBlocks.PRISMATIC_STONE.get(),
                 GEBlocks.LIMESTONE.get()
-        );
+            );
         this.tag(BlockTags.REPLACEABLE_PLANTS).add(
                 GEBlocks.OVERGROWTH.get()
         );
@@ -44,20 +46,22 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
             GEBlocks.MAPLE_WOOD.get(),
             GEBlocks.STRIPPED_MAPLE_WOOD.get()
         );
-        this.tag(BlockTags.LOGS_THAT_BURN).addTag(GEBlockTags.MAPLE_LOGS);
-        this.tag(BlockTags.MUSHROOM_GROW_BLOCK).addTag(BlockTags.LOGS_THAT_BURN);
+        this.tag(BlockTags.LOGS_THAT_BURN)
+            .addTag(GEBlockTags.MAPLE_LOGS);
 
         // ========== WORLD GENERATION TAGS ============================================================================
-        this.tag(GEBlockTags.OVERGROWTH_GROWABLE_BLOCKS).add(
+        this.tag(GEBlockTags.OVERGROWTH_GROWABLE_BLOCKS)
+            .add(
                 Blocks.PODZOL,
                 Blocks.MOSSY_COBBLESTONE
-        );
-        this.tag(GEBlockTags.CAN_FALLEN_TREES_GENERATE_ON).add(
+            );
+        this.tag(GEBlockTags.CAN_FALLEN_TREES_GENERATE_ON)
+            .add(
                 Blocks.GRASS_BLOCK,
                 Blocks.DIRT,
                 Blocks.PODZOL,
                 Blocks.COARSE_DIRT
-        );
+            );
         this.tag(GEBlockTags.SAVANNA_TERRACOTTA).add(
             Blocks.LIGHT_GRAY_TERRACOTTA,
             Blocks.WHITE_TERRACOTTA,
