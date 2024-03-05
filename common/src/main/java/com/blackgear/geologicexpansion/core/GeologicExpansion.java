@@ -9,6 +9,8 @@ import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.common.registries.GEItems;
 import com.blackgear.geologicexpansion.common.registries.GEPointOfInterests;
 import com.blackgear.geologicexpansion.common.registries.GESounds;
+import com.blackgear.geologicexpansion.common.registries.entities.GEActivities;
+import com.blackgear.geologicexpansion.common.registries.entities.GEEntityDataSerializers;
 import com.blackgear.geologicexpansion.common.registries.entities.GEProfessions;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEBiomes;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GEFeatures;
@@ -53,6 +55,8 @@ public class GeologicExpansion {
         // ========== ENTITY REGISTRY ==================================================================================
         GEEntities.ENTITIES.register();
         GEProfessions.PROFESSIONS.register();
+        GEActivities.ACTIVITIES.register();
+        GEEntityDataSerializers.bootstrap();
 
         // ========== WORLD GEN REGISTRY ===============================================================================
         GEFeatures.FEATURES.register();

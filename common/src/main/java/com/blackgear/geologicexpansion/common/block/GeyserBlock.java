@@ -49,10 +49,10 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
     public GeyserBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(
-                this.getStateDefinition()
-                        .any()
-                        .setValue(HALF, DoubleBlockHalf.LOWER)
-                        .setValue(STAGE, Stage.ASLEEP)
+            this.getStateDefinition()
+                .any()
+                .setValue(HALF, DoubleBlockHalf.LOWER)
+                .setValue(STAGE, Stage.ASLEEP)
         );
     }
 
@@ -69,20 +69,22 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
         if (this.shouldEmitSparkParticles(state) && this.shouldEmitSmokeParticles(level, pos, state) && random.nextInt(5) == 0) {
             for (int i = 0; i < random.nextInt(1) + 1; i++) {
                 level.addParticle(
-                        ParticleTypes.LAVA,
-                        (double)pos.getX() + 0.5,
-                        (double)pos.getY() + 2,
-                        (double)pos.getZ() + 0.5,
-                        random.nextFloat() / 2.0F,
-                        5.0E-5F,
-                        random.nextFloat() / 2.0F
+                    ParticleTypes.LAVA,
+                    (double)pos.getX() + 0.5,
+                    (double)pos.getY() + 2,
+                    (double)pos.getZ() + 0.5,
+                    random.nextFloat() / 2.0F,
+                    5.0E-5F,
+                    random.nextFloat() / 2.0F
                 );
             }
         }
     }
 
     private boolean shouldEmitSmokeParticles(Level level, BlockPos pos, BlockState state) {
-        return state.getValue(HALF) == DoubleBlockHalf.UPPER && DripstoneUtils.isEmptyOrWaterOrLava(level.getBlockState(pos.above())) && !level.isWaterAt(pos.above());
+        return state.getValue(HALF) == DoubleBlockHalf.UPPER
+            && DripstoneUtils.isEmptyOrWaterOrLava(level.getBlockState(pos.above()))
+            && !level.isWaterAt(pos.above());
     }
 
     private boolean shouldEmitSparkParticles(BlockState state) {
@@ -98,8 +100,8 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
         DoubleBlockHalf half = state.getValue(HALF);
         if (direction.getAxis() != Direction.Axis.Y || half == DoubleBlockHalf.LOWER != (direction == Direction.UP) || neighborState.is(this) && neighborState.getValue(HALF) != half) {
             return half == DoubleBlockHalf.LOWER && direction == Direction.DOWN && !state.canSurvive(level, currentPos)
-                    ? Blocks.AIR.defaultBlockState()
-                    : super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
+                ? Blocks.AIR.defaultBlockState()
+                : super.updateShape(state, direction, neighborState, level, currentPos, neighborPos);
         } else {
             return Blocks.AIR.defaultBlockState();
         }
@@ -208,7 +210,7 @@ public class GeyserBlock extends BaseEntityBlock implements SimpleWaterloggedBlo
         ASLEEP("asleep", TimeValue.minutes(1, 5), false),
         AWAKE("awake", TimeValue.minutes(1, 10), true),
         ERUPTING("erupting", ConstantInt.of(TimeValue.seconds(6)), true),
-        COOLING_OFF("cooling_off", TimeValue.minutes(1, 3), false);
+        EXHAUSTED("exhausted", TimeValue.minutes(1, 3), false);
 
         private final String name;
         private final IntProvider duration;

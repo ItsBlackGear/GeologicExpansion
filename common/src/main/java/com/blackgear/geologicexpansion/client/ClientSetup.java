@@ -4,8 +4,10 @@ import com.blackgear.geologicexpansion.client.particle.GeyserEruptionParticle;
 import com.blackgear.geologicexpansion.client.particle.MapleParticle;
 import com.blackgear.geologicexpansion.client.registries.GEParticleTypes;
 import com.blackgear.geologicexpansion.client.renderer.entity.DuckRenderer;
-import com.blackgear.geologicexpansion.client.renderer.entity.GrizzlyBearRenderer;
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
+import com.blackgear.geologicexpansion.client.renderer.entity.oDuckRenderer;
+import com.blackgear.geologicexpansion.client.renderer.entity.GrizzlyBearRenderer;
+import com.blackgear.geologicexpansion.client.renderer.entity.model.oDuckModel;
 import com.blackgear.geologicexpansion.client.renderer.entity.model.GrizzlyBearModel;
 import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
@@ -24,8 +26,9 @@ public class ClientSetup {
     public static void onInstance() {
         // ========== ENTITY RENDERER REGISTRY =========================================================================
         RenderRegistry.entity(GEEntities.DUCK, DuckRenderer::new, GEModelLayers.DUCK, DuckModel::createBodyLayer);
+        RenderRegistry.entity(GEEntities.O_DUCK, oDuckRenderer::new, GEModelLayers.O_DUCK, oDuckModel::createBodyLayer);
         RenderRegistry.renderer(GEEntities.DUCK_EGG, ThrownItemRenderer::new);
-        RenderRegistry.entity(GEEntities.GRIZZLY_BEAR, GrizzlyBearRenderer::new, GEModelLayers.GRIZZLY_BEAR, GrizzlyBearModel::createBodyLayer);
+        RenderRegistry.entity(GEEntities.GRIZZLY, GrizzlyBearRenderer::new, GEModelLayers.GRIZZLY_BEAR, GrizzlyBearModel::createBodyLayer);
 
         // ========== PARTICLE REGISTRY ================================================================================
         ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);

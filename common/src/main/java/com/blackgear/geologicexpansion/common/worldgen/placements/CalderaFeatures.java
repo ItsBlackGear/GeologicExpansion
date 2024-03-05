@@ -15,7 +15,9 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.UnderwaterMagmaConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedBlockStateProvider;
@@ -24,13 +26,10 @@ import net.minecraft.world.level.levelgen.placement.CaveSurface;
 public class CalderaFeatures {
     public static final WorldGenRegistry FEATURES = WorldGenRegistry.of(GeologicExpansion.MOD_ID);
 
-    // ========== PRISMATIC LAKE =======================================================================================
-    public static final Holder<ConfiguredFeature<SimpleBlockConfiguration, ?>> PRISMATIC_LAKE = FEATURES.create(
-            "prismatic_lake",
-            Feature.SIMPLE_BLOCK,
-            new SimpleBlockConfiguration(
-                    BlockStateProvider.simple(Blocks.WATER)
-            )
+    public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> PRISMATIC_POND = FEATURES.create(
+            "prismatic_pond",
+            GEFeatures.POND.get(),
+            FeatureConfiguration.NONE
     );
 
     // ========== GEYSER ===============================================================================================
@@ -138,6 +137,16 @@ public class CalderaFeatures {
                     ),
                     ConstantInt.of(1),
                     0
+            )
+    );
+
+    public static final Holder<ConfiguredFeature<UnderwaterMagmaConfiguration, ?>> MAGMA = FEATURES.create(
+            "magma",
+            Feature.UNDERWATER_MAGMA,
+            new UnderwaterMagmaConfiguration(
+                2,
+                3,
+                0.3F
             )
     );
 }

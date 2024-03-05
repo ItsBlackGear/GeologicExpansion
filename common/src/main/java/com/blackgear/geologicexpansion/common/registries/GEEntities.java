@@ -1,6 +1,7 @@
 package com.blackgear.geologicexpansion.common.registries;
 
-import com.blackgear.geologicexpansion.common.entity.bear.GrizzlyBear;
+import com.blackgear.geologicexpansion.common.entity.bear.Grizzly;
+import com.blackgear.geologicexpansion.common.entity.duck.ODuck;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.common.entity.projectile.ThrownDuckEgg;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
@@ -16,14 +17,20 @@ public class GEEntities {
     public static final CoreRegistry<EntityType<?>> ENTITIES = CoreRegistry.create(Registry.ENTITY_TYPE, GeologicExpansion.MOD_ID);
 
     // ========== GRIZZLY BEAR =========================================================================================
-    public static final Supplier<EntityType<GrizzlyBear>> GRIZZLY_BEAR = create(
+    public static final Supplier<EntityType<Grizzly>> GRIZZLY = create(
             "grizzly_bear",
-            EntityType.Builder.of(GrizzlyBear::new, MobCategory.CREATURE)
+            EntityType.Builder.of(Grizzly::new, MobCategory.CREATURE)
                     .sized(1.8F, 1.8F)
                     .clientTrackingRange(10)
     );
 
     // ========== DUCKS ================================================================================================
+    public static final Supplier<EntityType<ODuck>> O_DUCK = create(
+            "o_duck",
+            EntityType.Builder.of(ODuck::new, MobCategory.CREATURE)
+                    .sized(0.4F, 0.7F)
+                    .clientTrackingRange(10)
+    );
     public static final Supplier<EntityType<Duck>> DUCK = create(
             "duck",
             EntityType.Builder.of(Duck::new, MobCategory.CREATURE)

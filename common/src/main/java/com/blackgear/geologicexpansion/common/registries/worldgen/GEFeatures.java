@@ -4,8 +4,6 @@ import com.blackgear.geologicexpansion.common.worldgen.features.BoulderFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.ExposedOreConfiguration;
 import com.blackgear.geologicexpansion.common.worldgen.features.ExposedOreFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.ExtraVinesFeature;
-import com.blackgear.geologicexpansion.common.worldgen.features.LargeLakeFeature;
-import com.blackgear.geologicexpansion.common.worldgen.features.LargeLakeFeatureConfiguration;
 import com.blackgear.geologicexpansion.common.worldgen.features.MultiVegetationPatchConfiguration;
 import com.blackgear.geologicexpansion.common.worldgen.features.MultiVegetationPatchFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.FallenTreeConfiguration;
@@ -13,6 +11,7 @@ import com.blackgear.geologicexpansion.common.worldgen.features.FallenTreeFeatur
 import com.blackgear.geologicexpansion.common.worldgen.features.GeyserPatchFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.OvergrowthPatchConfiguration;
 import com.blackgear.geologicexpansion.common.worldgen.features.OvergrowthPatchFeature;
+import com.blackgear.geologicexpansion.common.worldgen.features.PondFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.ScatteredVegetationPatchFeature;
 import com.blackgear.geologicexpansion.common.worldgen.features.StructurePieceConfiguration;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
@@ -35,7 +34,7 @@ public class GEFeatures {
     public static final Supplier<Feature<ExposedOreConfiguration>> EXPOSED_ORE_FEATURE = FEATURES.register("exposed_ore", () -> new ExposedOreFeature(ExposedOreConfiguration.CODEC));
     public static final Supplier<Feature<MultiVegetationPatchConfiguration>> MULTI_VEGETATION_PATCH = FEATURES.register("multi_vegetation_patch", () -> new MultiVegetationPatchFeature(MultiVegetationPatchConfiguration.CODEC));
     public static final Supplier<Feature<NoneFeatureConfiguration>> EXTRA_VINES = FEATURES.register("extra_vines", () -> new ExtraVinesFeature(NoneFeatureConfiguration.CODEC));
-
-    public static final Supplier<Feature<LargeLakeFeatureConfiguration>> LARGE_LAKE = FEATURES.register("large_lake", () -> new LargeLakeFeature(LargeLakeFeatureConfiguration.CODEC));
     public static final Supplier<Feature<StructurePieceConfiguration>> BOULDER = FEATURES.register("boulder", () -> new BoulderFeature(StructurePieceConfiguration.CODEC));
+
+    public static final Supplier<Feature<NoneFeatureConfiguration>> POND = FEATURES.register("pond", () -> new PondFeature(NoneFeatureConfiguration.CODEC));
 }

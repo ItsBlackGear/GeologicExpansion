@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "geologicexpansion:prismatic_caldera"
+    "geologicexpansion:prismatic_caldera",
+    "geologicexpansion:maple_forest",
+    "geologicexpansion:savanna_strata"
   ]
 }

@@ -8,12 +8,13 @@ import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 
 public class PoiTypeTagGenerator extends FabricTagProvider<PoiType> {
-    public PoiTypeTagGenerator(FabricDataGenerator dataGenerator) {
-        super(dataGenerator, Registry.POINT_OF_INTEREST_TYPE);
+    public PoiTypeTagGenerator(FabricDataGenerator generator) {
+        super(generator, Registry.POINT_OF_INTEREST_TYPE);
     }
 
     @Override
     protected void generateTags() {
-        this.tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(GEPointOfInterests.GEOLOGIST_TABLE);
+        this.tag(PoiTypeTags.ACQUIRABLE_JOB_SITE)
+            .add(GEPointOfInterests.GEOLOGIST_TABLE);
     }
 }

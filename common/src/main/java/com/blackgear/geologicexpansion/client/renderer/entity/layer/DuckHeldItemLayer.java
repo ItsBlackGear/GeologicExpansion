@@ -1,6 +1,7 @@
 package com.blackgear.geologicexpansion.client.renderer.entity.layer;
 
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
+import com.blackgear.geologicexpansion.client.renderer.entity.model.oDuckModel;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;

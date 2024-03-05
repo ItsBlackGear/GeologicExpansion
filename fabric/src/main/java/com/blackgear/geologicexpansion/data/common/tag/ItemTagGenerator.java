@@ -17,22 +17,20 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
     protected void generateTags() {
         GEBlockFamilies.getAllFamilies().forEach(this::populateTags);
 
-        this.tag(ItemTags.STONE_TOOL_MATERIALS).add(GEBlocks.PRISMATIC_STONE.get().asItem());
-        this.tag(ItemTags.STONE_CRAFTING_MATERIALS).add(GEBlocks.PRISMATIC_STONE.get().asItem());
+        this.tag(ItemTags.STONE_TOOL_MATERIALS)
+            .add(GEBlocks.PRISMATIC_STONE.get().asItem());
+        this.tag(ItemTags.STONE_CRAFTING_MATERIALS)
+            .add(GEBlocks.PRISMATIC_STONE.get().asItem());
     }
 
     private void populateTags(BlockFamily family) {
-        if (family.getVariants().containsKey(BlockFamily.Variant.WALL)) {
-            this.tag(ItemTags.WALLS).add(family.get(BlockFamily.Variant.WALL).asItem());
-        }
-        if (family.getVariants().containsKey(BlockFamily.Variant.SLAB)) {
-            this.tag(ItemTags.SLABS).add(family.get(BlockFamily.Variant.SLAB).asItem());
-        }
-        if (family.getVariants().containsKey(BlockFamily.Variant.STAIRS)) {
-            this.tag(ItemTags.STAIRS).add(family.get(BlockFamily.Variant.STAIRS).asItem());
-        }
-        if (family.getVariants().containsKey(BlockFamily.Variant.FENCE)) {
-            this.tag(ItemTags.FENCES).add(family.get(BlockFamily.Variant.FENCE).asItem());
+        for (BlockFamily.Variant variant : family.getVariants().keySet()) {
+            switch (variant) {
+                case SLAB -> this.tag(ItemTags.SLABS).add(family.get(BlockFamily.Variant.SLAB).asItem());
+                case STAIRS -> this.tag(ItemTags.STAIRS).add(family.get(BlockFamily.Variant.STAIRS).asItem());
+                case WALL -> this.tag(ItemTags.WALLS).add(family.get(BlockFamily.Variant.WALL).asItem());
+                case FENCE -> this.tag(ItemTags.FENCES).add(family.get(BlockFamily.Variant.FENCE).asItem());
+            }
         }
     }
 }

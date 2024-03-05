@@ -1,4 +1,4 @@
-// 1.19.2	2024-02-16T02:24:44.9054484	Block Loot Tables
+// 1.19.2	2024-03-02T16:36:14.459272	Block Loot Tables
 98331378a9e08d3644f2cc68df798ee4d794516a data\geologicexpansion\loot_tables\blocks\red_polished_prismatic_stone_stairs.json
 60c3674aefd19705b8d26389ad828d0196d36e60 data\geologicexpansion\loot_tables\blocks\geyser.json
 bd8626cd8a8b9e04d70966233782ef802cfd189f data\geologicexpansion\loot_tables\blocks\geologist_table.json
@@ -59,7 +59,6 @@ a3347e36161c7b8e8219046746d9355620039bd0 data\geologicexpansion\loot_tables\bloc
 bf9fc186d23d4a9089bd69423a76bfdbc390fac4 data\geologicexpansion\loot_tables\blocks\brown_prismatic_stone.json
 bf17bcf74a74bdcbde69ee2e6e3b3ae17257787b data\geologicexpansion\loot_tables\blocks\black_prismatic_stone_slab.json
 cb9300e0d4161069dc60c694b19b41f68509e14b data\geologicexpansion\loot_tables\blocks\white_polished_prismatic_stone_slab.json
-ae17d97704aed1ebe30bdf1ec0279f4278afee0d data\geologicexpansion\loot_tables\blocks\rock.json
 e9643b17cbcef58609158350a78ffe0c9d9945e4 data\geologicexpansion\loot_tables\blocks\cyan_prismatic_stone_wall.json
 00f6a6401128c80e4498e93fcb86d54a54404ee9 data\geologicexpansion\loot_tables\blocks\yellow_prismatic_stone_wall.json
 9e9678a9c6820141ed7b97000aefece3255b86d5 data\geologicexpansion\loot_tables\blocks\polished_prismatic_stone_stairs.json

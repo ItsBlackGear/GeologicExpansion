@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
-    "minecraft:packed_mud"
+    "minecraft:packed_mud",
+    "geologicexpansion:yellow_prismatic_stone",
+    "geologicexpansion:orange_prismatic_stone",
+    "geologicexpansion:red_prismatic_stone",
+    "geologicexpansion:brown_prismatic_stone",
+    "geologicexpansion:purple_prismatic_stone"
   ]
 }

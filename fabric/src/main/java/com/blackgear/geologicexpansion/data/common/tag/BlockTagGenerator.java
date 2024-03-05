@@ -16,61 +16,76 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void generateTags() {
-        GEBlockFamilies.getAllFamilies().forEach(this::populateTags);
+        GEBlockFamilies.getAllFamilies()
+            .forEach(this::populateTags);
+        GEBlockFamilies.getStoneFamilies()
+            .forEach(family -> {
+                this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(family.getBaseBlock());
+                family.getVariants().forEach((variant, block) -> this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block));
+            });
 
-        GEBlockFamilies.getStoneFamilies().forEach(family -> {
-            this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(family.getBaseBlock());
-            family.getVariants().forEach((variant, block) -> this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block));
-        });
+        // ========== MINEABLE WITH TOOLS ==============================================================================
 
-        this.tag(BlockTags.BASE_STONE_OVERWORLD)
-            .add(
-                GEBlocks.PRISMATIC_STONE.get(),
-                GEBlocks.LIMESTONE.get()
-            );
-        this.tag(BlockTags.STONE_ORE_REPLACEABLES)
-            .add(
-                GEBlocks.PRISMATIC_STONE.get(),
-                GEBlocks.LIMESTONE.get()
-            );
-        this.tag(BlockTags.REPLACEABLE_PLANTS).add(
-                GEBlocks.OVERGROWTH.get()
-        );
-        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
-                GEBlocks.GEYSER.get()
-        );
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .add(GEBlocks.GEYSER.get());
 
-        this.tag(GEBlockTags.MAPLE_LOGS).add(
-            GEBlocks.MAPLE_LOG.get(),
-            GEBlocks.STRIPPED_MAPLE_LOG.get(),
-            GEBlocks.MAPLE_WOOD.get(),
-            GEBlocks.STRIPPED_MAPLE_WOOD.get()
-        );
+        this.tag(BlockTags.MINEABLE_WITH_HOE)
+            .add(GEBlocks.RED_MAPLE_LEAVES.get())
+            .add(GEBlocks.BROWN_MAPLE_LEAVES.get())
+            .add(GEBlocks.ASPEN_LEAVES.get());
+
+        // ========== WOOD TYPES =======================================================================================
+
         this.tag(BlockTags.LOGS_THAT_BURN)
             .addTag(GEBlockTags.MAPLE_LOGS);
 
+        this.tag(BlockTags.LEAVES)
+            .add(GEBlocks.RED_MAPLE_LEAVES.get())
+            .add(GEBlocks.BROWN_MAPLE_LEAVES.get())
+            .add(GEBlocks.ASPEN_LEAVES.get());
+
+        this.tag(GEBlockTags.MAPLE_LOGS)
+            .add(GEBlocks.MAPLE_LOG.get())
+            .add(GEBlocks.STRIPPED_MAPLE_LOG.get())
+            .add(GEBlocks.MAPLE_WOOD.get())
+            .add(GEBlocks.STRIPPED_MAPLE_WOOD.get());
+
         // ========== WORLD GENERATION TAGS ============================================================================
+
+        this.tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES)
+            .add(Blocks.PACKED_MUD)
+            .add(GEBlocks.YELLOW_PRISMATIC_STONE.get())
+            .add(GEBlocks.ORANGE_PRISMATIC_STONE.get())
+            .add(GEBlocks.RED_PRISMATIC_STONE.get())
+            .add(GEBlocks.BROWN_PRISMATIC_STONE.get())
+            .add(GEBlocks.PURPLE_PRISMATIC_STONE.get());
+
+        this.tag(BlockTags.BASE_STONE_OVERWORLD)
+            .add(GEBlocks.PRISMATIC_STONE.get())
+            .add(GEBlocks.LIMESTONE.get());
+
+        this.tag(BlockTags.STONE_ORE_REPLACEABLES)
+            .add(GEBlocks.PRISMATIC_STONE.get())
+            .add(GEBlocks.LIMESTONE.get());
+
+        this.tag(BlockTags.REPLACEABLE_PLANTS)
+            .add(GEBlocks.OVERGROWTH.get());
+
         this.tag(GEBlockTags.OVERGROWTH_GROWABLE_BLOCKS)
-            .add(
-                Blocks.PODZOL,
-                Blocks.MOSSY_COBBLESTONE
-            );
+            .add(Blocks.PODZOL)
+            .add(Blocks.MOSSY_COBBLESTONE);
+
         this.tag(GEBlockTags.CAN_FALLEN_TREES_GENERATE_ON)
-            .add(
-                Blocks.GRASS_BLOCK,
-                Blocks.DIRT,
-                Blocks.PODZOL,
-                Blocks.COARSE_DIRT
-            );
-        this.tag(GEBlockTags.SAVANNA_TERRACOTTA).add(
-            Blocks.LIGHT_GRAY_TERRACOTTA,
-            Blocks.WHITE_TERRACOTTA,
-            Blocks.PACKED_MUD,
-            Blocks.BROWN_TERRACOTTA
-        );
-        this.tag(BlockTags.OVERWORLD_CARVER_REPLACEABLES).add(Blocks.PACKED_MUD);
-        this.tag(BlockTags.LEAVES).add(GEBlocks.RED_MAPLE_LEAVES.get(), GEBlocks.BROWN_MAPLE_LEAVES.get(), GEBlocks.ASPEN_LEAVES.get());
-        this.tag(BlockTags.MINEABLE_WITH_HOE).add(GEBlocks.RED_MAPLE_LEAVES.get(), GEBlocks.BROWN_MAPLE_LEAVES.get(), GEBlocks.ASPEN_LEAVES.get());
+            .add(Blocks.GRASS_BLOCK)
+            .add(Blocks.DIRT)
+            .add(Blocks.PODZOL)
+            .add(Blocks.COARSE_DIRT);
+
+        this.tag(GEBlockTags.SAVANNA_TERRACOTTA)
+            .add(Blocks.LIGHT_GRAY_TERRACOTTA)
+            .add(Blocks.WHITE_TERRACOTTA)
+            .add(Blocks.PACKED_MUD)
+            .add(Blocks.BROWN_TERRACOTTA);
     }
 
     private void populateTags(BlockFamily family) {

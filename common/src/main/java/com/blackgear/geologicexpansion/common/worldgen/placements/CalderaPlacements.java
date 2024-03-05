@@ -1,16 +1,14 @@
 package com.blackgear.geologicexpansion.common.worldgen.placements;
 
-import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.platform.common.WorldGenRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Vec3i;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.WeightedListInt;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
@@ -26,71 +24,15 @@ import net.minecraft.world.level.material.Fluids;
 public class CalderaPlacements {
     public static final WorldGenRegistry FEATURES = WorldGenRegistry.of(GeologicExpansion.MOD_ID);
 
-    // ========== PRISMATIC LAKE =======================================================================================
-    public static final Holder<PlacedFeature> PRISMATIC_LAKE = FEATURES.create(
-            "prismatic_lake",
-            CalderaFeatures.PRISMATIC_LAKE,
-            CountPlacement.of(20),
-            CountPlacement.of(30),
+    public static final Holder<PlacedFeature> PRISMATIC_POND = FEATURES.create(
+            "prismatic_pond",
+            CalderaFeatures.PRISMATIC_POND,
+            CountPlacement.of(125),
             InSquarePlacement.spread(),
             PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
-            CountPlacement.of(5),
-            RandomOffsetPlacement.horizontal(UniformInt.of(-4, 4)),
-            EnvironmentScanPlacement.scanningFor(
-                    Direction.DOWN,
-                    getPrismaticLakeBlockPredicates(),
-                    6
-            ),
+            EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.solid(), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12),
             BiomeFilter.biome()
     );
-
-    private static BlockPredicate getPrismaticLakeBlockPredicates() {
-        Block[] borderReplaceables = {
-                GEBlocks.ORANGE_PRISMATIC_STONE.get(),
-                GEBlocks.BROWN_PRISMATIC_STONE.get(),
-                GEBlocks.RED_PRISMATIC_STONE.get(),
-                Blocks.AIR,
-                Blocks.LAVA
-        };
-
-        Block[] lakeBlocks = {
-                GEBlocks.YELLOW_PRISMATIC_STONE.get(),
-                Blocks.MAGMA_BLOCK
-        };
-
-        Block[] floorReplaceables = {
-                GEBlocks.YELLOW_PRISMATIC_STONE.get(),
-                GEBlocks.ORANGE_PRISMATIC_STONE.get(),
-                GEBlocks.PURPLE_PRISMATIC_STONE.get(),
-                GEBlocks.BROWN_PRISMATIC_STONE.get(),
-                GEBlocks.RED_PRISMATIC_STONE.get(),
-                GEBlocks.PRISMATIC_STONE.get(),
-                Blocks.LAVA,
-                Blocks.CALCITE,
-                Blocks.GRASS_BLOCK,
-                Blocks.DIRT,
-                Blocks.COARSE_DIRT,
-                Blocks.WATER
-        };
-
-        BlockPredicate borderBlockPredicate = BlockPredicate.anyOf(
-                Direction.Plane.HORIZONTAL.stream().map(direction -> {
-                    return BlockPredicate.matchesBlocks(direction.getNormal(), borderReplaceables);
-                }).toArray(BlockPredicate[]::new)
-        );
-
-        BlockPredicate floorBlockPredicate = BlockPredicate.anyOf(
-                Direction.Plane.HORIZONTAL.stream().map(direction -> {
-                    return BlockPredicate.matchesBlocks(direction.getNormal().above(), floorReplaceables);
-                }).toArray(BlockPredicate[]::new)
-        );
-
-        return BlockPredicate.allOf(
-                BlockPredicate.not(borderBlockPredicate), // no border blocks
-                BlockPredicate.matchesBlocks(Vec3i.ZERO, lakeBlocks), // lake block
-                BlockPredicate.not(floorBlockPredicate) // no floor blocks
-        );
-    }
 
     // ========= GEYSER ================================================================================================
     public static final Holder<PlacedFeature> GEYSER_PATCH = FEATURES.create("geyser_patch",
@@ -179,5 +121,21 @@ public class CalderaPlacements {
                     BlockPredicate.matchesFluids(Fluids.WATER)
             ),
             BiomeFilter.biome()
+    );
+
+    public static final Holder<PlacedFeature> MAGMA = FEATURES.create(
+        "magma",
+        CalderaFeatures.MAGMA,
+        CountPlacement.of(
+            new WeightedListInt(
+                SimpleWeightedRandomList.<IntProvider>builder()
+                    .add(ConstantInt.of(3), 100)
+                    .add(ConstantInt.of(2), 100)
+                    .build()
+            )
+        ),
+        InSquarePlacement.spread(),
+        PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+        BiomeFilter.biome()
     );
 }

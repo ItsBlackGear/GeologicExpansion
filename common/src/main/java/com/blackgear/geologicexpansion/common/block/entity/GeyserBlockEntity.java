@@ -11,12 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,8 +31,7 @@ public class GeyserBlockEntity extends BlockEntity {
     }
 
     private int initialCooldown() {
-        RandomSource random = this.level != null ? this.level.getRandom() : RandomSource.create();
-        return TimeValue.minutes(1, 3).sample(random);
+        return this.level != null ? TimeValue.minutes(1, 3).sample(this.level.getRandom()) : TimeValue.minutes(3);
     }
 
     @Override
@@ -59,25 +53,25 @@ public class GeyserBlockEntity extends BlockEntity {
         if (random.nextFloat() < 0.11F && !state.getValue(BlockStateProperties.WATERLOGGED) && state.getValue(GeyserBlock.HALF) == DoubleBlockHalf.UPPER) {
             if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.AWAKE) {
                 level.addAlwaysVisibleParticle(
-                        ParticleTypes.CAMPFIRE_COSY_SMOKE,
-                        true,
+                    ParticleTypes.CAMPFIRE_COSY_SMOKE,
+                    true,
+                    pos.getX() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
+                    pos.getY() + 0.5 + random.nextDouble() + random.nextDouble(),
+                    pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
+                    0.0,
+                    0.07,
+                    0.0
+                );
+            } else if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.EXHAUSTED) {
+                for (int i = 0; i < random.nextInt(2) + 2; i++) {
+                    level.addParticle(
+                        ParticleTypes.SMOKE,
                         pos.getX() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
                         pos.getY() + 0.5 + random.nextDouble() + random.nextDouble(),
                         pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
                         0.0,
                         0.07,
                         0.0
-                );
-            } else if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.COOLING_OFF) {
-                for (int i = 0; i < random.nextInt(2) + 2; i++) {
-                    level.addParticle(
-                            ParticleTypes.SMOKE,
-                            pos.getX() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
-                            pos.getY() + 0.5 + random.nextDouble() + random.nextDouble(),
-                            pos.getZ() + 0.5 + random.nextDouble() / 3.0 * (double) (random.nextBoolean() ? 1 : -1),
-                            0.0,
-                            0.07,
-                            0.0
                     );
                 }
             }
@@ -86,22 +80,22 @@ public class GeyserBlockEntity extends BlockEntity {
         if (state.getValue(GeyserBlock.STAGE) == GeyserBlock.Stage.ERUPTING) {
             for (int i = 0; i < random.nextInt(1) + 1; i++) {
                 level.addParticle(
-                        ParticleTypes.LAVA,
-                        (double)pos.getX() + 0.5,
-                        (double)pos.getY() + 1,
-                        (double)pos.getZ() + 0.5,
-                        random.nextFloat() / 2.0F,
-                        5.0E-5,
-                        random.nextFloat() / 2.0F
+                    ParticleTypes.LAVA,
+                    (double)pos.getX() + 0.5,
+                    (double)pos.getY() + 1,
+                    (double)pos.getZ() + 0.5,
+                    random.nextFloat() / 2.0F,
+                    5.0E-5,
+                    random.nextFloat() / 2.0F
                 );
                 level.addParticle(
-                        GEParticleTypes.GEYSER_ERUPTION.get(),
-                        (double)pos.getX() + 0.5,
-                        (double)pos.getY() + 1,
-                        (double)pos.getZ() + 0.5,
-                        random.nextFloat() / 2.0F,
-                        0.0,
-                        random.nextFloat() / 2.0F
+                    GEParticleTypes.GEYSER_ERUPTION.get(),
+                    (double)pos.getX() + 0.5,
+                    (double)pos.getY() + 1,
+                    (double)pos.getZ() + 0.5,
+                    random.nextFloat() / 2.0F,
+                    0.0,
+                    random.nextFloat() / 2.0F
                 );
             }
         }
@@ -131,29 +125,17 @@ public class GeyserBlockEntity extends BlockEntity {
                 }
 
                 AABB boundingBox = new AABB(
-                        scanPos.getX(),
-                        scanPos.getY(),
-                        scanPos.getZ(),
-                        scanPos.getX() + 1.0,
-                        scanPos.getY() + 1.0,
-                        scanPos.getZ() + 1.0
+                    scanPos.getX(),
+                    scanPos.getY(),
+                    scanPos.getZ(),
+                    scanPos.getX() + 1.0,
+                    scanPos.getY() + 1.0,
+                    scanPos.getZ() + 1.0
                 );
                 entities.addAll(level.getEntitiesOfClass(Entity.class, boundingBox));
             }
 
-            for (Entity entity : entities) {
-                if (entity instanceof LivingEntity living) {
-                    int protLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.FIRE_PROTECTION, living);
-                    float damage = 1.0F - (float)protLevel * 0.15F;
-
-                    if (!living.hasEffect(MobEffects.FIRE_RESISTANCE)) {
-                        living.hurt(DamageSource.HOT_FLOOR, damage);
-                    }
-                }
-
-                entity.setDeltaMovement(entity.getDeltaMovement().add(0.0, velocity, 0.0));
-                entity.hurtMarked = true;
-            }
+            entities.forEach(entity -> entity.setDeltaMovement(entity.getDeltaMovement().add(0.0, velocity, 0.0)));
         }
     }
 
@@ -175,8 +157,8 @@ public class GeyserBlockEntity extends BlockEntity {
                     switch (stage) {
                         case ASLEEP -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.AWAKE, null);
                         case AWAKE -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ERUPTING, GESounds.GEYSER_ERUPT.get());
-                        case ERUPTING -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.COOLING_OFF, null);
-                        case COOLING_OFF -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ASLEEP, null);
+                        case ERUPTING -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.EXHAUSTED, null);
+                        case EXHAUSTED -> this.setStageAndSchedule(state, level, pos, GeyserBlock.Stage.ASLEEP, null);
                     }
                 }
             }

@@ -6,7 +6,6 @@ import com.blackgear.geologicexpansion.common.block.GeyserBlock;
 import com.blackgear.geologicexpansion.common.block.LeafCarpetBlock;
 import com.blackgear.geologicexpansion.common.block.MapleLeavesBlock;
 import com.blackgear.geologicexpansion.common.block.OvergrowthBlock;
-import com.blackgear.geologicexpansion.common.block.RockBlock;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.blackgear.geologicexpansion.core.mixin.access.PressurePlateBlockAccessor;
 import com.blackgear.geologicexpansion.core.mixin.access.WoodButtonBlockAccessor;
@@ -196,16 +195,6 @@ public class GEBlocks {
     );
 
     // ========== MISCELLANEOUS ========================================================================================
-
-    public static final Supplier<Block> ROCK = create("rock",
-        () -> new RockBlock(
-            Properties.of(Material.STONE)
-                .strength(0.25F)
-                .noOcclusion()
-                .dynamicShape()
-                .offsetType(BlockBehaviour.OffsetType.XZ)
-        ), GeologicExpansion.CREATIVE_TAB
-    );
 
     public static final Supplier<Block> FIERY_HIBISCUS = create("fiery_hibiscus",
         () -> new FieryHibiscusBlock(

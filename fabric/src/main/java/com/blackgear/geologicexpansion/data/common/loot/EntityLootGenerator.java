@@ -26,34 +26,34 @@ import java.util.function.Supplier;
 
 public class EntityLootGenerator extends SimpleFabricLootTableProvider {
     private static final EntityPredicate.Builder ENTITY_ON_FIRE = EntityPredicate.Builder.entity().flags(EntityFlagsPredicate.Builder.flags().setOnFire(true).build());
-    public EntityLootGenerator(FabricDataGenerator dataGenerator) {
-        super(dataGenerator, LootContextParamSets.ENTITY);
+    public EntityLootGenerator(FabricDataGenerator generator) {
+        super(generator, LootContextParamSets.ENTITY);
     }
 
     @Override
     public void accept(BiConsumer<ResourceLocation, LootTable.Builder> exporter) {
         this.add(
-                GEEntities.DUCK,
-                exporter,
-                LootTable.lootTable()
-                .withPool(
-                        LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1.0F))
-                                .add(
-                                        LootItem.lootTableItem(Items.FEATHER)
-                                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
-                                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
-                                )
+            GEEntities.DUCK,
+            exporter,
+            LootTable.lootTable()
+            .withPool(
+                LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1.0F))
+                .add(
+                    LootItem.lootTableItem(Items.FEATHER)
+                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
+                    .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
                 )
-                .withPool(
-                        LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1.0F))
-                                .add(
-                                        LootItem.lootTableItem(Items.CHICKEN)
-                                                .apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))
-                                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
-                                )
+            )
+            .withPool(
+                LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1.0F))
+                .add(
+                    LootItem.lootTableItem(Items.CHICKEN)
+                    .apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE)))
+                    .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))
                 )
+            )
         );
     }
 

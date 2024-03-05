@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "geologicexpansion:miners_camp",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 8,
+    "salt": 1897675941
+  }
+}

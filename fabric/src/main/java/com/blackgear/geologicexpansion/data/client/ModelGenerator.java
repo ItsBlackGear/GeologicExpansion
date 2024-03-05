@@ -24,19 +24,26 @@ public class ModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockModelGenerators gen) {
-        GEBlockFamilies.getStoneFamilies().filter(BlockFamily::shouldGenerateModel).forEach(family -> {
-            Block block = family.getBaseBlock();
-            TexturedModel texturedModel = this.texturedModels.getOrDefault(block, TexturedModel.CUBE.get(block));
-            gen.new BlockFamilyProvider(texturedModel.getMapping()).fullBlock(block, texturedModel.getTemplate()).generateFor(family);
-        });
-        GEBlockFamilies.getAllFamilies().filter(BlockFamily::shouldGenerateModel).forEach(family -> gen.family(family.getBaseBlock()).generateFor(family));
+        GEBlockFamilies.getStoneFamilies()
+            .filter(BlockFamily::shouldGenerateModel)
+            .forEach(family -> {
+                Block block = family.getBaseBlock();
+                TexturedModel texturedModel = this.texturedModels.getOrDefault(block, TexturedModel.CUBE.get(block));
+                gen.new BlockFamilyProvider(texturedModel.getMapping()).fullBlock(block, texturedModel.getTemplate()).generateFor(family);
+            });
+        GEBlockFamilies.getAllFamilies()
+            .filter(BlockFamily::shouldGenerateModel)
+            .forEach(family -> gen.family(family.getBaseBlock()).generateFor(family));
 
-        gen.woodProvider(GEBlocks.MAPLE_LOG.get()).logWithHorizontal(GEBlocks.MAPLE_LOG.get()).wood(GEBlocks.MAPLE_WOOD.get());
-        gen.woodProvider(GEBlocks.STRIPPED_MAPLE_LOG.get()).logWithHorizontal(GEBlocks.STRIPPED_MAPLE_LOG.get()).wood(GEBlocks.STRIPPED_MAPLE_WOOD.get());
+        gen.woodProvider(GEBlocks.MAPLE_LOG.get())
+            .logWithHorizontal(GEBlocks.MAPLE_LOG.get())
+            .wood(GEBlocks.MAPLE_WOOD.get());
+        gen.woodProvider(GEBlocks.STRIPPED_MAPLE_LOG.get())
+            .logWithHorizontal(GEBlocks.STRIPPED_MAPLE_LOG.get())
+            .wood(GEBlocks.STRIPPED_MAPLE_WOOD.get());
         gen.createFullAndCarpetBlocks(GEBlocks.RED_MAPLE_LEAVES.get(), GEBlocks.RED_MAPLE_LEAF_CARPET.get());
         gen.createFullAndCarpetBlocks(GEBlocks.BROWN_MAPLE_LEAVES.get(), GEBlocks.BROWN_MAPLE_LEAF_CARPET.get());
         gen.createTrivialCube(GEBlocks.ASPEN_LEAVES.get());
-
     }
 
     @Override

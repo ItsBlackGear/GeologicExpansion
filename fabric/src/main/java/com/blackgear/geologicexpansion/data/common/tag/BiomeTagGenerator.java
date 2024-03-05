@@ -10,13 +10,19 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 
 public class BiomeTagGenerator extends FabricTagProvider.DynamicRegistryTagProvider<Biome> {
-    public BiomeTagGenerator(FabricDataGenerator dataGenerator) {
-        super(dataGenerator, Registry.BIOME_REGISTRY);
+    public BiomeTagGenerator(FabricDataGenerator generator) {
+        super(generator, Registry.BIOME_REGISTRY);
     }
 
     @Override
     protected void generateTags() {
-        this.tag(BiomeTags.IS_OVERWORLD).add(GEBiomes.PRISMATIC_CALDERA);
+        this.tag(BiomeTags.IS_OVERWORLD)
+            .add(GEBiomes.PRISMATIC_CALDERA)
+            .add(GEBiomes.MAPLE_FOREST)
+            .add(GEBiomes.SAVANNA_STRATA);
+
+        // ========== ENTITY SPAWNING ==================================================================================
+
         this.tag(GEBiomeTags.CAN_DUCKS_SPAWN)
                 .add(Biomes.SWAMP)
                 .add(Biomes.MANGROVE_SWAMP)
@@ -25,6 +31,7 @@ public class BiomeTagGenerator extends FabricTagProvider.DynamicRegistryTagProvi
                 .add(Biomes.TAIGA)
                 .add(Biomes.OLD_GROWTH_PINE_TAIGA)
                 .add(Biomes.OLD_GROWTH_SPRUCE_TAIGA)
-                .add(GEBiomes.PRISMATIC_CALDERA);
+                .add(GEBiomes.PRISMATIC_CALDERA)
+                .add(GEBiomes.MAPLE_FOREST);
     }
 }

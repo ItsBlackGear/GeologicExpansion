@@ -2,7 +2,6 @@ package com.blackgear.geologicexpansion.common.worldgen.surface.surfacerules;
 
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.worldgen.GENoises;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Noises;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -14,33 +13,33 @@ public class PrismaticCalderaSurface extends SurfaceBuilder {
 
     public static final SurfaceRules.RuleSource PRISMATIC_PATCHES = SurfaceRules.sequence(
         SurfaceRules.ifTrue(
-            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.7, 100),
+            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.725, 100),
             SurfaceRules.ifTrue(
                 SurfaceRules.not(SurfaceRules.steep()),
                 makeRuleState(GEBlocks.YELLOW_PRISMATIC_STONE.get())
             )
         ),
         SurfaceRules.ifTrue(
-            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.6, 100),
+            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.675, 100),
             SurfaceRules.ifTrue(
                 SurfaceRules.not(SurfaceRules.steep()),
                 makeRuleState(GEBlocks.ORANGE_PRISMATIC_STONE.get())
             )
         ),
         SurfaceRules.ifTrue(
-            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.5, 100),
+            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.615, 100),
             makeRuleState(GEBlocks.RED_PRISMATIC_STONE.get())
         ),
         SurfaceRules.ifTrue(
-            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.4, 100),
+            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.525, 100),
             makeRuleState(GEBlocks.BROWN_PRISMATIC_STONE.get())
         ),
         SurfaceRules.ifTrue(
-            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.3, 100),
+            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.4, 100),
             makeRuleState(GEBlocks.PURPLE_PRISMATIC_STONE.get())
         ),
         SurfaceRules.ifTrue(
-            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.2, 100),
+            SurfaceRules.noiseCondition(GENoises.PRISMATIC_PATCH, 0.3, 100),
             makeRuleState(GEBlocks.PRISMATIC_STONE.get())
         )
     );
@@ -54,19 +53,6 @@ public class PrismaticCalderaSurface extends SurfaceBuilder {
         SurfaceRules.RuleSource gravelOrStoneCeiling = SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, STONE), GRAVEL);
 
         return SurfaceRules.sequence(
-            SurfaceRules.ifTrue(
-                SurfaceRules.ON_FLOOR,
-                SurfaceRules.ifTrue(
-                    SurfaceRules.yBlockCheck(VerticalAnchor.absolute(62), 0),
-                    SurfaceRules.ifTrue(
-                        SurfaceRules.not(SurfaceRules.yBlockCheck(VerticalAnchor.absolute(63), 0)),
-                        SurfaceRules.ifTrue(
-                            SurfaceRules.noiseCondition(Noises.SWAMP, 0.2),
-                            makeRuleState(Blocks.WATER)
-                        )
-                    )
-                )
-            ),
             PRISMATIC_PATCHES,
             CALDERA_VEGETATION,
             SurfaceRules.ifTrue(

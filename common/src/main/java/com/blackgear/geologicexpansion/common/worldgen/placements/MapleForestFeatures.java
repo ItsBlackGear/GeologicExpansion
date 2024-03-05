@@ -28,9 +28,9 @@ public class MapleForestFeatures {
                 new SimpleBlockConfiguration(
                     new WeightedStateProvider(
                         SimpleWeightedRandomList.<BlockState>builder()
-                            .add(GEBlocks.RED_MAPLE_LEAF_CARPET.get().defaultBlockState(), 1)
-                            .add(GEBlocks.BROWN_MAPLE_LEAF_CARPET.get().defaultBlockState(), 1)
-                            .build()
+                        .add(GEBlocks.RED_MAPLE_LEAF_CARPET.get().defaultBlockState(), 1)
+                        .add(GEBlocks.BROWN_MAPLE_LEAF_CARPET.get().defaultBlockState(), 1)
+                        .build()
                     )
                 )
             )

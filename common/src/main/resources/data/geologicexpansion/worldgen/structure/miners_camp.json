@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "geologicexpansion:maple_forest",
+  "max_distance_from_center": 8,
+  "size": 1,
+  "spawn_overrides": {},
+  "terrain_adaptation": "beard_box",
+  "start_height": {
+    "type": "minecraft:uniform",
+    "min_inclusive": {
+      "absolute": -27
+    },
+    "max_inclusive": {
+      "absolute": -27
+    }
+  },
+  "start_pool": "geologicexpansion:miners_camp",
+  "step": "underground_decoration",
+  "use_expansion_hack": false
+}

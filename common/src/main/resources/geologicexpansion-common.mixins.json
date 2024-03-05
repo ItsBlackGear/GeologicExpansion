@@ -7,6 +7,7 @@
   ],
   "mixins": [
     "BlockEntityTypeMixin",
+    "access.ActivityAccessor",
     "access.BuilderAccessor",
     "access.ContextAccessor",
     "access.DoorBlockAccessor",
