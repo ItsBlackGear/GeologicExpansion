@@ -1,6 +1,6 @@
 package com.blackgear.geologicexpansion.common.entity.projectile;
 
-import com.blackgear.geologicexpansion.common.entity.duck.Duck;
+import com.blackgear.geologicexpansion.common.entity.duck.DuckEntity;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.common.registries.GEItems;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -62,7 +62,7 @@ public class ThrownDuckEgg extends ThrowableItemProjectile {
                 }
 
                 for(int i = 0; i < amount; ++i) {
-                    Duck duck = GEEntities.DUCK.get().create(this.level);
+                    DuckEntity duck = GEEntities.DUCK_ENTITY.get().create(this.level);
                     if (duck != null) {
                         duck.setAge(-24000);
                         duck.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
@@ -74,7 +74,6 @@ public class ThrownDuckEgg extends ThrowableItemProjectile {
             this.level.broadcastEntityEvent(this, (byte)3);
             this.discard();
         }
-
     }
 
     @Override

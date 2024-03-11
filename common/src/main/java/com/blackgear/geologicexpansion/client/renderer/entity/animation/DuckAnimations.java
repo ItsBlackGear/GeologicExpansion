@@ -7,9 +7,8 @@ import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
 
-@Environment(EnvType.CLIENT)
 public class DuckAnimations {
-    public static final AnimationDefinition FISHING = AnimationDefinition.Builder.withLength(1.76F).looping()
+    public static final AnimationDefinition FISHING = AnimationDefinition.Builder.withLength(1.76F)
         .addAnimation("right_wing", new AnimationChannel(AnimationChannel.Targets.ROTATION,
             new Keyframe(0.68F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
             new Keyframe(0.84F, KeyframeAnimations.degreeVec(0.0F, -50.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),

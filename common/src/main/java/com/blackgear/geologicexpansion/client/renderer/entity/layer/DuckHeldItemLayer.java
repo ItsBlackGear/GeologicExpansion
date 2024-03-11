@@ -1,8 +1,7 @@
 package com.blackgear.geologicexpansion.client.renderer.entity.layer;
 
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
-import com.blackgear.geologicexpansion.client.renderer.entity.model.oDuckModel;
-import com.blackgear.geologicexpansion.common.entity.duck.Duck;
+import com.blackgear.geologicexpansion.common.entity.duck.AbstractDuck;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.fabricmc.api.EnvType;
@@ -16,16 +15,16 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
 @Environment(EnvType.CLIENT)
-public class DuckHeldItemLayer extends RenderLayer<Duck, DuckModel<Duck>> {
+public class DuckHeldItemLayer<T extends AbstractDuck> extends RenderLayer<T, DuckModel<T>> {
     private final ItemInHandRenderer itemInHandRenderer;
 
-    public DuckHeldItemLayer(RenderLayerParent<Duck, DuckModel<Duck>> renderLayerParent, ItemInHandRenderer itemInHandRenderer) {
+    public DuckHeldItemLayer(RenderLayerParent<T, DuckModel<T>> renderLayerParent, ItemInHandRenderer itemInHandRenderer) {
         super(renderLayerParent);
         this.itemInHandRenderer = itemInHandRenderer;
     }
 
     @Override
-    public void render(PoseStack matrices, MultiBufferSource buffer, int packedLight, Duck duck, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(PoseStack matrices, MultiBufferSource buffer, int packedLight, T duck, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
         matrices.pushPose();
         matrices.translate(this.getParentModel().head.x / 16.0F, this.getParentModel().head.y / 16.0F, this.getParentModel().head.z / 16.0F);
         matrices.mulPose(Vector3f.YP.rotationDegrees(netHeadYaw));

@@ -7,7 +7,9 @@ import com.blackgear.geologicexpansion.common.block.LeafCarpetBlock;
 import com.blackgear.geologicexpansion.common.block.MapleLeavesBlock;
 import com.blackgear.geologicexpansion.common.block.OvergrowthBlock;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
+import com.blackgear.geologicexpansion.core.mixin.access.DoorBlockAccessor;
 import com.blackgear.geologicexpansion.core.mixin.access.PressurePlateBlockAccessor;
+import com.blackgear.geologicexpansion.core.mixin.access.TrapDoorBlockAccessor;
 import com.blackgear.geologicexpansion.core.mixin.access.WoodButtonBlockAccessor;
 import com.blackgear.geologicexpansion.core.platform.CoreRegistry;
 import net.minecraft.core.Registry;
@@ -22,7 +24,9 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.Material;
@@ -133,24 +137,24 @@ public class GEBlocks {
                 .sound(SoundType.WOOD)
         ), GeologicExpansion.CREATIVE_TAB
     );
-//    public static final Supplier<Block> MAPLE_TRAPDOOR = create("maple_trapdoor",
-//        () -> TrapDoorBlockAccessor.createTrapDoorBlock(
-//            Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_RED)
-//                .strength(3.0F)
-//                .sound(SoundType.WOOD)
-//                .isValidSpawn(BlockBuilder::never)
-//                .noOcclusion()
-//        ), GeologicExpansion.CREATIVE_TAB
-//    );
-//    public static final Supplier<Block> MAPLE_DOOR = create("maple_door",
-//        () -> DoorBlockAccessor.createDoorBlock(
-//            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())
-//                .strength(3.0F)
-//                .sound(SoundType.WOOD)
-//                .isValidSpawn(BlockBuilder::never)
-//                .noOcclusion()
-//        ), GeologicExpansion.CREATIVE_TAB
-//    );
+    public static final Supplier<Block> MAPLE_TRAPDOOR = create("maple_trapdoor",
+        () -> TrapDoorBlockAccessor.createTrapDoorBlock(
+            Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_RED)
+                .strength(3.0F)
+                .sound(SoundType.WOOD)
+                .isValidSpawn(BlockBuilder::never)
+                .noOcclusion()
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> MAPLE_DOOR = create("maple_door",
+        () -> DoorBlockAccessor.createDoorBlock(
+            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())
+                .strength(3.0F)
+                .sound(SoundType.WOOD)
+                .isValidSpawn(BlockBuilder::never)
+                .noOcclusion()
+        ), GeologicExpansion.CREATIVE_TAB
+    );
 //    public static final Supplier<Block> MAPLE_SIGN = create("maple_sign",
 //        () -> new StandingSignBlock(
 //            Properties.of(Material.WOOD, MAPLE_PLANKS.get().defaultMaterialColor())

@@ -21,8 +21,8 @@ public class GEBlockFamilies {
 //        .sign(GEBlocks.MAPLE_SIGN.get(), GEBlocks.MAPLE_WALL_SIGN.get())
         .slab(GEBlocks.MAPLE_SLAB.get())
         .stairs(GEBlocks.MAPLE_STAIRS.get())
-//        .door(GEBlocks.MAPLE_DOOR.get())
-//        .trapdoor(GEBlocks.MAPLE_TRAPDOOR.get())
+        .door(GEBlocks.MAPLE_DOOR.get())
+        .trapdoor(GEBlocks.MAPLE_TRAPDOOR.get())
         .recipeGroupPrefix("wooden")
         .recipeUnlockedBy("has_planks")
         .getFamily();

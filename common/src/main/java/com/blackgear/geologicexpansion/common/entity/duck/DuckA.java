@@ -6,7 +6,6 @@ import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.common.registries.GEItems;
 import com.blackgear.geologicexpansion.common.registries.GESounds;
 import com.blackgear.geologicexpansion.common.registries.entities.GEEntityDataSerializers;
-import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -68,12 +67,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class Duck extends Animal implements FluidWalker {
-    private static final EntityDataAccessor<Boolean> ATE_RECENTLY = SynchedEntityData.defineId(Duck.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<State> STATE = SynchedEntityData.defineId(Duck.class, GEEntityDataSerializers.DUCK_STATE);
+public class DuckA extends AbstractDuck implements FluidWalker {
+    private static final EntityDataAccessor<Boolean> ATE_RECENTLY = SynchedEntityData.defineId(DuckA.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<DuckA.State> STATE = SynchedEntityData.defineId(DuckA.class, GEEntityDataSerializers.DUCK_STATE);
     private static final Ingredient FOOD_ITEMS = Ingredient.of(Items.COD, Items.SALMON, Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
     public final AnimationState swimmingAnimation = new AnimationState();
-    public final AnimationState fishingAnimationState = new AnimationState();
+//    public final AnimationState fishingAnimationState = new AnimationState();
     public float flap, oFlap, flapSpeed, oFlapSpeed;
     public float flapping, nextFlap = 1.0F;
     public int eggTime = this.random.nextInt(6000) + 6000;
@@ -83,13 +82,12 @@ public class Duck extends Animal implements FluidWalker {
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 4.0)
-            .add(Attributes.MOVEMENT_SPEED, 0.25)
-            .add(Attributes.LUCK, 2.0D);
+            .add(Attributes.MOVEMENT_SPEED, 0.25);
     }
 
-    public Duck(EntityType<? extends Animal> entityType, Level level) {
+    public DuckA(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
-        this.entityData.define(STATE, State.IDLING);
+        this.entityData.define(STATE, DuckA.State.IDLING);
         this.entityData.define(ATE_RECENTLY, false);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
@@ -120,25 +118,29 @@ public class Duck extends Animal implements FluidWalker {
         return this.entityData.get(ATE_RECENTLY);
     }
 
-    public void setState(State state) {
+    public void setState(DuckA.State state) {
         this.entityData.set(STATE, state);
     }
 
-    public State getState() {
+    public DuckA.State getState() {
         return this.entityData.get(STATE);
     }
 
-    public void transitionToState(State state) {
+    public void transitionToState(DuckA.State state) {
         if (state == this.getState()) {
             return;
         }
 
         switch (state) {
             case FISHING -> {
-                this.setState(State.FISHING);
+                this.setState(DuckA.State.FISHING);
+                this.setPose(Pose.CROAKING);
                 this.level.broadcastEntityEvent(this, EntityEvents.DUCK_FISHING_ANIMATION);
             }
-            case IDLING -> this.setState(State.IDLING);
+            case IDLING -> {
+                this.setState(DuckA.State.IDLING);
+                this.setPose(Pose.STANDING);
+            }
         }
     }
 
@@ -149,6 +151,14 @@ public class Duck extends Animal implements FluidWalker {
 //        if (STATE.equals(key)) {
 //            State state = this.getState();
 //            if (state == State.FISHING) {
+//                this.fishingAnimationState.startIfStopped(this.tickCount);
+//            } else {
+//                this.fishingAnimationState.stop();
+//            }
+//        }
+//
+//        if (DATA_POSE.equals(key)) {
+//            if (this.getPose() == Pose.CROAKING) {
 //                this.fishingAnimationState.startIfStopped(this.tickCount);
 //            } else {
 //                this.fishingAnimationState.stop();
@@ -170,7 +180,7 @@ public class Duck extends Animal implements FluidWalker {
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0, 60));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(8, new DuckStartFishingGoal(1.2F, 12, 1));
+        this.goalSelector.addGoal(8, new DuckA.DuckStartFishingGoal(1.2F, 12, 1));
     }
 
     @Override
@@ -194,6 +204,7 @@ public class Duck extends Animal implements FluidWalker {
                     }
                 } else {
                     if (this.ticksSinceEaten > 600) {
+                        this.level.broadcastEntityEvent(this, EntityEvents.DUCK_FISHING_ANIMATION);
                         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
                         this.ticksSinceEaten = 0;
                     }
@@ -203,7 +214,6 @@ public class Duck extends Animal implements FluidWalker {
             if (this.ateRecently() && --this.ateCooldownTicks <= 0) {
                 this.setAteRecently(false);
                 this.ateCooldownTicks = 6000;
-                this.level.broadcastEntityEvent(this, EntityEvents.DUCK_FISHING_ANIMATION);
             }
         }
 
@@ -236,7 +246,7 @@ public class Duck extends Animal implements FluidWalker {
     @Override
     public void handleEntityEvent(byte id) {
         if (id == EntityEvents.DUCK_FISHING_ANIMATION) {
-            this.fishingAnimationState.start(this.tickCount);
+            this.fishingAnimationState.startIfStopped(this.tickCount);
         }
 
         if (id == EntityEvents.DUCK_FISHING_PARTICLES) {
@@ -264,6 +274,12 @@ public class Duck extends Animal implements FluidWalker {
 
     @Override
     public void tick() {
+        if (this.level.isClientSide) {
+            if (this.getPose() == Pose.CROAKING) {
+                this.fishingAnimationState.startIfStopped(this.tickCount);
+            }
+        }
+
         super.tick();
         this.checkInsideBlocks();
         this.floatDuck();
@@ -344,21 +360,21 @@ public class Duck extends Animal implements FluidWalker {
     // ========== OPEN WATER TYPE ==========
 
     public boolean calculateOpenWater(BlockPos pos) {
-        OpenWaterType currentType = OpenWaterType.INVALID;
+        DuckA.OpenWaterType currentType = DuckA.OpenWaterType.INVALID;
 
         for (int i = -1; i <= 2; i++) {
-            OpenWaterType newType = this.getOpenWaterTypeForArea(pos.offset(-2, i, -2), pos.offset(2, i, 2));
+            DuckA.OpenWaterType newType = this.getOpenWaterTypeForArea(pos.offset(-2, i, -2), pos.offset(2, i, 2));
             switch (newType) {
                 case INVALID -> {
                     return false;
                 }
                 case ABOVE_WATER -> {
-                    if (currentType == OpenWaterType.INVALID) {
+                    if (currentType == DuckA.OpenWaterType.INVALID) {
                         return false;
                     }
                 }
                 case INSIDE_WATER -> {
-                    if (currentType == OpenWaterType.ABOVE_WATER) {
+                    if (currentType == DuckA.OpenWaterType.ABOVE_WATER) {
                         return false;
                     }
                 }
@@ -370,27 +386,27 @@ public class Duck extends Animal implements FluidWalker {
         return true;
     }
 
-    private OpenWaterType getOpenWaterTypeForArea(BlockPos posA, BlockPos posB) {
+    private DuckA.OpenWaterType getOpenWaterTypeForArea(BlockPos posA, BlockPos posB) {
         return BlockPos.betweenClosedStream(posA, posB)
             .map(this::getOpenWaterTypeForBlock)
             .reduce(
                 (aType, bType) -> {
-                    return aType == bType ? aType : OpenWaterType.INVALID;
+                    return aType == bType ? aType : DuckA.OpenWaterType.INVALID;
                 }
             )
-            .orElse(OpenWaterType.INVALID);
+            .orElse(DuckA.OpenWaterType.INVALID);
     }
 
-    private OpenWaterType getOpenWaterTypeForBlock(BlockPos pos) {
+    private DuckA.OpenWaterType getOpenWaterTypeForBlock(BlockPos pos) {
         BlockState state = this.level.getBlockState(pos);
         if (!state.isAir()) {
             FluidState fluidState = state.getFluidState();
             return fluidState.is(FluidTags.WATER) &&
                 fluidState.isSource() &&
                 state.getCollisionShape(this.level, pos).isEmpty() ?
-                OpenWaterType.INSIDE_WATER : OpenWaterType.INVALID;
+                DuckA.OpenWaterType.INSIDE_WATER : DuckA.OpenWaterType.INVALID;
         } else {
-            return OpenWaterType.ABOVE_WATER;
+            return DuckA.OpenWaterType.ABOVE_WATER;
         }
     }
 
@@ -398,7 +414,7 @@ public class Duck extends Animal implements FluidWalker {
 
     @Override
     protected PathNavigation createNavigation(Level level) {
-        return new DuckPathNavigation(this, level);
+        return new DuckA.DuckPathNavigation(this, level);
     }
 
     @Override
@@ -445,23 +461,23 @@ public class Duck extends Animal implements FluidWalker {
         protected int ticksWaited;
 
         public DuckStartFishingGoal(double speedModifier, int searchRange, int verticalSearchRange) {
-            super(Duck.this, speedModifier, searchRange, verticalSearchRange);
+            super(DuckA.this, speedModifier, searchRange, verticalSearchRange);
         }
 
         @Override
         public boolean canUse() {
-            return (!Duck.this.ateRecently() || Duck.this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) && !Duck.this.isBaby() && super.canUse();
+            return (!DuckA.this.ateRecently() || DuckA.this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) && !DuckA.this.isBaby() && super.canUse();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return Duck.this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() && super.canContinueToUse();
+            return DuckA.this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty() && super.canContinueToUse();
         }
 
         @Override
         public void start() {
             this.ticksWaited = 0;
-            Duck.this.transitionToState(State.FISHING);
+            DuckA.this.transitionToState(DuckA.State.FISHING);
             super.start();
         }
 
@@ -472,13 +488,13 @@ public class Duck extends Animal implements FluidWalker {
 
         @Override
         protected boolean isValidTarget(LevelReader level, BlockPos pos) {
-            return Duck.this.calculateOpenWater(pos);
+            return DuckA.this.calculateOpenWater(pos);
         }
 
         @Override
         public void tick() {
             if (this.isReachedTarget()) {
-                Duck.this.getNavigation().stop();
+                DuckA.this.getNavigation().stop();
                 if (this.ticksWaited == 60) {
                     this.startFishing();
                 } else {
@@ -490,30 +506,30 @@ public class Duck extends Animal implements FluidWalker {
         }
 
         private void startFishing() {
-            ItemStack stack = Duck.this.getItemBySlot(EquipmentSlot.MAINHAND);
+            ItemStack stack = DuckA.this.getItemBySlot(EquipmentSlot.MAINHAND);
             if (stack.isEmpty()) {
-                Duck.this.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 1.0F, 1.0F);
+                DuckA.this.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 1.0F, 1.0F);
                 this.retrieveItemFromFishing();
             }
         }
 
         private void retrieveItemFromFishing() {
-            MinecraftServer server = Duck.this.level.getServer();
-            if (!Duck.this.level.isClientSide && server != null) {
+            MinecraftServer server = DuckA.this.level.getServer();
+            if (!DuckA.this.level.isClientSide && server != null) {
                 // Get an item from the fishing loot table
-                LootContext.Builder builder = new LootContext.Builder((ServerLevel) Duck.this.level)
-                    .withParameter(LootContextParams.ORIGIN, Duck.this.position())
+                LootContext.Builder builder = new LootContext.Builder((ServerLevel) DuckA.this.level)
+                    .withParameter(LootContextParams.ORIGIN, DuckA.this.position())
                     .withParameter(LootContextParams.TOOL, new ItemStack(Items.FISHING_ROD))
-                    .withParameter(LootContextParams.THIS_ENTITY, Duck.this)
-                    .withRandom(Duck.this.random)
-                    .withLuck((float) Duck.this.getAttributeValue(Attributes.LUCK));
+                    .withParameter(LootContextParams.THIS_ENTITY, DuckA.this)
+                    .withRandom(DuckA.this.random)
+                    .withLuck((float) DuckA.this.getAttributeValue(Attributes.LUCK));
                 LootTable lootTable = server.getLootTables().get(BuiltInLootTables.FISHING);
                 List<ItemStack> loot = lootTable.getRandomItems(builder.create(LootContextParamSets.FISHING));
 
                 // For each item found, hold it in the beak and set it as guaranteed drop
                 for (ItemStack stack : loot) {
-                    Duck.this.setGuaranteedDrop(EquipmentSlot.MAINHAND);
-                    Duck.this.setItemSlot(EquipmentSlot.MAINHAND, stack);
+                    DuckA.this.setGuaranteedDrop(EquipmentSlot.MAINHAND);
+                    DuckA.this.setItemSlot(EquipmentSlot.MAINHAND, stack);
                     break;
                 }
             }
@@ -521,7 +537,7 @@ public class Duck extends Animal implements FluidWalker {
 
         @Override
         public void stop() {
-            Duck.this.transitionToState(State.IDLING);
+            DuckA.this.transitionToState(DuckA.State.IDLING);
         }
     }
 

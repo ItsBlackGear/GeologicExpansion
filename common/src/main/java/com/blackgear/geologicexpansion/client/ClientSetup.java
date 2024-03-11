@@ -3,7 +3,9 @@ package com.blackgear.geologicexpansion.client;
 import com.blackgear.geologicexpansion.client.particle.GeyserEruptionParticle;
 import com.blackgear.geologicexpansion.client.particle.MapleParticle;
 import com.blackgear.geologicexpansion.client.registries.GEParticleTypes;
+import com.blackgear.geologicexpansion.client.renderer.entity.DuckEntityRenderer;
 import com.blackgear.geologicexpansion.client.renderer.entity.DuckRenderer;
+import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckEntityModel;
 import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
 import com.blackgear.geologicexpansion.client.renderer.entity.oDuckRenderer;
 import com.blackgear.geologicexpansion.client.renderer.entity.GrizzlyBearRenderer;
@@ -17,6 +19,7 @@ import com.blackgear.geologicexpansion.core.platform.client.RenderRegistry;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.GrassColor;
@@ -26,6 +29,8 @@ public class ClientSetup {
     public static void onInstance() {
         // ========== ENTITY RENDERER REGISTRY =========================================================================
         RenderRegistry.entity(GEEntities.DUCK, DuckRenderer::new, GEModelLayers.DUCK, DuckModel::createBodyLayer);
+        RenderRegistry.entity(GEEntities.DUCK_ENTITY, DuckEntityRenderer::new, GEModelLayers.DUCK_ENTITY, DuckEntityModel::createBodyLayer);
+        RenderRegistry.renderer(GEEntities.DUCK_B, DuckRenderer::new);
         RenderRegistry.entity(GEEntities.O_DUCK, oDuckRenderer::new, GEModelLayers.O_DUCK, oDuckModel::createBodyLayer);
         RenderRegistry.renderer(GEEntities.DUCK_EGG, ThrownItemRenderer::new);
         RenderRegistry.entity(GEEntities.GRIZZLY, GrizzlyBearRenderer::new, GEModelLayers.GRIZZLY_BEAR, GrizzlyBearModel::createBodyLayer);
