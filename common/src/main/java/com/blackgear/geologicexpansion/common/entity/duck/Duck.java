@@ -64,10 +64,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class DuckEntity extends Animal implements FluidWalker {
+public class Duck extends Animal implements FluidWalker {
     // ---------- ENTITY DATA ----------
-    private static final EntityDataAccessor<Boolean> ATE_RECENTLY = SynchedEntityData.defineId(DuckEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<EntityState> STATES = SynchedEntityData.defineId(DuckEntity.class, GEEntityDataSerializers.ENTITY_STATE);
+    private static final EntityDataAccessor<Boolean> ATE_RECENTLY = SynchedEntityData.defineId(Duck.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<EntityState> STATES = SynchedEntityData.defineId(Duck.class, GEEntityDataSerializers.ENTITY_STATE);
 
     // ---------- ENTITY ANIMATIONS ----------
     public final AnimationState fallingAnimationState = new AnimationState();
@@ -90,7 +90,7 @@ public class DuckEntity extends Animal implements FluidWalker {
 
     // ========== CONSTRUCTOR ==========
 
-    public DuckEntity(EntityType<? extends Animal> entityType, Level level) {
+    public Duck(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
@@ -120,30 +120,34 @@ public class DuckEntity extends Animal implements FluidWalker {
     @Override
     public void aiStep() {
         if (!this.level.isClientSide && this.isAlive() && this.isEffectiveAi()) {
+
             ItemStack stack = this.getItemBySlot(EquipmentSlot.MAINHAND);
             if (!stack.isEmpty()) {
                 ++this.ticksSinceEaten;
+                // Check if the item is edible and not a pufferfish
                 if (stack.isEdible() && !stack.is(Items.PUFFERFISH)) {
+                    // If the duck has been eating for 30 seconds, finish the item
                     if (this.ticksSinceEaten > 600) {
                         ItemStack result = stack.finishUsingItem(this.level, this);
                         if (!result.isEmpty()) {
                             this.setItemSlot(EquipmentSlot.MAINHAND, result);
                         }
 
-                        this.ticksSinceEaten = 0;
                         this.setAteRecently(true);
+                        this.ticksSinceEaten = 0;
+                    // If the duck has been eating for 28 seconds, play the eating sound
                     } else if (this.ticksSinceEaten > 560 && this.random.nextFloat() < 0.1F) {
                         this.playSound(SoundEvents.FOX_EAT, 1.0F, 1.0F);
                         this.level.broadcastEntityEvent(this, EntityEvents.DUCK_FISHING_PARTICLES);
                     }
                 } else {
-                    if (this.ticksSinceEaten > 600 - 25) {
+                    // If the duck has been holding an item for 30 seconds, finish the item
+                    if (this.ticksSinceEaten > 600) {
+                        this.setState(EntityState.IDLE);
+                        this.clearItem();
+                        // If the duck has been holding an item for 26 seconds, play the eating sound
+                    } else if (this.ticksSinceEaten > 520) {
                         this.setState(EntityState.FISHING);
-                        if (this.ticksSinceEaten == 600) {
-                            this.setState(EntityState.IDLE);
-                            this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-                            this.ticksSinceEaten = 0;
-                        }
                     }
                 }
             }
@@ -160,6 +164,11 @@ public class DuckEntity extends Animal implements FluidWalker {
         if (!this.onGround && movement.y < 0.0) {
             this.setDeltaMovement(movement.multiply(1.0, 0.6, 1.0));
         }
+    }
+
+    private void clearItem() {
+        this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+        this.ticksSinceEaten = 0;
     }
 
     @Override
@@ -207,7 +216,7 @@ public class DuckEntity extends Animal implements FluidWalker {
 
     @Nullable @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return GEEntities.DUCK_ENTITY.get().create(level);
+        return GEEntities.DUCK.get().create(level);
     }
 
     // ========== ENTITY EVENTS ==========
@@ -259,7 +268,7 @@ public class DuckEntity extends Animal implements FluidWalker {
     }
 
     public void setState(EntityState state) {
-        this.entityData.set(STATES, state);
+        if (state != this.getState()) this.entityData.set(STATES, state);
     }
 
     public EntityState getState() {
@@ -267,7 +276,7 @@ public class DuckEntity extends Animal implements FluidWalker {
     }
 
     public void setAteRecently(boolean ate) {
-        this.entityData.set(ATE_RECENTLY, ate);
+        if (ate != this.ateRecently()) this.entityData.set(ATE_RECENTLY, ate);
     }
 
     public boolean ateRecently() {
@@ -290,6 +299,8 @@ public class DuckEntity extends Animal implements FluidWalker {
             } else {
                 --this.idleAnimationTimeout;
             }
+        } else {
+            this.idleAnimationState.stop();
         }
 
         if (this.getState() == EntityState.FISHING && this.fishingAnimationTimeout <= 0) {

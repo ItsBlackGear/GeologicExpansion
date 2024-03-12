@@ -1,7 +1,7 @@
 package com.blackgear.geologicexpansion.client.renderer.entity;
 
 import com.blackgear.geologicexpansion.client.renderer.entity.layer.GrizzlyHeldItemLayer;
-import com.blackgear.geologicexpansion.client.renderer.entity.model.GrizzlyBearModel;
+import com.blackgear.geologicexpansion.client.renderer.entity.model.GrizzlyModel;
 import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
 import com.blackgear.geologicexpansion.common.entity.bear.Grizzly;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
@@ -13,9 +13,9 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 @Environment(EnvType.CLIENT)
-public class GrizzlyBearRenderer extends MobRenderer<Grizzly, GrizzlyBearModel<Grizzly>> {
-    public GrizzlyBearRenderer(EntityRendererProvider.Context context) {
-        super(context, new GrizzlyBearModel<>(context.bakeLayer(GEModelLayers.GRIZZLY_BEAR)), 0.9F);
+public class GrizzlyRenderer extends MobRenderer<Grizzly, GrizzlyModel<Grizzly>> {
+    public GrizzlyRenderer(EntityRendererProvider.Context context) {
+        super(context, new GrizzlyModel<>(context.bakeLayer(GEModelLayers.GRIZZLY_BEAR)), 0.9F);
         this.addLayer(new GrizzlyHeldItemLayer(this, context.getItemInHandRenderer()));
     }
 

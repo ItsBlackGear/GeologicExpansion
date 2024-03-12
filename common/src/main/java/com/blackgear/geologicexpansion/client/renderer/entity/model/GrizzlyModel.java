@@ -15,7 +15,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
 @Environment(EnvType.CLIENT)
-public class GrizzlyBearModel<T extends Grizzly> extends AgeableListModel<T> {
+public class GrizzlyModel<T extends Grizzly> extends AgeableListModel<T> {
     private final ModelPart root;
     public final ModelPart head;
     private final ModelPart rightHindLeg;
@@ -23,7 +23,7 @@ public class GrizzlyBearModel<T extends Grizzly> extends AgeableListModel<T> {
     private final ModelPart rightFrontLeg;
     private final ModelPart leftFrontLeg;
 
-    public GrizzlyBearModel(ModelPart root) {
+    public GrizzlyModel(ModelPart root) {
         super(true, 16.0F, 4.0F, 2.25F, 2.0F, 24);
         this.head = root.getChild("head");
         this.root = root.getChild("body");

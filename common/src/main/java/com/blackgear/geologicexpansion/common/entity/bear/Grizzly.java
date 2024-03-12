@@ -1,6 +1,6 @@
 package com.blackgear.geologicexpansion.common.entity.bear;
 
-import com.blackgear.geologicexpansion.common.entity.duck.ODuck;
+import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.BlockPos;
@@ -261,7 +261,7 @@ public class Grizzly extends Animal implements NeutralMob {
             }
         });
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Animal.class, 10, false, false, living -> {
-            return !this.isBaby() && (living instanceof Chicken || living instanceof ODuck || living instanceof Fox || living instanceof Rabbit);
+            return !this.isBaby() && (living instanceof Chicken || living instanceof Duck || living instanceof Fox || living instanceof Rabbit);
         }));
         this.targetSelector.addGoal(5, new ResetUniversalAngerTargetGoal<>(this, false));
     }

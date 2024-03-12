@@ -1,9 +1,7 @@
 package com.blackgear.geologicexpansion.common;
 
 import com.blackgear.geologicexpansion.common.entity.bear.Grizzly;
-import com.blackgear.geologicexpansion.common.entity.duck.DuckEntity;
-import com.blackgear.geologicexpansion.common.entity.duck.ODuck;
-import com.blackgear.geologicexpansion.common.entity.duck.AbstractDuck;
+import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.common.registries.GEItems;
@@ -35,11 +33,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 public class CommonSetup {
     public static void onInstance() {
         // ========== ENTITY ATTRIBUTE REGISTRY ========================================================================
-        EntityRegistry.attributes(GEEntities.DUCK, AbstractDuck::createAttributes);
-        EntityRegistry.attributes(GEEntities.DUCK_B, AbstractDuck::createAttributes);
-        EntityRegistry.attributes(GEEntities.O_DUCK, ODuck::createAttributes);
+        EntityRegistry.attributes(GEEntities.DUCK, Duck::createAttributes);
         EntityRegistry.attributes(GEEntities.GRIZZLY, Grizzly::createAttributes);
-        EntityRegistry.attributes(GEEntities.DUCK_ENTITY, DuckEntity::createAttributes);
     }
 
     public static void postInstance() {
@@ -116,11 +111,11 @@ public class CommonSetup {
         TerrablenderCompat.registerSurfaceRules();
 
         // ========== ENTITY SPAWN REGISTRY ============================================================================
-        SpawnPlacementsAccessor.register(GEEntities.O_DUCK.get(),
-                SpawnPlacements.Type.NO_RESTRICTIONS,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                ODuck::checkDuckSpawnRules
-        );
+//        SpawnPlacementsAccessor.register(GEEntities.DUCK_ENTITY.get(),
+//                SpawnPlacements.Type.NO_RESTRICTIONS,
+//                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+//                Duck::checkDuckSpawnRules
+//        );
         SpawnPlacementsAccessor.register(GEEntities.GRIZZLY.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,

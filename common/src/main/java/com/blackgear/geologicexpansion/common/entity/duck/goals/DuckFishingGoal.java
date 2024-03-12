@@ -1,6 +1,6 @@
 package com.blackgear.geologicexpansion.common.entity.duck.goals;
 
-import com.blackgear.geologicexpansion.common.entity.duck.DuckEntity;
+import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.common.entity.resource.EntityState;
 import com.blackgear.geologicexpansion.common.entity.resource.OpenWaterType;
 import net.minecraft.core.BlockPos;
@@ -13,7 +13,6 @@ import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -23,10 +22,10 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import java.util.List;
 
 public class DuckFishingGoal extends MoveToBlockGoal {
-    private final DuckEntity duck;
+    private final Duck duck;
     protected int ticksWaited;
 
-    public DuckFishingGoal(DuckEntity duck, double speedModifier, int searchRange, int verticalSearchRange) {
+    public DuckFishingGoal(Duck duck, double speedModifier, int searchRange, int verticalSearchRange) {
         super(duck, speedModifier, searchRange, verticalSearchRange);
         this.duck = duck;
     }
@@ -39,13 +38,12 @@ public class DuckFishingGoal extends MoveToBlockGoal {
 
     @Override
     public boolean canUse() {
-        return super.canUse();
-//        return (!this.duck.ateRecently() || this.duck.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) && !this.duck.isBaby() && super.canUse();
+        return (!this.duck.ateRecently() || this.duck.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) && !this.duck.isBaby() && super.canUse();
     }
 
     @Override
     public boolean canContinueToUse() {
-        return super.canContinueToUse(); // && this.duck.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty();
+        return super.canContinueToUse() && this.duck.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty();
     }
 
     @Override
@@ -55,9 +53,7 @@ public class DuckFishingGoal extends MoveToBlockGoal {
 
     @Override
     protected boolean isValidTarget(LevelReader level, BlockPos pos) {
-        return level.getBlockState(pos).is(Blocks.WATER);
-
-//        return OpenWaterType.calculateOpenWater(level, pos);
+        return OpenWaterType.calculateOpenWater(level, pos);
     }
 
     @Override
@@ -67,16 +63,13 @@ public class DuckFishingGoal extends MoveToBlockGoal {
                 this.duck.getNavigation().stop();
                 this.duck.setState(EntityState.FISHING);
             } else if (this.ticksWaited == 50) {
-                this.duck.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 0.5F, 1.0F);
+                this.duck.playSound(SoundEvents.FISHING_BOBBER_SPLASH, 0.25F, 1.0F);
             } else if (this.ticksWaited == 65) {
                 this.duck.setState(EntityState.IDLE);
                 this.startFishing();
             }
 
             ++this.ticksWaited;
-
-            System.out.println("ticksWaited: " + this.ticksWaited);
-            System.out.println("state: " + this.duck.getState());
         }
 
         super.tick();
@@ -109,5 +102,11 @@ public class DuckFishingGoal extends MoveToBlockGoal {
                 break;
             }
         }
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        this.duck.setState(EntityState.IDLE);
     }
 }

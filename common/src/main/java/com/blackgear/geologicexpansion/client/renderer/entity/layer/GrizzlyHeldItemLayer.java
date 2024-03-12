@@ -1,6 +1,6 @@
 package com.blackgear.geologicexpansion.client.renderer.entity.layer;
 
-import com.blackgear.geologicexpansion.client.renderer.entity.model.GrizzlyBearModel;
+import com.blackgear.geologicexpansion.client.renderer.entity.model.GrizzlyModel;
 import com.blackgear.geologicexpansion.common.entity.bear.Grizzly;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
@@ -15,10 +15,10 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
 @Environment(EnvType.CLIENT)
-public class GrizzlyHeldItemLayer extends RenderLayer<Grizzly, GrizzlyBearModel<Grizzly>> {
+public class GrizzlyHeldItemLayer extends RenderLayer<Grizzly, GrizzlyModel<Grizzly>> {
     private final ItemInHandRenderer itemRenderer;
 
-    public GrizzlyHeldItemLayer(RenderLayerParent<Grizzly, GrizzlyBearModel<Grizzly>> parent, ItemInHandRenderer itemRenderer) {
+    public GrizzlyHeldItemLayer(RenderLayerParent<Grizzly, GrizzlyModel<Grizzly>> parent, ItemInHandRenderer itemRenderer) {
         super(parent);
         this.itemRenderer = itemRenderer;
     }

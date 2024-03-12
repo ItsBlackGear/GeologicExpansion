@@ -39,7 +39,7 @@ public class WorldGeneration {
             }
 
             if (context.is(GEBiomeTags.CAN_DUCKS_SPAWN)) {
-                writer.spawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(GEEntities.O_DUCK.get(), 30, 2, 4), ConfigEntries.includeDucks());
+                writer.spawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(GEEntities.DUCK.get(), 30, 2, 4), ConfigEntries.includeDucks());
             }
 
             // ========== FALLEN TREES =========================================================================================
