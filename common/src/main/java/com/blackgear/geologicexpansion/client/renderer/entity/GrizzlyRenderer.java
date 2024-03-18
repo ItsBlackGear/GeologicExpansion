@@ -30,13 +30,8 @@ public class GrizzlyRenderer extends MobRenderer<Grizzly, GrizzlyModel<Grizzly>>
     }
 
     @Override
-    public void render(Grizzly entity, float entityYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {
-        if (entity.isBaby()) {
-            matrixStack.scale(0.6F, 0.6F, 0.6F);
-        } else {
-            matrixStack.scale(1.2F, 1.2F, 1.2F);
-        }
-
-        super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
+    public void render(Grizzly entity, float entityYaw, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight) {
+        stack.scale(1.2F, 1.2F, 1.2F);
+        super.render(entity, entityYaw, partialTicks, stack, buffer, packedLight);
     }
 }

@@ -3,21 +3,15 @@ package com.blackgear.geologicexpansion.client.renderer.entity.model;
 import com.blackgear.geologicexpansion.client.renderer.entity.animation.GrizzlyAnimations;
 import com.blackgear.geologicexpansion.client.renderer.entity.animation.resources.AnimationHelper;
 import com.blackgear.geologicexpansion.common.entity.bear.Grizzly;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.CubeListBuilder;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.client.model.geom.builders.*;
 
 @Environment(EnvType.CLIENT)
 public class GrizzlyModel<T extends Grizzly> extends AgeableHierarchicalModel<T> {
-    private final ModelPart bear;
+    public final ModelPart bear;
     public final ModelPart head;
 
     public GrizzlyModel(ModelPart root) {
@@ -69,11 +63,6 @@ public class GrizzlyModel<T extends Grizzly> extends AgeableHierarchicalModel<T>
             AnimationHelper.applyStatic(this, GrizzlyAnimations.BABY_TRANSFORM);
         }
     }
-
-//    @Override
-//    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-//        this.bear.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-//    }
 
     @Override
     public ModelPart root() {

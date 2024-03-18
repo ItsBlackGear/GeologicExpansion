@@ -25,7 +25,7 @@ public class GrizzlyHeldItemLayer extends RenderLayer<Grizzly, GrizzlyModel<Griz
 
     @Override
     public void render(
-        PoseStack poseStack,
+        PoseStack stack,
         MultiBufferSource buffer,
         int packedLight,
         Grizzly grizzly,
@@ -38,34 +38,39 @@ public class GrizzlyHeldItemLayer extends RenderLayer<Grizzly, GrizzlyModel<Griz
     ) {
         boolean sleeping = grizzly.isSleeping();
         boolean baby = grizzly.isBaby();
-        poseStack.pushPose();
+        stack.pushPose();
         if (baby) {
-            poseStack.scale(0.75F, 0.75F, 0.75F);
-            poseStack.translate(0.0, 0.0, 0.209375F);
+            stack.scale(0.75F, 0.75F, 0.75F);
+            stack.translate(0.0, 0.0, 0.209375F);
         }
 
-        poseStack.translate(this.getParentModel().head.x / 16.0F, this.getParentModel().head.y / 16.0F, this.getParentModel().head.z / 16.0F);
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(netHeadYaw));
-        poseStack.mulPose(Vector3f.XP.rotationDegrees(headPitch));
+        var model = this.getParentModel();
+        model.bear.translateAndRotate(stack);
+        model.head.translateAndRotate(stack);
+
+        //stack.translate(this.getParentModel().head.x / 16.0F, this.getParentModel().head.y / 16.0F, this.getParentModel().head.z / 16.0F);
+
+        stack.translate(-0.45, 0.25, 0.25);
+        stack.mulPose(Vector3f.YP.rotationDegrees(model.head.yRot));
+        stack.mulPose(Vector3f.XP.rotationDegrees(model.head.xRot));
         if (grizzly.isBaby()) {
             if (sleeping) {
-                poseStack.translate(0.4F, 0.26F, 0.15F);
+                stack.translate(0.4F, 0.26F, 0.15F);
             } else {
-                poseStack.translate(0.0F, 0.9, -0.95);
+                stack.translate(0.0F, 0.9, -0.95);
             }
         } else if (sleeping) {
-            poseStack.translate(0.46F, 0.26F, 0.22F);
+            stack.translate(0.46F, 0.26F, 0.22F);
         } else {
-            poseStack.translate(0.0F, 0.15F, -1.25);
+            stack.translate(0.0F, 0.15F, -1.25);
         }
 
-        poseStack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
+        stack.mulPose(Vector3f.XP.rotationDegrees(90.0F));
         if (sleeping) {
-            poseStack.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
+            stack.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
         }
 
-        ItemStack itemStack = grizzly.getItemBySlot(EquipmentSlot.MAINHAND);
-        this.itemRenderer.renderItem(grizzly, itemStack, ItemTransforms.TransformType.GROUND, false, poseStack, buffer, packedLight);
-        poseStack.popPose();
+        this.itemRenderer.renderItem(grizzly, grizzly.getItemBySlot(EquipmentSlot.MAINHAND), ItemTransforms.TransformType.GROUND, false, stack, buffer, packedLight);
+        stack.popPose();
     }
 }

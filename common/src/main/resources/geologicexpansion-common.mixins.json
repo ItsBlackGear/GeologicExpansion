@@ -26,7 +26,8 @@
     "common.LiquidBlockMixin",
     "common.MinecraftServerMixin",
     "common.NoiseGeneratorSettingsMixin",
-    "common.OverworldBiomeBuilderMixin"
+    "common.OverworldBiomeBuilderMixin",
+    "common.SweetBerryBushBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

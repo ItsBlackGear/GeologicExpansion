@@ -1,6 +1,7 @@
 package com.blackgear.geologicexpansion.common.entity.bear;
 
 import com.blackgear.geologicexpansion.client.events.EntityEvents;
+import com.blackgear.geologicexpansion.common.entity.bear.goals.GrizzlyEatBerriesGoal;
 import com.blackgear.geologicexpansion.common.entity.bear.goals.GrizzlyMeleeAttackGoal;
 import com.blackgear.geologicexpansion.common.entity.resource.EntityState;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
@@ -17,22 +18,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
@@ -85,10 +74,11 @@ public class Grizzly extends Animal {
         this.goalSelector.addGoal(1, new GrizzlyMeleeAttackGoal(this, 2.25, true));
 //        this.goalSelector.addGoal(1, new PanicGoal(this, 1.4));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
-        this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.1));
+        this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.5));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0, 60));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(7, new GrizzlyEatBerriesGoal(this, 1.5F, 12, 1));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, false, false, entity -> {
             return !entity.isBaby() && entity.getType().is(GEEntityTags.GRIZZLY_HUNT_TARGETS);
@@ -181,7 +171,6 @@ public class Grizzly extends Animal {
 
     // ========== DATA CONTROL ==========
 
-
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
@@ -215,6 +204,11 @@ public class Grizzly extends Animal {
 
     public boolean ateRecently() {
         return this.entityData.get(ATE_RECENTLY);
+    }
+
+    @Override
+    public void setBaby(boolean baby) {
+        this.setAge(baby ? -48000 : 0);
     }
 
     // ========== ANIMATION ==========
