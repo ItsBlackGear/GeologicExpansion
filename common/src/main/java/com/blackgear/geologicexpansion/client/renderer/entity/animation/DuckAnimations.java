@@ -51,7 +51,7 @@ public class DuckAnimations {
             new AnimationChannel(AnimationChannel.Targets.ROTATION,
                 new Keyframe(0f, KeyframeAnimations.degreeVec(7.5f, 0f, 0f),
                     AnimationChannel.Interpolations.LINEAR))).build();
-    public static final AnimationDefinition DUCK_FISH = AnimationDefinition.Builder.withLength(1.76f).looping()
+    public static final AnimationDefinition DUCK_FISH = AnimationDefinition.Builder.withLength(2f)
         .addAnimation("right_wing",
             new AnimationChannel(AnimationChannel.Targets.ROTATION,
                 new Keyframe(0.68f, KeyframeAnimations.degreeVec(0f, 0f, 0f),

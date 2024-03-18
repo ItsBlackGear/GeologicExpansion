@@ -20,6 +20,7 @@ import com.blackgear.geologicexpansion.common.registries.worldgen.GETrunkPlacers
 import com.blackgear.geologicexpansion.common.worldgen.surface.rulesources.GERuleSources;
 import com.blackgear.geologicexpansion.core.data.GEBiomeTags;
 import com.blackgear.geologicexpansion.core.data.GEBlockTags;
+import com.blackgear.geologicexpansion.core.data.GEEntityTags;
 import com.blackgear.geologicexpansion.core.platform.Environment;
 import com.blackgear.geologicexpansion.core.platform.ModInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -69,5 +70,6 @@ public class GeologicExpansion {
         // ========== TAG REGISTRY =====================================================================================
         GEBlockTags.TAGS.register();
         GEBiomeTags.TAGS.register();
+        GEEntityTags.TAGS.register();
     }
 }

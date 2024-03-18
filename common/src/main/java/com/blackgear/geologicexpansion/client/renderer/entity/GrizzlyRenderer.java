@@ -8,6 +8,7 @@ import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 @Environment(EnvType.CLIENT)
 public class GrizzlyRenderer extends MobRenderer<Grizzly, GrizzlyModel<Grizzly>> {
     public GrizzlyRenderer(EntityRendererProvider.Context context) {
-        super(context, new GrizzlyModel<>(context.bakeLayer(GEModelLayers.GRIZZLY_BEAR)), 0.9F);
+        super(context, new GrizzlyModel<>(context.bakeLayer(GEModelLayers.GRIZZLY)), 0.9F);
         this.addLayer(new GrizzlyHeldItemLayer(this, context.getItemInHandRenderer()));
     }
 
@@ -29,8 +30,13 @@ public class GrizzlyRenderer extends MobRenderer<Grizzly, GrizzlyModel<Grizzly>>
     }
 
     @Override
-    protected void scale(Grizzly livingEntity, PoseStack matrixStack, float partialTickTime) {
-        matrixStack.scale(1.2F, 1.2F, 1.2F);
-        super.scale(livingEntity, matrixStack, partialTickTime);
+    public void render(Grizzly entity, float entityYaw, float partialTicks, PoseStack matrixStack, MultiBufferSource buffer, int packedLight) {
+        if (entity.isBaby()) {
+            matrixStack.scale(0.6F, 0.6F, 0.6F);
+        } else {
+            matrixStack.scale(1.2F, 1.2F, 1.2F);
+        }
+
+        super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
     }
 }

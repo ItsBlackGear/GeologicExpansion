@@ -22,6 +22,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.AnimationState;
@@ -48,6 +50,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.GameRules;
@@ -67,7 +70,7 @@ import java.util.Optional;
 public class Duck extends Animal implements FluidWalker {
     // ---------- ENTITY DATA ----------
     private static final EntityDataAccessor<Boolean> ATE_RECENTLY = SynchedEntityData.defineId(Duck.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<EntityState> STATES = SynchedEntityData.defineId(Duck.class, GEEntityDataSerializers.ENTITY_STATE);
+    private static final EntityDataAccessor<EntityState> STATE = SynchedEntityData.defineId(Duck.class, GEEntityDataSerializers.ENTITY_STATE);
 
     // ---------- ENTITY ANIMATIONS ----------
     public final AnimationState fallingAnimationState = new AnimationState();
@@ -118,6 +121,28 @@ public class Duck extends Animal implements FluidWalker {
     }
 
     @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack playerStack = player.getItemInHand(hand);
+        ItemStack stack = this.getItemBySlot(EquipmentSlot.MAINHAND);
+
+        if (this.isFood(playerStack)
+            && !stack.is(Items.WHEAT_SEEDS)
+            && !stack.is(Items.MELON_SEEDS)
+            && !stack.is(Items.PUMPKIN_SEEDS)
+            && !stack.is(Items.BEETROOT_SEEDS)
+            && !stack.isEmpty()) {
+            ItemStack result = ItemUtils.createFilledResult(playerStack, player, stack);
+            player.setItemInHand(hand, result);
+
+            this.setItemSlot(EquipmentSlot.MAINHAND, playerStack);
+            this.ticksSinceEaten = 0;
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
+        }
+
+        return super.mobInteract(player, hand);
+    }
+
+    @Override
     public void aiStep() {
         if (!this.level.isClientSide && this.isAlive() && this.isEffectiveAi()) {
 
@@ -138,7 +163,7 @@ public class Duck extends Animal implements FluidWalker {
                     // If the duck has been eating for 28 seconds, play the eating sound
                     } else if (this.ticksSinceEaten > 560 && this.random.nextFloat() < 0.1F) {
                         this.playSound(SoundEvents.FOX_EAT, 1.0F, 1.0F);
-                        this.level.broadcastEntityEvent(this, EntityEvents.DUCK_FISHING_PARTICLES);
+                        this.level.broadcastEntityEvent(this, EntityEvents.SPAWN_EATING_PARTICLES);
                     }
                 } else {
                     // If the duck has been holding an item for 30 seconds, finish the item
@@ -223,7 +248,7 @@ public class Duck extends Animal implements FluidWalker {
 
     @Override
     public void handleEntityEvent(byte id) {
-        if (id == EntityEvents.DUCK_FISHING_PARTICLES) {
+        if (id == EntityEvents.SPAWN_EATING_PARTICLES) {
             ItemStack stack = this.getItemBySlot(EquipmentSlot.MAINHAND);
             if (!stack.isEmpty()) {
                 for (int i = 0; i < 8; i++) {
@@ -264,15 +289,15 @@ public class Duck extends Animal implements FluidWalker {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ATE_RECENTLY, false);
-        this.entityData.define(STATES, EntityState.IDLE);
+        this.entityData.define(STATE, EntityState.IDLE);
     }
 
     public void setState(EntityState state) {
-        if (state != this.getState()) this.entityData.set(STATES, state);
+        if (state != this.getState()) this.entityData.set(STATE, state);
     }
 
     public EntityState getState() {
-        return this.entityData.get(STATES);
+        return this.entityData.get(STATE);
     }
 
     public void setAteRecently(boolean ate) {
@@ -320,7 +345,7 @@ public class Duck extends Animal implements FluidWalker {
         return this.isBaby() ? dimensions.height * 0.85F : dimensions.height * 0.92F;
     }
 
-    // ========== PATH FINDING ==========
+    // ========== MOVEMENT ==========
 
     private void floatDuck() {
         if (this.isInWater()) {

@@ -21,9 +21,9 @@ public class AnimationHelper {
         animate(model, state, definition, time, 1.0f);
     }
 
-    public static void animateWalk(HierarchicalModel<?> model, AnimationDefinition definition, float f, float g, float h, float i) {
-        long accumulatedTime = (long)(f * 50.0f * h);
-        float scale = Math.min(g * i, 1.0f);
+    public static void animateWalk(HierarchicalModel<?> model, AnimationDefinition definition, float limbSwing, float limbSwingAmount, float maxSpeed, float scaleFactor) {
+        long accumulatedTime = (long)(limbSwing * 50.0f * maxSpeed);
+        float scale = Math.min(limbSwingAmount * scaleFactor, 1.0f);
         animate(model, definition, accumulatedTime, scale, ANIMATION_VECTOR_CACHE);
     }
 

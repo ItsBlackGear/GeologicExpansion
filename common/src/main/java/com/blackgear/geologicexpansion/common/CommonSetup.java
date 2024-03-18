@@ -1,6 +1,7 @@
 package com.blackgear.geologicexpansion.common;
 
 import com.blackgear.geologicexpansion.common.entity.bear.Grizzly;
+import com.blackgear.geologicexpansion.common.entity.bear.GrizzlyBear;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
@@ -34,6 +35,7 @@ public class CommonSetup {
     public static void onInstance() {
         // ========== ENTITY ATTRIBUTE REGISTRY ========================================================================
         EntityRegistry.attributes(GEEntities.DUCK, Duck::createAttributes);
+        EntityRegistry.attributes(GEEntities.GRIZZLY_BEAR, GrizzlyBear::createAttributes);
         EntityRegistry.attributes(GEEntities.GRIZZLY, Grizzly::createAttributes);
     }
 
@@ -116,9 +118,9 @@ public class CommonSetup {
 //                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
 //                Duck::checkDuckSpawnRules
 //        );
-        SpawnPlacementsAccessor.register(GEEntities.GRIZZLY.get(),
-                SpawnPlacements.Type.ON_GROUND,
-                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Grizzly::checkGrizzlyBearSpawnRules);
+//        SpawnPlacementsAccessor.register(GEEntities.GRIZZLY_BEAR.get(),
+//                SpawnPlacements.Type.ON_GROUND,
+//                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+//                GrizzlyBear::checkGrizzlyBearSpawnRules);
     }
 }

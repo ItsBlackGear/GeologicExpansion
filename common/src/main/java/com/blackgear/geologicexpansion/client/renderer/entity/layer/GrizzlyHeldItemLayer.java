@@ -28,7 +28,7 @@ public class GrizzlyHeldItemLayer extends RenderLayer<Grizzly, GrizzlyModel<Griz
         PoseStack poseStack,
         MultiBufferSource buffer,
         int packedLight,
-        Grizzly bear,
+        Grizzly grizzly,
         float limbSwing,
         float limbSwingAmount,
         float partialTick,
@@ -36,8 +36,8 @@ public class GrizzlyHeldItemLayer extends RenderLayer<Grizzly, GrizzlyModel<Griz
         float netHeadYaw,
         float headPitch
     ) {
-        boolean sleeping = bear.isSleeping();
-        boolean baby = bear.isBaby();
+        boolean sleeping = grizzly.isSleeping();
+        boolean baby = grizzly.isBaby();
         poseStack.pushPose();
         if (baby) {
             poseStack.scale(0.75F, 0.75F, 0.75F);
@@ -47,7 +47,7 @@ public class GrizzlyHeldItemLayer extends RenderLayer<Grizzly, GrizzlyModel<Griz
         poseStack.translate(this.getParentModel().head.x / 16.0F, this.getParentModel().head.y / 16.0F, this.getParentModel().head.z / 16.0F);
         poseStack.mulPose(Vector3f.YP.rotationDegrees(netHeadYaw));
         poseStack.mulPose(Vector3f.XP.rotationDegrees(headPitch));
-        if (bear.isBaby()) {
+        if (grizzly.isBaby()) {
             if (sleeping) {
                 poseStack.translate(0.4F, 0.26F, 0.15F);
             } else {
@@ -64,8 +64,8 @@ public class GrizzlyHeldItemLayer extends RenderLayer<Grizzly, GrizzlyModel<Griz
             poseStack.mulPose(Vector3f.ZP.rotationDegrees(90.0F));
         }
 
-        ItemStack itemStack = bear.getItemBySlot(EquipmentSlot.MAINHAND);
-        this.itemRenderer.renderItem(bear, itemStack, ItemTransforms.TransformType.GROUND, false, poseStack, buffer, packedLight);
+        ItemStack itemStack = grizzly.getItemBySlot(EquipmentSlot.MAINHAND);
+        this.itemRenderer.renderItem(grizzly, itemStack, ItemTransforms.TransformType.GROUND, false, poseStack, buffer, packedLight);
         poseStack.popPose();
     }
 }

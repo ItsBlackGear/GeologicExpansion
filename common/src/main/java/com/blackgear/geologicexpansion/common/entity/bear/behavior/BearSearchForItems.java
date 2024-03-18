@@ -1,6 +1,6 @@
 package com.blackgear.geologicexpansion.common.entity.bear.behavior;
 
-import com.blackgear.geologicexpansion.common.entity.bear.Grizzly;
+import com.blackgear.geologicexpansion.common.entity.bear.GrizzlyBear;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class BearSearchForItems extends Behavior<Grizzly> {
+public class BearSearchForItems extends Behavior<GrizzlyBear> {
     private final float speedModifier;
 
     public BearSearchForItems(float speedModifier) {
@@ -27,7 +27,7 @@ public class BearSearchForItems extends Behavior<Grizzly> {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerLevel level, Grizzly bear) {
+    protected boolean checkExtraStartConditions(ServerLevel level, GrizzlyBear bear) {
         if (!bear.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
             return false;
         } else if (bear.getTarget() != null || bear.getLastHurtByMob() != null) {
@@ -37,14 +37,14 @@ public class BearSearchForItems extends Behavior<Grizzly> {
         } else if (bear.getRandom().nextInt(Mth.positiveCeilDiv(10, 2)) != 0) {
             return false;
         } else {
-            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, bear.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), Grizzly.GRIZZLY_ITEMS);
+            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, bear.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), GrizzlyBear.GRIZZLY_ITEMS);
             return !items.isEmpty();
         }
     }
 
     @Override
-    protected void tick(ServerLevel level, Grizzly bear, long gameTime) {
-        List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, bear.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), Grizzly.GRIZZLY_ITEMS);
+    protected void tick(ServerLevel level, GrizzlyBear bear, long gameTime) {
+        List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, bear.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), GrizzlyBear.GRIZZLY_ITEMS);
         ItemStack stack = bear.getItemBySlot(EquipmentSlot.MAINHAND);
         if (stack.isEmpty() && !items.isEmpty()) {
             bear.getNavigation().moveTo(items.get(0), this.speedModifier);
@@ -52,8 +52,8 @@ public class BearSearchForItems extends Behavior<Grizzly> {
     }
 
     @Override
-    protected void start(ServerLevel level, Grizzly bear, long gameTime) {
-        List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, bear.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), Grizzly.GRIZZLY_ITEMS);
+    protected void start(ServerLevel level, GrizzlyBear bear, long gameTime) {
+        List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, bear.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), GrizzlyBear.GRIZZLY_ITEMS);
         if (!items.isEmpty()) {
             bear.getNavigation().moveTo(items.get(0), this.speedModifier);
         }

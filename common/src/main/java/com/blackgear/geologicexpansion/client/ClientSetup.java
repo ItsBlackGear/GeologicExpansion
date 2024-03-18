@@ -3,9 +3,11 @@ package com.blackgear.geologicexpansion.client;
 import com.blackgear.geologicexpansion.client.particle.GeyserEruptionParticle;
 import com.blackgear.geologicexpansion.client.particle.MapleParticle;
 import com.blackgear.geologicexpansion.client.registries.GEParticleTypes;
-import com.blackgear.geologicexpansion.client.renderer.entity.DuckEntityRenderer;
-import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
+import com.blackgear.geologicexpansion.client.renderer.entity.DuckRenderer;
 import com.blackgear.geologicexpansion.client.renderer.entity.GrizzlyRenderer;
+import com.blackgear.geologicexpansion.client.renderer.entity.model.DuckModel;
+import com.blackgear.geologicexpansion.client.renderer.entity.GrizzlyBearRenderer;
+import com.blackgear.geologicexpansion.client.renderer.entity.model.GrizzlyBearModel;
 import com.blackgear.geologicexpansion.client.renderer.entity.model.GrizzlyModel;
 import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
@@ -23,9 +25,10 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ClientSetup {
     public static void onInstance() {
         // ========== ENTITY RENDERER REGISTRY =========================================================================
-        RenderRegistry.entity(GEEntities.DUCK, DuckEntityRenderer::new, GEModelLayers.DUCK_ENTITY, DuckModel::createBodyLayer);
+        RenderRegistry.entity(GEEntities.GRIZZLY, GrizzlyRenderer::new, GEModelLayers.GRIZZLY, GrizzlyModel::createBodyLayer);
+        RenderRegistry.entity(GEEntities.DUCK, DuckRenderer::new, GEModelLayers.DUCK, DuckModel::createBodyLayer);
         RenderRegistry.renderer(GEEntities.DUCK_EGG, ThrownItemRenderer::new);
-        RenderRegistry.entity(GEEntities.GRIZZLY, GrizzlyRenderer::new, GEModelLayers.GRIZZLY_BEAR, GrizzlyModel::createBodyLayer);
+        RenderRegistry.entity(GEEntities.GRIZZLY_BEAR, GrizzlyBearRenderer::new, GEModelLayers.GRIZZLY_BEAR, GrizzlyBearModel::createBodyLayer);
 
         // ========== PARTICLE REGISTRY ================================================================================
         ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);

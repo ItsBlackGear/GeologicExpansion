@@ -1,6 +1,6 @@
 package com.blackgear.geologicexpansion.common.entity.bear.behavior;
 
-import com.blackgear.geologicexpansion.common.entity.bear.Grizzly;
+import com.blackgear.geologicexpansion.common.entity.bear.GrizzlyBear;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -11,7 +11,7 @@ import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 
-public class BearMeleeAttack extends Behavior<Grizzly> {
+public class BearMeleeAttack extends Behavior<GrizzlyBear> {
     private final int cooldownBetweenAttacks;
 
     public BearMeleeAttack(int cooldownBetweenAttacks) {
@@ -29,13 +29,13 @@ public class BearMeleeAttack extends Behavior<Grizzly> {
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerLevel level, Grizzly entity) {
+    protected boolean checkExtraStartConditions(ServerLevel level, GrizzlyBear entity) {
         LivingEntity target = this.getAttackTarget(entity);
         return BehaviorUtils.canSee(entity, target) && entity.isWithinMeleeAttackRange(target);
     }
 
     @Override
-    protected void start(ServerLevel level, Grizzly entity, long gameTime) {
+    protected void start(ServerLevel level, GrizzlyBear entity, long gameTime) {
         LivingEntity target = this.getAttackTarget(entity);
         BehaviorUtils.lookAtEntity(entity, target);
         entity.setStanding(true);
@@ -45,7 +45,7 @@ public class BearMeleeAttack extends Behavior<Grizzly> {
     }
 
     @Override
-    protected void stop(ServerLevel level, Grizzly entity, long gameTime) {
+    protected void stop(ServerLevel level, GrizzlyBear entity, long gameTime) {
         entity.setStanding(false);
     }
 

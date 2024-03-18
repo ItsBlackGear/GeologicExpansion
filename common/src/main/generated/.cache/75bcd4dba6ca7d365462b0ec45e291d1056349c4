@@ -1,4 +1,4 @@
-// 1.19.2	2024-03-11T22:15:14.2649125	Tags for minecraft:block
+// 1.19.2	2024-03-14T19:54:28.4354395	Tags for minecraft:block
 28a144d3ac57bcf78a3ef5ccb2940d1dd8ff82b2 data\geologicexpansion\tags\blocks\savanna_terracotta.json
 f48c8baf4386cf3b9186bf48212fbb0b19b11efa data\minecraft\tags\blocks\leaves.json
 16d72e60db3ce5773d0e1d39786cb034a71af81a data\minecraft\tags\blocks\base_stone_overworld.json
@@ -13,5 +13,5 @@ b760d726cf2708ed960ad461dd716ca9c4473307 data\minecraft\tags\blocks\slabs.json
 f48c8baf4386cf3b9186bf48212fbb0b19b11efa data\minecraft\tags\blocks\mineable\hoe.json
 09b953ac45e6e3fb3671bd36d0365ae893c479ab data\minecraft\tags\blocks\fences.json
 f52570f8740395ce0a7794c85c1a22f89c3bdc18 data\minecraft\tags\blocks\stairs.json
-44479e08df008fb51145281bb1f624f6449c6163 data\minecraft\tags\blocks\mineable\pickaxe.json
+bfcf2d825f6cb578a5e9920a277640032f94b7d0 data\minecraft\tags\blocks\mineable\pickaxe.json
 29653bebfb78937e9151b5567457e419af761eb2 data\minecraft\tags\blocks\overworld_carver_replaceables.json

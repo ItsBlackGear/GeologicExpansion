@@ -12,14 +12,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.AnimalMakeLove;
-import net.minecraft.world.entity.ai.behavior.AnimalPanic;
 import net.minecraft.world.entity.ai.behavior.BabyFollowAdult;
 import net.minecraft.world.entity.ai.behavior.CountDownCooldownTicks;
 import net.minecraft.world.entity.ai.behavior.DoNothing;
 import net.minecraft.world.entity.ai.behavior.EraseMemoryIf;
 import net.minecraft.world.entity.ai.behavior.FollowTemptation;
 import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
-import net.minecraft.world.entity.ai.behavior.MeleeAttack;
 import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
 import net.minecraft.world.entity.ai.behavior.RandomStroll;
 import net.minecraft.world.entity.ai.behavior.RunOne;
@@ -38,7 +36,7 @@ import net.minecraft.world.entity.schedule.Activity;
 import java.util.Optional;
 
 public class GrizzlyBrain {
-    public static final ImmutableList<SensorType<? extends Sensor<? super Grizzly>>> SENSORS = ImmutableList.of(
+    public static final ImmutableList<SensorType<? extends Sensor<? super GrizzlyBear>>> SENSORS = ImmutableList.of(
         SensorType.NEAREST_LIVING_ENTITIES,
         SensorType.NEAREST_PLAYERS,
         SensorType.NEAREST_ITEMS,
@@ -72,7 +70,7 @@ public class GrizzlyBrain {
 
     private static final UniformInt ADULT_FOLLOW_RANGE = UniformInt.of(5, 16);
 
-    public static Brain<?> makeBrain(Brain<Grizzly> brain) {
+    public static Brain<?> makeBrain(Brain<GrizzlyBear> brain) {
         addCoreActivities(brain);
         addIdleActivities(brain);
         addFightActivities(brain);
@@ -82,7 +80,7 @@ public class GrizzlyBrain {
         return brain;
     }
 
-    private static void addCoreActivities(Brain<Grizzly> brain) {
+    private static void addCoreActivities(Brain<GrizzlyBear> brain) {
         brain.addActivity(
             Activity.CORE,
             0,
@@ -96,12 +94,12 @@ public class GrizzlyBrain {
         );
     }
 
-    private static void addIdleActivities(Brain<Grizzly> brain) {
+    private static void addIdleActivities(Brain<GrizzlyBear> brain) {
         brain.addActivity(
             Activity.IDLE,
             ImmutableList.of(
                 Pair.of(0, new RunSometimes<>(new SetEntityLookTarget(EntityType.PLAYER, 6.0F), UniformInt.of(30, 60))),
-                Pair.of(0, new AnimalMakeLove(GEEntities.GRIZZLY.get(), 0.2F)),
+                Pair.of(0, new AnimalMakeLove(GEEntities.GRIZZLY_BEAR.get(), 0.2F)),
                 Pair.of(1, new FollowTemptation(entity -> 0.6F)),
                 Pair.of(2, new BabyFollowAdult<>(ADULT_FOLLOW_RANGE, 1.25F)),
                 Pair.of(3, new RunOne<>(
@@ -117,7 +115,7 @@ public class GrizzlyBrain {
         );
     }
 
-    private static void addFightActivities(Brain<Grizzly> brain) {
+    private static void addFightActivities(Brain<GrizzlyBear> brain) {
         brain.addActivityAndRemoveMemoryWhenStopped(
             Activity.FIGHT,
             0,
@@ -131,8 +129,8 @@ public class GrizzlyBrain {
         );
     }
 
-    public static void updateActivity(Grizzly grizzly) {
-        Brain<Grizzly> brain = grizzly.getBrain();
+    public static void updateActivity(GrizzlyBear grizzly) {
+        Brain<GrizzlyBear> brain = grizzly.getBrain();
         Activity activity = brain.getActiveNonCoreActivity().orElse(null);
 
         brain.setActiveActivityToFirstValid(
@@ -147,7 +145,7 @@ public class GrizzlyBrain {
         }
     }
 
-    private static Optional<? extends LivingEntity> findNearestValidAttackTarget(Grizzly grizzly) {
+    private static Optional<? extends LivingEntity> findNearestValidAttackTarget(GrizzlyBear grizzly) {
         if (isBreeding(grizzly)) {
             return Optional.empty();
         } else {
@@ -155,7 +153,7 @@ public class GrizzlyBrain {
         }
     }
 
-    private static boolean isBreeding(Grizzly grizzly) {
+    private static boolean isBreeding(GrizzlyBear grizzly) {
         return grizzly.getBrain().hasMemoryValue(MemoryModuleType.BREED_TARGET);
     }
 }

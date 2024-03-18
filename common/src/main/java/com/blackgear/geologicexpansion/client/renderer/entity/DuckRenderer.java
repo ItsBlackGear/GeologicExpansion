@@ -6,16 +6,19 @@ import com.blackgear.geologicexpansion.client.renderer.resource.GEModelLayers;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.core.GeologicExpansion;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-public class DuckEntityRenderer extends MobRenderer<Duck, DuckModel<Duck>> {
+@Environment(EnvType.CLIENT)
+public class DuckRenderer extends MobRenderer<Duck, DuckModel<Duck>> {
     private static final ResourceLocation DUCK_LOCATION = new ResourceLocation(GeologicExpansion.MOD_ID, "textures/entity/duck.png");
 
-    public DuckEntityRenderer(EntityRendererProvider.Context context) {
-        super(context, new DuckModel<>(context.bakeLayer(GEModelLayers.DUCK_ENTITY)), 0.6F);
+    public DuckRenderer(EntityRendererProvider.Context context) {
+        super(context, new DuckModel<>(context.bakeLayer(GEModelLayers.DUCK)), 0.6F);
         this.addLayer(new DuckHeldItemLayer<>(this, context.getItemInHandRenderer()));
     }
 
