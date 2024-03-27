@@ -2,12 +2,14 @@ package com.blackgear.geologicexpansion.common.entity.duck;
 
 import com.blackgear.geologicexpansion.client.events.EntityEvents;
 import com.blackgear.geologicexpansion.common.entity.duck.goals.DuckFishingGoal;
+import com.blackgear.geologicexpansion.common.entity.duck.goals.DuckFollowFlockLeaderGoal;
 import com.blackgear.geologicexpansion.common.entity.resource.EntityState;
 import com.blackgear.geologicexpansion.common.entity.resource.FluidWalker;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import com.blackgear.geologicexpansion.common.registries.GEItems;
 import com.blackgear.geologicexpansion.common.registries.GESounds;
 import com.blackgear.geologicexpansion.common.registries.entities.GEEntityDataSerializers;
+import com.blackgear.geologicexpansion.core.data.GEItemTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -22,29 +24,14 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ExperienceOrb;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowParentGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.PanicGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -56,6 +43,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -65,7 +53,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class Duck extends Animal implements FluidWalker {
     // ---------- ENTITY DATA ----------
@@ -90,6 +80,9 @@ public class Duck extends Animal implements FluidWalker {
     );
     private int ateCooldownTicks = 6000;
     private int ticksSinceEaten;
+    // ---------- ENTITY BEHAVIOR ----------
+    private Duck leader;
+    private int flockSize = 1;
 
     // ========== CONSTRUCTOR ==========
 
@@ -114,6 +107,7 @@ public class Duck extends Animal implements FluidWalker {
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.0, FOOD_ITEMS, false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1));
+        this.goalSelector.addGoal(4, new DuckFollowFlockLeaderGoal(this));
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0, 60));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
@@ -125,12 +119,7 @@ public class Duck extends Animal implements FluidWalker {
         ItemStack playerStack = player.getItemInHand(hand);
         ItemStack stack = this.getItemBySlot(EquipmentSlot.MAINHAND);
 
-        if (this.isFood(playerStack)
-            && !stack.is(Items.WHEAT_SEEDS)
-            && !stack.is(Items.MELON_SEEDS)
-            && !stack.is(Items.PUMPKIN_SEEDS)
-            && !stack.is(Items.BEETROOT_SEEDS)
-            && !stack.isEmpty()) {
+        if (this.isFood(playerStack) && !stack.is(GEItemTags.DUCK_TRADEABLES) && !stack.isEmpty()) {
             ItemStack result = ItemUtils.createFilledResult(playerStack, player, stack);
             player.setItemInHand(hand, result);
 
@@ -167,11 +156,11 @@ public class Duck extends Animal implements FluidWalker {
                     }
                 } else {
                     // If the duck has been holding an item for 30 seconds, finish the item
-                    if (this.ticksSinceEaten > 600) {
+                    if (this.ticksSinceEaten > 3000) {
                         this.setState(EntityState.IDLE);
                         this.clearItem();
                         // If the duck has been holding an item for 26 seconds, play the eating sound
-                    } else if (this.ticksSinceEaten > 520) {
+                    } else if (this.ticksSinceEaten > 2940) {
                         this.setState(EntityState.FISHING);
                     }
                 }
@@ -202,6 +191,13 @@ public class Duck extends Animal implements FluidWalker {
 
         if (this.level.isClientSide) {
             this.setupAnimationStates();
+        }
+
+        if (this.hasFollowers() && this.level.random.nextInt(200) == 1) {
+            List<Duck> followers = this.level.getEntitiesOfClass(Duck.class, this.getBoundingBox().inflate(8.0, 8.0, 8.0));
+            if (followers.size() <= 1) {
+                this.flockSize = 1;
+            }
         }
 
         this.checkInsideBlocks();
@@ -345,6 +341,87 @@ public class Duck extends Animal implements FluidWalker {
         return this.isBaby() ? dimensions.height * 0.85F : dimensions.height * 0.92F;
     }
 
+    // ========== FLOCK BEHAVIOR ==========
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return this.getMaxFlockSize();
+    }
+
+    public int getMaxFlockSize() {
+        return 4;
+    }
+
+    public boolean isFollower() {
+        return this.leader != null && this.leader.isAlive();
+    }
+
+    public void startFollowing(Duck leader) {
+        this.leader = leader;
+        leader.addFollower();
+    }
+
+    public void stopFollowing() {
+        this.leader.removeFollower();
+        this.leader = null;
+    }
+
+    private void addFollower() {
+        ++this.flockSize;
+    }
+
+    private void removeFollower() {
+        --this.flockSize;
+    }
+
+    public boolean canBeFollowed() {
+        return this.hasFollowers() && this.flockSize < this.getMaxFlockSize();
+    }
+
+    public boolean hasFollowers() {
+        return this.flockSize > 1;
+    }
+
+    public boolean inRangeOfLeader() {
+        return this.distanceToSqr(this.leader) <= 400.0;
+    }
+
+    public void pathToLeader() {
+        if (this.isFollower()) {
+            Vec3 position = new Vec3(
+                this.leader.getX() - this.getX(),
+                this.leader.getY() - this.getY(),
+                this.leader.getZ() - this.getZ()
+            )
+            .normalize()
+            .scale(Math.max(this.distanceToSqr(this.leader) - 2.0, 0.0));
+            this.getNavigation()
+                .moveTo(
+                    this.getX() + position.x,
+                    this.getY() + position.y,
+                    this.getZ() + position.z,
+                    1.0
+                );
+        }
+    }
+
+    public void addFollowers(Stream<? extends Duck> followers) {
+        followers.limit(this.getMaxFlockSize() - this.flockSize)
+            .filter(duck -> duck != this)
+            .forEach(duck -> duck.startFollowing(this));
+    }
+
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
+        super.finalizeSpawn(level, difficulty, reason, spawnData, dataTag);
+        if (spawnData == null) {
+            spawnData = new FlockSpawnGroupData(this, true);
+        } else {
+            this.startFollowing(((FlockSpawnGroupData)spawnData).leader);
+        }
+
+        return spawnData;
+    }
+
     // ========== MOVEMENT ==========
 
     private void floatDuck() {
@@ -429,5 +506,14 @@ public class Duck extends Animal implements FluidWalker {
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(GESounds.DUCK_STEP.get(), 0.025F, 1.0F);
+    }
+
+    public static class FlockSpawnGroupData extends AgeableMobGroupData {
+        public final Duck leader;
+
+        public FlockSpawnGroupData(Duck leader, boolean shouldSpawnBaby) {
+            super(shouldSpawnBaby);
+            this.leader = leader;
+        }
     }
 }

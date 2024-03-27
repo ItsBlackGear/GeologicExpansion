@@ -5,6 +5,11 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 public class ConfigEntries {
     // ========== TOGGLEABLE FEATURES ==================================================================================
     @ExpectPlatform
+    public static boolean includePrismaticCaldera() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
     public static boolean includeGeysers() {
         throw new AssertionError();
     }

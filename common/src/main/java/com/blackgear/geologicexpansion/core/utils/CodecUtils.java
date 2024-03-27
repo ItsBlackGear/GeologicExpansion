@@ -11,15 +11,15 @@ public class CodecUtils {
         return codec.flatXmap(function, function);
     }
 
-    public static <T extends IntProvider> Codec<T> codec(int i, int j, Codec<T> codec) {
-        return validate(codec, intProvider -> {
-            if (intProvider.getMinValue() < i) {
-                return DataResult.error("Value provider too low: " + i + " [" + intProvider.getMinValue() + "-" + intProvider.getMaxValue() + "]");
+    public static <T extends IntProvider> Codec<T> codec(int min, int max, Codec<T> codec) {
+        return validate(codec, provider -> {
+            if (provider.getMinValue() < min) {
+                return DataResult.error("Value provider too low: " + min + " [" + provider.getMinValue() + "-" + provider.getMaxValue() + "]");
             }
-            if (intProvider.getMaxValue() > j) {
-                return DataResult.error("Value provider too high: " + j + " [" + intProvider.getMinValue() + "-" + intProvider.getMaxValue() + "]");
+            if (provider.getMaxValue() > max) {
+                return DataResult.error("Value provider too high: " + max + " [" + provider.getMinValue() + "-" + provider.getMaxValue() + "]");
             }
-            return DataResult.success(intProvider);
+            return DataResult.success(provider);
         });
     }
 }

@@ -34,6 +34,22 @@ public class ClientSetup {
         ParticleRegistry.create(GEParticleTypes.GEYSER_ERUPTION, GeyserEruptionParticle.Provider::new);
         ParticleRegistry.create(GEParticleTypes.RED_MAPLE_LEAVES, MapleParticle.Provider::new);
         ParticleRegistry.create(GEParticleTypes.BROWN_MAPLE_LEAVES, MapleParticle.Provider::new);
+    }
+
+    public static void postInstance() {
+        // ========== BLOCK RENDERER REGISTRY ==========================================================================
+        RenderRegistry.block(RenderType.cutout(),
+            GEBlocks.OVERGROWTH.get(),
+            GEBlocks.FIERY_HIBISCUS.get()
+        );
+        RenderRegistry.block(RenderType.cutoutMipped(),
+            GEBlocks.RED_MAPLE_LEAVES.get(),
+            GEBlocks.BROWN_MAPLE_LEAVES.get(),
+            GEBlocks.ASPEN_LEAVES.get(),
+            GEBlocks.RED_MAPLE_LEAF_CARPET.get(),
+            GEBlocks.BROWN_MAPLE_LEAF_CARPET.get()
+        );
+
 
         // ========== COLOR REGISTRY ===================================================================================
         BlockColor color = (state, level, pos, tint) -> {
@@ -50,20 +66,5 @@ public class ClientSetup {
             BlockState state = ((BlockItem)stack.getItem()).getBlock().defaultBlockState();
             return color.getColor(state, null, null, tint);
         }, GEBlocks.OVERGROWTH);
-    }
-
-    public static void postInstance() {
-        // ========== BLOCK RENDERER REGISTRY ==========================================================================
-        RenderRegistry.block(RenderType.cutout(),
-            GEBlocks.OVERGROWTH.get(),
-            GEBlocks.FIERY_HIBISCUS.get()
-        );
-        RenderRegistry.block(RenderType.cutoutMipped(),
-            GEBlocks.RED_MAPLE_LEAVES.get(),
-            GEBlocks.BROWN_MAPLE_LEAVES.get(),
-            GEBlocks.ASPEN_LEAVES.get(),
-            GEBlocks.RED_MAPLE_LEAF_CARPET.get(),
-            GEBlocks.BROWN_MAPLE_LEAF_CARPET.get()
-        );
     }
 }

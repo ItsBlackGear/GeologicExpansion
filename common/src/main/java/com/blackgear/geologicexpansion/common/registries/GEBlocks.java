@@ -225,7 +225,6 @@ public class GEBlocks {
                 .instabreak()
                 .noOcclusion()
                 .noCollission()
-                .offsetType(state -> state.getValue(OvergrowthBlock.HANGING) ? BlockBehaviour.OffsetType.XZ : BlockBehaviour.OffsetType.NONE)
                 .dynamicShape()
                 .sound(SoundType.MOSS_CARPET)
         ), GeologicExpansion.CREATIVE_TAB
@@ -287,13 +286,51 @@ public class GEBlocks {
     );
 
     // ========== PRISMATIC STONE ======================================================================================
-    public static final Supplier<Block> PRISMATIC_STONE = create("prismatic_stone", () -> new Block(Properties.of(Material.STONE).requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(1.5F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> PRISMATIC_STONE_SLAB = create("prismatic_stone_slab", () -> new SlabBlock(Properties.copy(PRISMATIC_STONE.get()).strength(2.0F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> PRISMATIC_STONE_STAIRS = create("prismatic_stone_stairs", () -> new StairBlock(PRISMATIC_STONE.get().defaultBlockState(), Properties.copy(PRISMATIC_STONE.get())), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> PRISMATIC_STONE_WALL = create("prismatic_stone_wall", () -> new WallBlock(Properties.copy(PRISMATIC_STONE.get())), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> POLISHED_PRISMATIC_STONE = create("polished_prismatic_stone", () -> new Block(Properties.of(Material.STONE).requiresCorrectToolForDrops().sound(SoundType.TUFF).strength(2.0F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> POLISHED_PRISMATIC_STONE_SLAB = create("polished_prismatic_stone_slab", () -> new SlabBlock(Properties.copy(POLISHED_PRISMATIC_STONE.get()).strength(2.0F, 6.0F)), GeologicExpansion.CREATIVE_TAB);
-    public static final Supplier<Block> POLISHED_PRISMATIC_STONE_STAIRS = create("polished_prismatic_stone_stairs", () -> new StairBlock(POLISHED_PRISMATIC_STONE.get().defaultBlockState(), Properties.copy(POLISHED_PRISMATIC_STONE.get())), GeologicExpansion.CREATIVE_TAB);
+    public static final Supplier<Block> PRISMATIC_STONE = create("prismatic_stone",
+        () -> new Block(
+            Properties.of(Material.STONE)
+                .requiresCorrectToolForDrops()
+                .strength(1.5F, 6.0F)
+                .sound(SoundType.TUFF)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> PRISMATIC_STONE_SLAB = create("prismatic_stone_slab",
+        () -> new SlabBlock(
+            Properties.copy(PRISMATIC_STONE.get())
+                .strength(2.0F, 6.0F)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> PRISMATIC_STONE_STAIRS = create("prismatic_stone_stairs",
+        () -> new StairBlock(
+            PRISMATIC_STONE.get().defaultBlockState(),
+            Properties.copy(PRISMATIC_STONE.get())
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> PRISMATIC_STONE_WALL = create("prismatic_stone_wall",
+        () -> new WallBlock(
+            Properties.copy(PRISMATIC_STONE.get())
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> POLISHED_PRISMATIC_STONE = create("polished_prismatic_stone",
+        () -> new Block(
+            Properties.of(Material.STONE)
+                .requiresCorrectToolForDrops()
+                .strength(2.0F, 6.0F)
+                .sound(SoundType.TUFF)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> POLISHED_PRISMATIC_STONE_SLAB = create("polished_prismatic_stone_slab",
+        () -> new SlabBlock(
+            Properties.copy(POLISHED_PRISMATIC_STONE.get())
+                .strength(2.0F, 6.0F)
+        ), GeologicExpansion.CREATIVE_TAB
+    );
+    public static final Supplier<Block> POLISHED_PRISMATIC_STONE_STAIRS = create("polished_prismatic_stone_stairs",
+        () -> new StairBlock(
+            POLISHED_PRISMATIC_STONE.get().defaultBlockState(),
+            Properties.copy(POLISHED_PRISMATIC_STONE.get())
+        ), GeologicExpansion.CREATIVE_TAB
+    );
     public static final Supplier<Block> POLISHED_PRISMATIC_STONE_WALL = create("polished_prismatic_stone_wall", () -> new WallBlock(Properties.copy(POLISHED_PRISMATIC_STONE.get())), GeologicExpansion.CREATIVE_TAB);
 
     public static final Supplier<Block> WHITE_PRISMATIC_STONE = create("white_prismatic_stone", () -> new Block(Properties.copy(PRISMATIC_STONE.get()).color(MaterialColor.TERRACOTTA_WHITE)), GeologicExpansion.CREATIVE_TAB);

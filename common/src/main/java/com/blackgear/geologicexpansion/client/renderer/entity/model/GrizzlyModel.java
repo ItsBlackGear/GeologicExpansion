@@ -51,8 +51,8 @@ public class GrizzlyModel<T extends Grizzly> extends AgeableHierarchicalModel<T>
         this.head.xRot = headPitch * (float) (Math.PI / 180.0);
         this.head.yRot = netHeadYaw * (float) (Math.PI / 180.0);
 
-        if (entity.isRunning()) {
-            AnimationHelper.animateWalk(this, GrizzlyAnimations.GRIZZLY_WALKING, limbSwing, limbSwingAmount, 9.0F, 100.0F);
+        if (entity.getTarget() != null) {
+            AnimationHelper.animateWalk(this, GrizzlyAnimations.GRIZZLY_WALK, limbSwing / 10, limbSwingAmount / 10, 9.0F, 100.0F);
         } else {
             AnimationHelper.animateWalk(this, GrizzlyAnimations.GRIZZLY_WALK, limbSwing, limbSwingAmount, 9.0F, 100.0F);
         }

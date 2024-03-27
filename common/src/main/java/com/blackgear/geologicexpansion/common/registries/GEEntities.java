@@ -20,13 +20,13 @@ public class GEEntities {
     public static final Supplier<EntityType<GrizzlyBear>> GRIZZLY_BEAR = create(
         "grizzly_bear",
         EntityType.Builder.of(GrizzlyBear::new, MobCategory.CREATURE)
-            .sized(1.8F, 1.8F)
+            .sized(1.44F, 1.44F)
             .clientTrackingRange(10)
     );
     public static final Supplier<EntityType<Grizzly>> GRIZZLY = create(
         "grizzly",
         EntityType.Builder.of(Grizzly::new, MobCategory.CREATURE)
-            .sized(1.8F, 1.8F)
+            .sized(1.75F, 1.75F)
             .clientTrackingRange(10)
     );
 

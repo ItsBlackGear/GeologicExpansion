@@ -13,12 +13,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.DiskConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.UnderwaterMagmaConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.VegetationPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedBlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.CaveSurface;
@@ -27,44 +22,44 @@ public class CalderaFeatures {
     public static final WorldGenRegistry FEATURES = WorldGenRegistry.of(GeologicExpansion.MOD_ID);
 
     public static final Holder<ConfiguredFeature<NoneFeatureConfiguration, ?>> PRISMATIC_POND = FEATURES.create(
-            "prismatic_pond",
-            GEFeatures.POND.get(),
-            FeatureConfiguration.NONE
+        "prismatic_pond",
+        GEFeatures.POND.get(),
+        FeatureConfiguration.NONE
     );
 
     // ========== GEYSER ===============================================================================================
     public static final Holder<ConfiguredFeature<VegetationPatchConfiguration, ?>> GEYSER_PATCH = FEATURES.create(
-            "geyser_patch",
-            GEFeatures.SCATTERED_VEGETATION_PATCH.get(),
-            new VegetationPatchConfiguration(
-                    BlockTags.MOSS_REPLACEABLE,
-                    BlockStateProvider.simple(GEBlocks.GRAY_PRISMATIC_STONE.get()),
-                    PlacementUtils.inlinePlaced(GEFeatures.GEYSER_PATCH.get(), FeatureConfiguration.NONE),
-                    CaveSurface.FLOOR,
-                    UniformInt.of(2, 3),
-                    0.8F,
-                    5,
-                    0.25F,
-                    UniformInt.of(1, 2),
-                    0.3F
-            )
+        "geyser_patch",
+        GEFeatures.SCATTERED_VEGETATION_PATCH.get(),
+        new VegetationPatchConfiguration(
+            BlockTags.MOSS_REPLACEABLE,
+            BlockStateProvider.simple(GEBlocks.GRAY_PRISMATIC_STONE.get()),
+            PlacementUtils.inlinePlaced(GEFeatures.GEYSER_PATCH.get(), FeatureConfiguration.NONE),
+            CaveSurface.FLOOR,
+            UniformInt.of(2, 3),
+            0.8F,
+            5,
+            0.25F,
+            UniformInt.of(1, 2),
+            0.3F
+        )
     );
 
     // ========== PRISMATIC BORDER COLORS ==============================================================================
     public static final Holder<ConfiguredFeature<DiskConfiguration, ?>> PRISMATIC_BORDER_PURPLE = FEATURES.create(
-            "prismatic_border_purple",
-            Feature.DISK,
-            new DiskConfiguration(
-                    RuleBasedBlockStateProvider.simple(GEBlocks.PURPLE_PRISMATIC_STONE.get()),
-                    BlockPredicate.matchesBlocks(
-                            GEBlocks.PRISMATIC_STONE.get(),
-                            Blocks.COARSE_DIRT,
-                            Blocks.DIRT,
-                            Blocks.GRASS_BLOCK
-                    ),
-                    UniformInt.of(4, 8),
-                    4
-            )
+        "prismatic_border_purple",
+        Feature.DISK,
+        new DiskConfiguration(
+            RuleBasedBlockStateProvider.simple(GEBlocks.PURPLE_PRISMATIC_STONE.get()),
+            BlockPredicate.matchesBlocks(
+                GEBlocks.PRISMATIC_STONE.get(),
+                Blocks.COARSE_DIRT,
+                Blocks.DIRT,
+                Blocks.GRASS_BLOCK
+            ),
+            UniformInt.of(4, 8),
+            4
+        )
     );
 
     public static final Holder<ConfiguredFeature<DiskConfiguration, ?>> PRISMATIC_BORDER_BROWN = FEATURES.create(

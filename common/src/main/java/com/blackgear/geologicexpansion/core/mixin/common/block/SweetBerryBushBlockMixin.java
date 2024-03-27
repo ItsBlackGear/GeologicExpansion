@@ -1,4 +1,4 @@
-package com.blackgear.geologicexpansion.core.mixin.common;
+package com.blackgear.geologicexpansion.core.mixin.common.block;
 
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
 import net.minecraft.core.BlockPos;

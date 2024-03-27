@@ -56,7 +56,7 @@ public class OvergrowthBlock extends CarpetBlock implements BonemealableBlock {
 
     @Override
     public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction direction) {
-        return !state.getValue(HANGING) && adjacentBlockState.is(this) && direction.getAxis() != Direction.Axis.Y || super.skipRendering(state, adjacentBlockState, direction);
+        return adjacentBlockState.is(this) && !direction.getAxis().isVertical() || super.skipRendering(state, adjacentBlockState, direction);
     }
 
     @Override

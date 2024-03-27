@@ -33,6 +33,12 @@ public class ConfigEntriesImpl {
         return COMMON.canDucksFish.get();
     }
 
+    // ========== BIOME CONFIGURATION ==================================================================================
+    public static boolean includePrismaticCaldera() {
+        return true;
+//        return COMMON.includePrismaticCaldera.get();
+    }
+
     // ========== FORGE CONFIGURATION ==================================================================================
     public static class Common {
         // ========== TOGGLEABLE FEATURES ==============================================================================
@@ -40,6 +46,7 @@ public class ConfigEntriesImpl {
         public final ForgeConfigSpec.ConfigValue<Boolean> includeLimestone;
         public final ForgeConfigSpec.ConfigValue<Boolean> includeOvergrowth;
         public final ForgeConfigSpec.ConfigValue<Boolean> includeDucks;
+        public final ForgeConfigSpec.ConfigValue<Boolean> includePrismaticCaldera;
 
         // ========== ENTITY BEHAVIOR ==================================================================================
         public final ForgeConfigSpec.ConfigValue<Boolean> canDucksFish;
@@ -51,6 +58,7 @@ public class ConfigEntriesImpl {
             this.includeLimestone = builder.comment("Determine if Limestone should generate").define("includeLimestone", true);
             this.includeOvergrowth = builder.comment("Determine if Overgrowth should generate").define("includeOvergrowth", true);
             this.includeDucks = builder.comment("Determine if Ducks should spawn").define("includeDucks", true);
+            this.includePrismaticCaldera = builder.comment("Determine if the Prismatic Caldera biome should spawn").define("includePrismaticCaldera", true);
             builder.pop();
             builder.push("entity_behavior");
             builder.comment("Entity behavior");

@@ -25,6 +25,10 @@ public class ConfigEntriesImpl implements ConfigData {
         return GeologicExpansionFabric.CONFIG.toggleableFeatures.includeDucks;
     }
 
+    public static boolean includePrismaticCaldera() {
+        return GeologicExpansionFabric.CONFIG.toggleableFeatures.includePrismaticCaldera;
+    }
+
     // ========== ENTITY BEHAVIOR ======================================================================================
     public static boolean canDucksFish() {
         return GeologicExpansionFabric.CONFIG.entityBehavior.canDucksFish;
@@ -49,6 +53,9 @@ public class ConfigEntriesImpl implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         public boolean includeDucks = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean includePrismaticCaldera = true;
     }
 
     public static class EntityBehavior {

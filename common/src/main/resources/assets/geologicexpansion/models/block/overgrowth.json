@@ -1,9 +1,9 @@
 {
 	"ambientocclusion": false,
 	"textures": {
-		"particle": "geologicexpansion:block/overgrowth_top",
 		"top": "geologicexpansion:block/overgrowth_top",
-		"side": "geologicexpansion:block/overgrowth_side"
+		"side": "geologicexpansion:block/overgrowth_side",
+		"particle": "#top"
 	},
 	"elements": [
 		{

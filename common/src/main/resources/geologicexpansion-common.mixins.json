@@ -15,7 +15,6 @@
     "access.NoiseBasedChunkGeneratorAccessor",
     "access.NoiseGeneratorSettingsAccessor",
     "access.OverworldBiomesAccessor",
-    "access.PoiTypesAccessor",
     "access.PressurePlateBlockAccessor",
     "access.SimpleParticleTypeAccessor",
     "access.SpawnPlacementsAccessor",
@@ -23,11 +22,11 @@
     "access.TrapDoorBlockAccessor",
     "access.TrunkPlacerTypeAccessor",
     "access.WoodButtonBlockAccessor",
-    "common.LiquidBlockMixin",
-    "common.MinecraftServerMixin",
-    "common.NoiseGeneratorSettingsMixin",
-    "common.OverworldBiomeBuilderMixin",
-    "common.SweetBerryBushBlockMixin"
+    "common.block.LiquidBlockMixin",
+    "common.worldgen.NoiseGeneratorSettingsMixin",
+    "common.worldgen.OverworldBiomeBuilderMixin",
+    "common.block.SweetBerryBushBlockMixin",
+    "common.entity.FoxMixin"
   ],
   "injectors": {
     "defaultRequire": 1

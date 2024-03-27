@@ -2,6 +2,7 @@ package com.blackgear.geologicexpansion.common.entity.bear;
 
 import com.blackgear.geologicexpansion.client.events.EntityEvents;
 import com.blackgear.geologicexpansion.common.entity.bear.goals.GrizzlyEatBerriesGoal;
+import com.blackgear.geologicexpansion.common.entity.bear.goals.GrizzlyHuntTargetGoal;
 import com.blackgear.geologicexpansion.common.entity.bear.goals.GrizzlyMeleeAttackGoal;
 import com.blackgear.geologicexpansion.common.entity.resource.EntityState;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
@@ -23,7 +24,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -43,6 +43,7 @@ public class Grizzly extends Animal {
     public final AnimationState runningAnimationState = new AnimationState();
     public final AnimationState attackAnimationState = new AnimationState();
     public final AnimationState fishAnimationState = new AnimationState();
+    public int attackAnimationTimeout;
 
     // ---------- ENTITY ATTRIBUTES ----------
     private int ateCooldownTicks = 6000;
@@ -52,6 +53,7 @@ public class Grizzly extends Animal {
 
     public Grizzly(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
+        this.maxUpStep = 1.0F;
         this.setPathfindingMalus(BlockPathTypes.DANGER_OTHER, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.DAMAGE_OTHER, 0.0F);
         this.setCanPickUpLoot(true);
@@ -61,26 +63,28 @@ public class Grizzly extends Animal {
 
     public static AttributeSupplier.Builder createAttributes() {
         return AgeableMob.createMobAttributes()
-            .add(Attributes.MAX_HEALTH, 30.0)
+            .add(Attributes.MAX_HEALTH, 100.0)
             .add(Attributes.FOLLOW_RANGE, 20.0)
             .add(Attributes.MOVEMENT_SPEED, 0.125)
-            .add(Attributes.ATTACK_DAMAGE, 6.0);
+            .add(Attributes.ATTACK_DAMAGE, 12.0)
+            .add(Attributes.ATTACK_KNOCKBACK, 0.5)
+            .add(Attributes.KNOCKBACK_RESISTANCE, 0.25);
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new GrizzlyMeleeAttackGoal(this, 2.25, true));
-//        this.goalSelector.addGoal(1, new PanicGoal(this, 1.4));
+        this.goalSelector.addGoal(1, new GrizzlyMeleeAttackGoal(this));
+        this.goalSelector.addGoal(1, new BearPanicGoal(this, 2.0));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.5));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0, 60));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(7, new GrizzlyEatBerriesGoal(this, 1.5F, 12, 1));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, false, false, entity -> {
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+        this.targetSelector.addGoal(2, new GrizzlyHuntTargetGoal<>(this, LivingEntity.class, 10, false, false, entity -> {
             return !entity.isBaby() && entity.getType().is(GEEntityTags.GRIZZLY_HUNT_TARGETS);
         }));
     }
@@ -212,19 +216,41 @@ public class Grizzly extends Animal {
     }
 
     // ========== ANIMATION ==========
+    @Override
+    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
+        return this.isBaby() ? dimensions.height * 0.85F : dimensions.height * 0.92F;
+    }
 
     private void setupAnimationStates() {
-        if (this.getState() == EntityState.ATTACKING) {
-            this.attackAnimationState.startIfStopped(this.tickCount);
+        if (this.getState() == EntityState.ATTACKING && this.attackAnimationTimeout <= 0) {
+            this.attackAnimationTimeout = 80;
+            this.attackAnimationState.start(this.tickCount);
         } else {
+            --this.attackAnimationTimeout;
+        }
+
+        if (this.getState() != EntityState.ATTACKING) {
             this.attackAnimationState.stop();
         }
     }
 
+    @Override
+    public int getMaxHeadYRot() {
+        return 50;
+    }
+
     // ========== MOVEMENT ==========
 
-    public boolean isRunning() {
-        return this.moveControl.getSpeedModifier() > 1.0F;
+    @Override
+    protected void jumpFromGround() {
+        super.jumpFromGround();
+        double speedModifier = this.moveControl.getSpeedModifier();
+        if (speedModifier > 0.0) {
+            double xzDistance = this.getDeltaMovement().horizontalDistanceSqr();
+            if (xzDistance < 0.01) {
+                this.moveRelative(0.1F, new Vec3(0.0, 0.0, 1.0));
+            }
+        }
     }
 
     // ========== SOUNDS ==========
@@ -247,5 +273,16 @@ public class Grizzly extends Animal {
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
+    }
+
+    static class BearPanicGoal extends PanicGoal {
+        public BearPanicGoal(Grizzly grizzly, double speedModifier) {
+            super(grizzly, speedModifier);
+        }
+
+        @Override
+        public boolean canUse() {
+            return (this.mob.isBaby() || this.mob.isOnFire()) && super.canUse();
+        }
     }
 }

@@ -5,34 +5,34 @@ import com.blackgear.geologicexpansion.common.entity.bear.GrizzlyBear;
 import com.blackgear.geologicexpansion.common.entity.duck.Duck;
 import com.blackgear.geologicexpansion.common.registries.GEBlocks;
 import com.blackgear.geologicexpansion.common.registries.GEEntities;
-import com.blackgear.geologicexpansion.common.registries.GEItems;
 import com.blackgear.geologicexpansion.common.registries.entities.GEProfessions;
+import com.blackgear.geologicexpansion.common.registries.worldgen.GEFeatures;
 import com.blackgear.geologicexpansion.common.worldgen.TerrablenderCompat;
 import com.blackgear.geologicexpansion.common.worldgen.WorldGeneration;
-import com.blackgear.geologicexpansion.common.worldgen.placements.CalderaFeatures;
-import com.blackgear.geologicexpansion.common.worldgen.placements.CalderaPlacements;
-import com.blackgear.geologicexpansion.common.worldgen.placements.MapleForestFeatures;
-import com.blackgear.geologicexpansion.common.worldgen.placements.MapleForestPlacements;
-import com.blackgear.geologicexpansion.common.worldgen.placements.SavannaFeatures;
-import com.blackgear.geologicexpansion.common.worldgen.placements.SavannaPlacements;
-import com.blackgear.geologicexpansion.common.worldgen.placements.SurfaceFeatures;
-import com.blackgear.geologicexpansion.common.worldgen.placements.SurfacePlacements;
-import com.blackgear.geologicexpansion.common.worldgen.placements.UndergroundFeatures;
-import com.blackgear.geologicexpansion.common.worldgen.placements.UndergroundPlacements;
-import com.blackgear.geologicexpansion.core.mixin.access.SpawnPlacementsAccessor;
+import com.blackgear.geologicexpansion.common.worldgen.placements.*;
 import com.blackgear.geologicexpansion.core.platform.common.BiomeManager;
 import com.blackgear.geologicexpansion.core.platform.common.EntityRegistry;
 import com.blackgear.geologicexpansion.core.platform.common.IntegrationRegistry;
 import com.blackgear.geologicexpansion.core.platform.common.TradeRegistry;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.levelgen.Heightmap;
 
 public class CommonSetup {
     public static void onInstance() {
+        // ========== FEATURE REGISTRY =================================================================================
+        CalderaFeatures.FEATURES.register();
+        CalderaPlacements.FEATURES.register();
+        MapleForestFeatures.FEATURES.register();
+        MapleForestPlacements.FEATURES.register();
+        SavannaFeatures.FEATURES.register();
+        SavannaPlacements.FEATURES.register();
+        SurfaceFeatures.FEATURES.register();
+        SurfacePlacements.FEATURES.register();
+        UndergroundFeatures.FEATURES.register();
+        UndergroundPlacements.FEATURES.register();
+
         // ========== ENTITY ATTRIBUTE REGISTRY ========================================================================
         EntityRegistry.attributes(GEEntities.DUCK, Duck::createAttributes);
         EntityRegistry.attributes(GEEntities.GRIZZLY_BEAR, GrizzlyBear::createAttributes);
@@ -40,6 +40,8 @@ public class CommonSetup {
     }
 
     public static void postInstance() {
+        GEFeatures.FEATURES.register();
+
         // ========== FEATURE REGISTRY =================================================================================
         CalderaFeatures.FEATURES.register();
         CalderaPlacements.FEATURES.register();
@@ -94,7 +96,6 @@ public class CommonSetup {
         TradeRegistry.registerTrade(
                 GEProfessions.GEOLOGIST.get(),
                 TradeRegistry.Level.MASTER,
-                new VillagerTrades.ItemsForEmeralds(new ItemStack(GEItems.ROCK_HAMMER.get()), 20, 1, 8, 16),
                 new VillagerTrades.ItemsForEmeralds(new ItemStack(Items.DIAMOND_PICKAXE), 13, 1, 3, 30, 0.2F)
         );
 

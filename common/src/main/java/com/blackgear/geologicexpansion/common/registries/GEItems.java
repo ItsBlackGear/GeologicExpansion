@@ -14,13 +14,12 @@ public class GEItems {
 
     // ========== MISCELLANEOUS ========================================================================================
 
-    public static final Supplier<Item> ROCK_HAMMER = create("rock_hammer", () -> new Item(new Item.Properties().tab(GeologicExpansion.CREATIVE_TAB)));
-    public static final Supplier<Item> FIERY_FILAMENT = create("fiery_filament", () -> new Item(new Item.Properties().tab(GeologicExpansion.CREATIVE_TAB)));
 
-    // ========== DUCK ITEMS ===========================================================================================
-
+    // ========== SPAWN ITEMS ===========================================================================================
+    public static final Supplier<Item> GRIZZLY_SPAWN_EGG = create("grizzly_spawn_egg", () -> new SpawnEggItem(GEEntities.GRIZZLY.get(), 8739130, 3611436, new Item.Properties().tab(GeologicExpansion.CREATIVE_TAB)));
     public static final Supplier<Item> DUCK_SPAWN_EGG = create("duck_spawn_egg", () -> new SpawnEggItem(GEEntities.DUCK.get(), 4927013, 1543936, new Item.Properties().tab(GeologicExpansion.CREATIVE_TAB)));
     public static final Supplier<Item> DUCK_EGG = create("duck_egg", () -> new DuckEggItem(new Item.Properties().stacksTo(16).tab(GeologicExpansion.CREATIVE_TAB)));
+
 
     private static <T extends Item> Supplier<T> create(String key, Supplier<T> item) {
         return ITEMS.register(key, item);

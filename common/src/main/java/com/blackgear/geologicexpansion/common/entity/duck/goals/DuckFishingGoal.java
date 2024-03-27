@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -88,12 +87,12 @@ public class DuckFishingGoal extends MoveToBlockGoal {
             // Get an item from the fishing loot table
             LootContext.Builder builder = new LootContext.Builder((ServerLevel) this.duck.level)
                 .withParameter(LootContextParams.ORIGIN, this.duck.position())
-                .withParameter(LootContextParams.TOOL, new ItemStack(Items.FISHING_ROD))
+//                .withParameter(LootContextParams.TOOL, new ItemStack(Items.FISHING_ROD))
                 .withParameter(LootContextParams.THIS_ENTITY, this.duck)
                 .withRandom(this.duck.getRandom())
                 .withLuck((float) this.duck.getAttributeValue(Attributes.LUCK));
             LootTable lootTable = server.getLootTables().get(BuiltInLootTables.FISHING);
-            List<ItemStack> loot = lootTable.getRandomItems(builder.create(LootContextParamSets.FISHING));
+            List<ItemStack> loot = lootTable.getRandomItems(builder.create(LootContextParamSets.COMMAND));
 
             // For each item found, hold it in the beak and set it as guaranteed drop
             for (ItemStack stack : loot) {

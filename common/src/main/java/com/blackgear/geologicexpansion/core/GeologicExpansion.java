@@ -21,6 +21,7 @@ import com.blackgear.geologicexpansion.common.worldgen.surface.rulesources.GERul
 import com.blackgear.geologicexpansion.core.data.GEBiomeTags;
 import com.blackgear.geologicexpansion.core.data.GEBlockTags;
 import com.blackgear.geologicexpansion.core.data.GEEntityTags;
+import com.blackgear.geologicexpansion.core.data.GEItemTags;
 import com.blackgear.geologicexpansion.core.platform.Environment;
 import com.blackgear.geologicexpansion.core.platform.ModInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -42,10 +43,10 @@ public class GeologicExpansion {
     public static final CreativeModeTab CREATIVE_TAB = Environment.createTab(new ResourceLocation(GeologicExpansion.MOD_ID), () -> new ItemStack(Items.STONE));
 
     public static void bootstrap() {
-        // ========== MOD INITIALIZATION ===============================================================================
+        // ========== MOD INITIALIZATION ==========
         INSTANCE.bootstrap();
 
-        // ========== MISCELLANEOUS REGISTRY ===========================================================================
+        // ========== MISCELLANEOUS REGISTRY ==========
         GEBlockEntities.BLOCK_ENTITIES.register();
         GEBlocks.BLOCKS.register();
         GEItems.ITEMS.register();
@@ -53,13 +54,13 @@ public class GeologicExpansion {
         GEPointOfInterests.POINTS.register();
         GEParticleTypes.PARTICLES.register();
 
-        // ========== ENTITY REGISTRY ==================================================================================
+        // ========== ENTITY REGISTRY ==========
         GEEntities.ENTITIES.register();
         GEProfessions.PROFESSIONS.register();
         GEActivities.ACTIVITIES.register();
         GEEntityDataSerializers.bootstrap();
 
-        // ========== WORLD GEN REGISTRY ===============================================================================
+        // ========== WORLD GEN REGISTRY ==========
         GEFeatures.FEATURES.register();
         GENoises.NOISES.register();
         GEBiomes.BIOMES.register();
@@ -67,8 +68,9 @@ public class GeologicExpansion {
         GETrunkPlacers.TRUNK_PLACERS.register();
         GEFoliagePlacer.FOLIAGE_PLACERS.register();
 
-        // ========== TAG REGISTRY =====================================================================================
+        // ========== TAG REGISTRY ==========
         GEBlockTags.TAGS.register();
+        GEItemTags.TAGS.register();
         GEBiomeTags.TAGS.register();
         GEEntityTags.TAGS.register();
     }

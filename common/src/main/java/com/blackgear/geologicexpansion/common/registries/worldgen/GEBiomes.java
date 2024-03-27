@@ -73,16 +73,18 @@ public class GEBiomes {
 
         BiomeGenerationSettings.Builder generationSettings = new BiomeGenerationSettings.Builder();
         OverworldBiomesAccessor.globalOverworldGeneration(generationSettings);
-        BiomeDefaultFeatures.addDefaultSoftDisks(generationSettings);
-        BiomeDefaultFeatures.addDefaultFlowers(generationSettings);
-        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_GRASS_PLAIN);
-        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.MUSHROOM_ISLAND_VEGETATION);
-        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.RED_MUSHROOM_TAIGA);
-        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.BROWN_MUSHROOM_TAIGA);
-        BiomeDefaultFeatures.addDefaultMushrooms(generationSettings);
-        BiomeDefaultFeatures.addDefaultExtraVegetation(generationSettings);
-        BiomeDefaultFeatures.addCommonBerryBushes(generationSettings);
-        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_SUNFLOWER);
+//        BiomeDefaultFeatures.addFerns(generationSettings);
+//        BiomeDefaultFeatures.addDefaultOres(generationSettings);
+//        BiomeDefaultFeatures.addDefaultSoftDisks(generationSettings);
+//        BiomeDefaultFeatures.addDefaultFlowers(generationSettings);
+//        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_GRASS_PLAIN);
+//        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.MUSHROOM_ISLAND_VEGETATION);
+//        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.RED_MUSHROOM_TAIGA);
+//        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.BROWN_MUSHROOM_TAIGA);
+//        BiomeDefaultFeatures.addDefaultMushrooms(generationSettings);
+//        BiomeDefaultFeatures.addDefaultExtraVegetation(generationSettings);
+//        BiomeDefaultFeatures.addCommonBerryBushes(generationSettings);
+//        generationSettings.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_SUNFLOWER);
 
         return BUILDER.create(
             Biome.Precipitation.RAIN,

@@ -1,4 +1,4 @@
-package com.blackgear.geologicexpansion.core.mixin.common;
+package com.blackgear.geologicexpansion.core.mixin.common.block;
 
 import com.blackgear.geologicexpansion.common.entity.resource.FluidWalker;
 import net.minecraft.core.BlockPos;
@@ -21,14 +21,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LiquidBlockMixin {
     @Shadow @Final public static IntegerProperty LEVEL;
 
-    @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
+    @Inject(
+        method = "getCollisionShape",
+        at = @At("HEAD"),
+        cancellable = true
+    )
     private void ge$getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
         if (context instanceof EntityCollisionContext ctx && ctx.getEntity() instanceof FluidWalker entity) {
             cir.setReturnValue(
-                    context.isAbove(entity.getStableLiquidShape(), pos, true) &&
-                            state.getValue(LEVEL) == 0 &&
-                            context.canStandOnFluid(level.getFluidState(pos.above()), state.getFluidState()) ?
-                            entity.getStableLiquidShape() : Shapes.empty()
+                context.isAbove(entity.getStableLiquidShape(), pos, true)
+                && state.getValue(LEVEL) == 0
+                && context.canStandOnFluid(level.getFluidState(pos.above()), state.getFluidState())
+                ? entity.getStableLiquidShape()
+                : Shapes.empty()
             );
         }
     }
