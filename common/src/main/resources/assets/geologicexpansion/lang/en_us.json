@@ -173,11 +173,11 @@
 
   "entity.geologicexpansion.duck": "Duck",
 
-  "subtitles.block.geyser.erupt": "Geyser Erupts",
-  "subtitles.entity.duck.ambient": "Duck Quacks",
-  "subtitles.entity.duck.step": "Duck Steps",
-  "subtitles.entity.duck.hurt": "Duck Hurts",
-  "subtitles.entity.duck.death": "Duck Dies",
+  "subtitles.block.geyser.erupt": "Geyser erupts",
+  "subtitles.entity.duck.ambient": "Duck quacks",
+  "subtitles.entity.duck.step": "Duck steps",
+  "subtitles.entity.duck.hurt": "Duck hurts",
+  "subtitles.entity.duck.death": "Duck dies",
 
   "text.autoconfig.geologicexpansion.title": "Geologic Expansion",
 
