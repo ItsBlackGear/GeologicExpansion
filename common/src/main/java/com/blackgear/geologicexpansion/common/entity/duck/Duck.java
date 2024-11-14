@@ -114,7 +114,7 @@ public class Duck extends Animal implements FluidWalker {
         super(entityType, level);
         this.eggTime = this.random.nextInt(6000) + 6000;
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-        this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(level.random);
+        this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(this.random);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -260,7 +260,7 @@ public class Duck extends Animal implements FluidWalker {
                 if (--this.discardCooldown == 0) {
                     this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
                     this.level.broadcastEntityEvent(this, DUCK_FISHING_ANIMATION);
-                    this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(this.level.random);
+                    this.discardCooldown = NON_FOOD_DISCARD_COOLDOWN.sample(this.random);
 
                     // Decreases the hunts remaining per day
                     postFishingProgress();
