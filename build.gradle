@@ -1,7 +1,12 @@
+buildscript {
+    configurations.classpath {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
-    id "io.github.juuxel.loom-quiltflower" version "1.7.1" apply false
+    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
 }
 
 architectury {
@@ -10,7 +15,6 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
-    apply plugin: "io.github.juuxel.loom-quiltflower"
 
     loom {
         silentMojangMappingsLicense()
@@ -18,6 +22,7 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+
         mappings loom.layered() {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_version}")
@@ -31,10 +36,8 @@ allprojects {
     apply plugin: "maven-publish"
 
     archivesBaseName = rootProject.archives_base_name
-    version = rootProject.mod_version
+    version = "${rootProject.minecraft_version}-${rootProject.mod_version}"
     group = rootProject.maven_group
-
-    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
     repositories {
         mavenCentral()
@@ -46,7 +49,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release.set(17)
     }
 
     java {

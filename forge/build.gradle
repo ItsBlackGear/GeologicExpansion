@@ -2,10 +2,7 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-architectury {
-    platformSetupLoomIde()
-    forge()
-}
+archivesBaseName = "${rootProject.archivesBaseName}-Forge"
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
@@ -17,6 +14,11 @@ loom {
         mixinConfig "geologicexpansion-common.mixins.json"
         mixinConfig "geologicexpansion.mixins.json"
     }
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
 }
 
 sourceSets.main.resources.srcDirs += project(":common").file(project.output_datagen)
@@ -33,15 +35,15 @@ dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive false }
 }
 
 processResources {
-    inputs.property "version", project.version
-
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
+
+    inputs.property "META-INF/mods.toml", project.version
 }
 
 shadowJar {
@@ -49,17 +51,17 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    classifier null
+    archiveClassifier = null
 }
 
 jar {
-    classifier "dev"
+    archiveClassifier = "dev"
 }
 
 sourcesJar {
